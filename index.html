@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agile Resources - Navigation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .category {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid;
+        }
+
+        .category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .category.mindset {
+            border-left-color: #e74c3c;
+        }
+
+        .category.frameworks {
+            border-left-color: #3498db;
+        }
+
+        .category.implementation {
+            border-left-color: #27ae60;
+        }
+
+        .category h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category.mindset h2 {
+            color: #e74c3c;
+        }
+
+        .category.frameworks h2 {
+            color: #3498db;
+        }
+
+        .category.implementation h2 {
+            color: #27ae60;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+        }
+
+        .category p {
+            color: #666;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .links {
+            list-style: none;
+        }
+
+        .links li {
+            margin-bottom: 12px;
+        }
+
+        .links a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .links a:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            border-left-color: currentColor;
+        }
+
+        .category.mindset .links a:hover {
+            border-left-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        .category.frameworks .links a:hover {
+            border-left-color: #3498db;
+            color: #3498db;
+        }
+
+        .category.implementation .links a:hover {
+            border-left-color: #27ae60;
+            color: #27ae60;
+        }
+
+        .link-icon {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Agile Resources Hub</h1>
+            <p>Your comprehensive guide to Agile methodologies, practices, and implementations</p>
+        </div>
+
+        <div class="content">
+            <div class="categories">
+                <!-- Mindset Category -->
+                <div class="category mindset">
+                    <h2>
+                        <span class="icon">🧠</span>
+                        Mindset
+                    </h2>
+                    <p>Foundational values, principles, and cultural aspects of Agile</p>
+                    <ul class="links">
+                        <li>
+                            <a href="agile-values-principles.html">
+                                <span class="link-icon">⭐</span>
+                                Agile Values & Principles
+                            </a>
+                        </li>
+                        <li>
+                            <a href="anti-patterns-agile-e-psychological-safety.html">
+                                <span class="link-icon">🛡️</span>
+                                Anti-patterns & Psychological Safety
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Frameworks Category -->
+                <div class="category frameworks">
+                    <h2>
+                        <span class="icon">📋</span>
+                        Frameworks
+                    </h2>
+                    <p>Agile methodologies and structured approaches</p>
+                    <ul class="links">
+                        <li>
+                            <a href="scrum.html">
+                                <span class="link-icon">🔄</span>
+                                Scrum Framework
+                            </a>
+                        </li>
+                        <li>
+                            <a href="lean-kanban.html">
+                                <span class="link-icon">📊</span>
+                                Lean Kanban
+                            </a>
+                        </li>
+                        <li>
+                            <a href="SAFe-Banking.html">
+                                <span class="link-icon">🏦</span>
+                                SAFe for Banking
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Implementation Category -->
+                <div class="category implementation">
+                    <h2>
+                        <span class="icon">⚙️</span>
+                        Implementation
+                    </h2>
+                    <p>Practical tools, techniques, and implementation strategies</p>
+                    <ul class="links">
+                        <li>
+                            <a href="impediments-vs-blockers.html">
+                                <span class="link-icon">🚧</span>
+                                Impediments vs Blockers
+                            </a>
+                        </li>
+                        <li>
+                            <a href="user-stories.html">
+                                <span class="link-icon">📝</span>
+                                User Stories
+                            </a>
+                        </li>
+                        <li>
+                            <a href="WSJF.html">
+                                <span class="link-icon">📈</span>
+                                WSJF (Weighted Shortest Job First)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="scrum-kanban-papeis-atuais.html">
+                                <span class="link-icon">👥</span>
+                                Scrum Kanban - Current Roles
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>💼 Agile Marc Resources | Empowering teams with better practices</p>
+        </div>
+    </div>
+</body>
+</html>
