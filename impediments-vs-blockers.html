@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Scrum Master como Removedor de Impedimentos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #4a5568;
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 40px;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        h2 {
+            color: #4c51bf;
+            font-size: 1.8em;
+            margin: 40px 0 20px 0;
+            border-left: 5px solid #4c51bf;
+            padding-left: 15px;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: #553c9a;
+            font-size: 1.4em;
+            margin: 30px 0 15px 0;
+            font-weight: 600;
+        }
+
+        /* Slides */
+        .slides-container {
+            position: relative;
+            min-height: 500px;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #4c51bf 0%, #553c9a 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 1em;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #434190 0%, #473080 100%);
+        }
+
+        .nav-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .slide-indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #9ca3af;
+            margin: 0 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .indicator.active {
+            background-color: #4c51bf;
+        }
+
+        /* Content styles - Improved contrast */
+        p {
+            line-height: 1.7;
+            margin-bottom: 20px;
+            color: #2d3748;
+            font-size: 1.05em;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 25px;
+        }
+
+        li {
+            margin-bottom: 12px;
+            color: #374151;
+            line-height: 1.6;
+            font-size: 1.02em;
+        }
+
+        strong {
+            color: #1a202c;
+            font-weight: 600;
+        }
+
+        .quote {
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            font-style: italic;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        .author {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 15px;
+            font-style: normal;
+            color: white;
+        }
+
+        /* Impediment list */
+        .impediment-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .impediment-item {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 5px solid #4c51bf;
+        }
+
+        .impediment-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .impediment-item h3 {
+            color: #2d3748;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .impediment-item i {
+            font-size: 24px;
+            color: #4c51bf;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Comparison */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .blockers, .impediments {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .blockers {
+            border-top: 5px solid #dc2626;
+        }
+
+        .blockers h3 {
+            color: #991b1b;
+        }
+
+        .impediments {
+            border-top: 5px solid #4c51bf;
+        }
+
+        .impediments h3 {
+            color: #4c51bf;
+        }
+
+        /* Tácticas */
+        .tactics-container {
+            background: #edf2f7;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid #cbd5e0;
+        }
+
+        .tactic {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            color: #2d3748;
+            font-size: 1.02em;
+            line-height: 1.5;
+        }
+
+        .tactic-number {
+            background: linear-gradient(135deg, #4c51bf 0%, #553c9a 100%);
+            color: white;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+
+        /* Info boxes - Better contrast */
+        .info-box {
+            background: linear-gradient(135deg, #4c51bf 0%, #553c9a 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .info-box h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .info-box p, .info-box li {
+            color: white;
+            font-size: 1.02em;
+            line-height: 1.6;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .warning-box p {
+            color: white;
+            font-size: 1.02em;
+            line-height: 1.6;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .success-box h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .success-box p {
+            color: white;
+            font-size: 1.02em;
+            line-height: 1.6;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .sidebar h3 {
+            color: #4c51bf;
+            margin-top: 0;
+            border-bottom: 2px solid #4c51bf;
+            padding-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            margin-left: 0;
+        }
+
+        .sidebar li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+            color: #2d3748;
+            font-size: 1em;
+        }
+
+        .sidebar li:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar li i {
+            color: #4c51bf;
+            margin-right: 10px;
+        }
+
+        .sidebar li strong {
+            color: #1a202c;
+            font-weight: 600;
+        }
+
+        /* Role badges */
+        .role-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin: 5px;
+        }
+
+        .role-scrum {
+            background: #4c51bf;
+            color: white;
+        }
+
+        .role-impediment {
+            background: #059669;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.5em;
+            }
+            
+            .impediment-list {
+                grid-template-columns: 1fr;
+            }
+
+            p, li {
+                font-size: 1em;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>O Scrum Master como Removedor de Impedimentos</h1>
+        <p class="subtitle">Um dos papéis essenciais do Scrum Master</p>
+
+        <div class="slides-container">
+            <!-- Slide 1: Introdução -->
+            <div class="slide active">
+                <h2>Introdução</h2>
+                <p>O papel de um Scrum Master é multifacetado e diversificado. Um bom Scrum Master conhece estas várias facetas e sabe quando e como aplicá-las, dependendo da situação e do contexto. Tudo com o objetivo de ajudar as pessoas a compreender e aplicar melhor o framework Scrum.</p>
+                <p>Nesta apresentação, vamos focar-nos no Scrum Master como removedor de impedimentos. Vamos descrever as definições mais comuns e exemplos de impedimentos, o papel do Scrum Master na sua remoção e táticas para lidar com impedimentos.</p>
+                
+                <div class="quote">
+                    "Um bom Scrum Master cria um ambiente onde a identificação de impedimentos pode ocorrer. Um Scrum Master excecional cria um ambiente onde a criatividade pode ocorrer."
+                    <div class="author">- Scrum Mastery</div>
+                </div>
+                
+                <div class="sidebar">
+                    <h3>Série de Artigos</h3>
+                    <ul>
+                        <li><i class="fas fa-chevron-right"></i> <strong>O Scrum Master como Removedor de Impedimentos</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 2: O que é um Impedimento? -->
+            <div class="slide">
+                <h2>O que é um Impedimento?</h2>
+                <p>Várias definições ajudam a clarificar o conceito:</p>
+                <ul>
+                    <li><strong>Scrum a Pocket Guide:</strong> "Um impedimento no Scrum é um fator que bloqueia os Developers na criação de uma peça de software valiosa num Sprint, ou que restringe a equipa na obtenção do seu nível intrínseco de progresso."</li>
+                    <li>Problemas que vão além da auto-organização dos Developers.</li>
+                    <li><strong>Scrum Shortcuts:</strong> "Um evento que impede qualquer um dos developers de trabalhar conforme antecipado no sprint."</li>
+                </ul>
+                
+                <div class="quote">
+                    "Um bom Scrum Master luta pela permissão para remover impedimentos à produtividade da equipa. Um Scrum Master excecional está preparado para pedir perdão."
+                    <div class="author">- Scrum Mastery</div>
+                </div>
+                
+                <div class="info-box">
+                    <h3>Definição Chave</h3>
+                    <p>Um impedimento é qualquer coisa que impede a equipa de atingir o seu potencial máximo ou que reduz a sua eficiência. Pode ser técnico, organizacional, interpersonal ou externo.</p>
+                </div>
+            </div>
+
+            <!-- Slide 3: Exemplos de Possíveis Impedimentos -->
+            <div class="slide">
+                <h2>Exemplos de Possíveis Impedimentos</h2>
+                <p>Eis alguns exemplos tangíveis de impedimentos que podem afetar uma equipa Scrum:</p>
+                
+                <div class="impediment-list">
+                    <div class="impediment-item">
+                        <i class="fas fa-user-injured"></i>
+                        <h3>Doença de membros da equipa</h3>
+                    </div>
+                    <div class="impediment-item">
+                        <i class="fas fa-exchange-alt"></i>
+                        <h3>Alterações na composição da equipa</h3>
+                    </div>
+                    <div class="impediment-item">
+                        <i class="fas fa-tools"></i>
+                        <h3>Problemas com ferramentas</h3>
+                    </div>
+                    <div class="impediment-item">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Escassez de competências</h3>
+                    </div>
+                    <div class="impediment-item">
+                        <i class="fas fa-code"></i>
+                        <h3>Dívida técnica acumulada</h3>
+                    </div>
+                    <div class="impediment-item">
+                        <i class="fas fa-truck-loading"></i>
+                        <h3>Problemas com fornecedores</h3>
+                    </div>
+                    <div class="impediment-item">
+                        <i class="fas fa-user-times"></i>
+                        <h3>Indisponibilidade do Product Owner</h3>
+                    </div>
+                    <div class="impediment-item">
+                        <i class="fas fa-balance-scale"></i>
+                        <h3>Pressão indevida da gestão</h3>
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    <p><strong>Nota:</strong> Estes são exemplos de possíveis impedimentos. Algo só se torna um impedimento quando excede as capacidades de auto-organização da equipa.</p>
+                </div>
+            </div>
+
+            <!-- Slide 4: Diferença entre Bloqueios e Impedimentos -->
+            <div class="slide">
+                <h2>Diferença entre Bloqueios e Impedimentos</h2>
+                <p>É importante compreender a diferença entre 'bloqueios' (blocks) e 'impedimentos':</p>
+                
+                <div class="comparison">
+                    <div class="blockers">
+                        <h3>Bloqueios</h3>
+                        <ul>
+                            <li>Afetam apenas uma única tarefa</li>
+                            <li>Normalmente, os Developers podem resolver blocos por si próprios</li>
+                            <li>São mais específicos e localizados</li>
+                            <li>Exemplo: Dependemos de um desenolvimento de outra equipa para completar esta User Story/Task</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="impediments">
+                        <h3>Impedimentos</h3>
+                        <ul>
+                            <li>Atuam como um paraquedas, abrandando o progresso geral</li>
+                            <li>Normalmente precisam de ser resolvidos pelo Scrum Master</li>
+                            <li>Têm um impacto mais amplo na equipa</li>
+                            <li>Exemplo: Um developer precisa de um software específico para poder trabalhar - Scrum Master facilita a resolução</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="quote">
+                    "Um bloco afeta apenas uma única tarefa, enquanto um impedimento atua como um paraquedas, abrandando o progresso geral. Muitas vezes, os Developers podem corrigir 'bloqueios' enquanto os impedimentos precisam de ser corrigidos pelo Scrum Master."
+                    <div class="author">- Scrum Shortcuts, I. Goldstein</div>
+                </div>
+            </div>
+
+            <!-- Slide 5: O Scrum Master como Removedor de Impedimentos -->
+            <div class="slide">
+                <h2>O Scrum Master como Removedor de Impedimentos</h2>
+                <p>De acordo com o Scrum Guide, um dos serviços do Scrum Master aos Developers é a remoção de impedimentos ao progresso dos Developers. Como líder servidor, o Scrum Master guia os Developers em direção à auto-organização e cross-funcionalidade.</p>
+                
+                <p>O Scrum Master deve tomar decisões conscientes sobre a remoção de impedimentos, considerando questões como:</p>
+                <ul>
+                    <li>É realmente um impedimento ou é algo que os Developers podem resolver por si mesmos?</li>
+                    <li>Precisamos realmente remover este impedimento?</li>
+                    <li>Qual é o verdadeiro problema aqui?</li>
+                </ul>
+                
+                <div class="info-box">
+                    <h3>Papel do Scrum Master</h3>
+                    <p>O Scrum Master deve criar um ambiente onde os Developers se sintam seguros para levantar impedimentos. Respeitando as capacidades de auto-organização da equipa, o Scrum Master deve incentivar a equipa a tentar resolver os seus próprios problemas.</p>
+                </div>
+                
+                <div class="sidebar">
+                    <h3>Perguntas para Reflexão</h3>
+                    <ul>
+                        <li><i class="fas fa-question-circle"></i> Isto é realmente um impedimento?</li>
+                        <li><i class="fas fa-question-circle"></i> A equipa pode resolver isto sozinha?</li>
+                        <li><i class="fas fa-question-circle"></i> Qual é a verdadeira causa raiz?</li>
+                        <li><i class="fas fa-question-circle"></i> Como posso ajudar a equipa a tornar-se mais auto-organizada?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 6: Táticas para Remover Impedimentos -->
+            <div class="slide">
+                <h2>Táticas para Remover Impedimentos</h2>
+                <p>Remover impedimentos pode ser um desafio. Eis algumas táticas e ideias que um Scrum Master pode considerar:</p>
+                
+                <div class="tactics-container">
+                    <div class="tactic">
+                        <span class="tactic-number">1</span>
+                        Não espere pela Daily Scrum para levantar um impedimento!
+                    </div>
+                    <div class="tactic">
+                        <span class="tactic-number">2</span>
+                        Use um Sprint Goal claro como instrumento para determinar se algo é verdadeiramente um impedimento.
+                    </div>
+                    <div class="tactic">
+                        <span class="tactic-number">3</span>
+                        Compreenda a diferença entre 'bloqueios' e 'impedimentos'.
+                    </div>
+                    <div class="tactic">
+                        <span class="tactic-number">4</span>
+                        Melhore a transparência usando um 'Quadro de Impedimentos'.
+                    </div>
+                    <div class="tactic">
+                        <span class="tactic-number">5</span>
+                        Mantenha um registo dos impedimentos resolvidos para fornecer input valioso para a Sprint Review e Retrospective.
+                    </div>
+                    <div class="tactic">
+                        <span class="tactic-number">6</span>
+                        Compreenda a cultura da organização e como as coisas são feitas.
+                    </div>
+                    <div class="tactic">
+                        <span class="tactic-number">7</span>
+                        Seja corajoso e criativo na remoção de impedimentos.
+                    </div>
+                    <div class="tactic">
+                        <span class="tactic-number">8</span>
+                        Colabore com o Product Owner.
+                    </div>
+                    <div class="tactic">
+                        <span class="tactic-number">9</span>
+                        Não gaste tempo e esforço a resolver o problema errado.
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h3>Dica Importante</h3>
+                    <p>Com impedimentos, os Scrum Masters precisam de resistir ao desejo de os corrigir, resolver e oferecer soluções. Devem focar-se no problema real, não no primeiro problema. Faça perguntas para compreender a situação. Verifique se é realmente um impedimento ou uma oportunidade de aprendizagem para os Developers.</p>
+                </div>
+            </div>
+
+            <!-- Slide 7: Conclusão -->
+            <div class="slide">
+                <h2>Conclusão</h2>
+                <p>O papel do Scrum Master como removedor de impedimentos é claramente uma parte importante das suas responsabilidades. A lição principal é respeitar as capacidades de auto-organização dos Developers.</p>
+                
+                <p>Considerar cada problema menor como um impedimento que precisa de ser resolvido pelo Scrum Master não ajuda os Developers a crescerem como uma equipa. Trata-se de encontrar continuamente o equilíbrio certo entre prevenir ou combater um incêndio.</p>
+                
+                <div class="quote">
+                    "O Scrum Master está ao serviço da equipa, removendo impedimentos e permitindo que a equipa seja o mais produtiva possível."
+                    <div class="author">- Scrum Guide</div>
+                </div>
+                
+                <div class="info-box">
+                    <h3>Resumo Final</h3>
+                    <p>Um Scrum Master eficaz como removedor de impedimentos:</p>
+                    <ul>
+                        <li>Cria um ambiente seguro para levantar impedimentos</li>
+                        <li>Respeita a auto-organização da equipa</li>
+                        <li>Foca-se na causa raiz dos problemas</li>
+                        <li>Utiliza várias táticas para abordar impedimentos</li>
+                        <li>Aprende com cada impedimento resolvido</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn" id="prev-btn" disabled>
+                <i class="fas fa-arrow-left"></i> Anterior
+            </button>
+            
+            <div class="slide-indicators">
+                <div class="indicator active" data-slide="0"></div>
+                <div class="indicator" data-slide="1"></div>
+                <div class="indicator" data-slide="2"></div>
+                <div class="indicator" data-slide="3"></div>
+                <div class="indicator" data-slide="4"></div>
+                <div class="indicator" data-slide="5"></div>
+                <div class="indicator" data-slide="6"></div>
+            </div>
+            
+            <button class="nav-btn" id="next-btn">
+                Seguinte <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const indicators = document.querySelectorAll('.indicator');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            let currentSlide = 0;
+            
+            function updateSlide() {
+                slides.forEach((slide, index) => {
+                    if (index === currentSlide) {
+                        slide.classList.add('active');
+                    } else {
+                        slide.classList.remove('active');
+                    }
+                });
+                
+                indicators.forEach((indicator, index) => {
+                    if (index === currentSlide) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+                
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === slides.length - 1;
+            }
+            
+            prevBtn.addEventListener('click', function() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            });
+            
+            indicators.forEach(indicator => {
+                indicator.addEventListener('click', function() {
+                    currentSlide = parseInt(this.getAttribute('data-slide'));
+                    updateSlide();
+                });
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                } else if (e.key === 'ArrowRight' && currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
