@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anti-Patterns Agile e Segurança Psicológica da Equipa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #1e293b;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #475569;
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 40px;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        h2 {
+            color: #1e40af;
+            font-size: 1.8em;
+            margin: 40px 0 20px 0;
+            border-left: 5px solid #1e40af;
+            padding-left: 15px;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: #7c3aed;
+            font-size: 1.4em;
+            margin: 30px 0 15px 0;
+            font-weight: 600;
+        }
+
+        /* Slides */
+        .slides-container {
+            position: relative;
+            min-height: 500px;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 1em;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #1e3a8a 0%, #6d28d9 100%);
+        }
+
+        .nav-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .slide-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #94a3b8;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .indicator.active {
+            background-color: #1e40af;
+        }
+
+        /* Content styles */
+        p {
+            line-height: 1.7;
+            margin-bottom: 20px;
+            color: #334155;
+            font-size: 1.05em;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 25px;
+        }
+
+        li {
+            margin-bottom: 12px;
+            color: #334155;
+            line-height: 1.6;
+            font-size: 1.02em;
+        }
+
+        strong {
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        /* Anti-pattern cards */
+        .antipattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .antipattern-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #dc2626;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .antipattern-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .antipattern-card h4 {
+            color: #991b1b;
+            margin-bottom: 10px;
+            font-size: 1.15em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .antipattern-card .description {
+            color: #475569;
+            margin-bottom: 10px;
+        }
+
+        .antipattern-card .solution {
+            color: #059669;
+            font-style: italic;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        /* Psychological safety elements */
+        .safety-levels {
+            background: linear-gradient(to right, #fef2f2, #dcfce7);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .safety-level {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .safety-level-number {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 15px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .safety-level-content {
+            flex: 1;
+        }
+
+        .safety-level-title {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+
+        .safety-level-desc {
+            color: #475569;
+        }
+
+        /* Benefit boxes */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .benefit-box {
+            background: linear-gradient(135deg, #dbeafe 0%, #e9d5ff 100%);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .benefit-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .benefit-icon {
+            font-size: 2.5em;
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+
+        .benefit-title {
+            color: #1e293b;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .benefit-desc {
+            color: #475569;
+            font-size: 0.95em;
+        }
+
+        /* Quote blocks */
+        .quote {
+            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            font-style: italic;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        .author {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 15px;
+            font-style: normal;
+            color: white;
+        }
+
+        /* Warning and info boxes */
+        .warning-box {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .warning-box p {
+            color: white;
+            font-size: 1.02em;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .info-box h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .info-box p, .info-box li {
+            color: white;
+            font-size: 1.02em;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .success-box h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .success-box p {
+            color: white;
+            font-size: 1.02em;
+        }
+
+        /* Practice cards */
+        .practice-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .practice-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid #10b981;
+            transition: transform 0.3s;
+        }
+
+        .practice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .practice-card h4 {
+            color: #059669;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .practice-card p {
+            color: #475569;
+            font-size: 0.95em;
+        }
+
+        /* Icons */
+        .icon-danger {
+            color: #dc2626;
+        }
+
+        .icon-success {
+            color: #059669;
+        }
+
+        .icon-info {
+            color: #0284c7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.5em;
+            }
+            
+            .antipattern-grid,
+            .benefits-grid,
+            .practice-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Anti-Patterns Agile e Segurança Psicológica</h1>
+        <p class="subtitle">Identificando armadilhas e criando ambientes seguros para equipas de alto desempenho</p>
+
+        <div class="slides-container">
+            <!-- Slide 1: Introdução -->
+            <div class="slide active">
+                <h2>Introdução aos Anti-Patterns</h2>
+                <p>Anti-patterns são soluções comuns a problemas recorrentes que parecem apropriadas mas que, na realidade, são contraproducentes. No contexto Agile, estes padrões podem minar os princípios fundamentais de agilidade, colaboração e entrega de valor.</p>
+                
+                <div class="quote">
+                    "Um anti-pattern não é apenas uma má prática - é uma solução tentadora que parece resolver um problema mas cria consequências negativas maiores."
+                    <div class="author">- William Brown, AntiPatterns</div>
+                </div>
+
+                <div class="info-box">
+                    <h3>Por que estudar Anti-Patterns?</h3>
+                    <ul>
+                        <li>Ajudam a reconhecer problemas recorrentes</li>
+                        <li>Previnem armadilhas comuns</li>
+                        <li>Facilitam a comunicação sobre problemas</li>
+                        <li>Aceleram a resolução de problemas</li>
+                        <li>Promovem melhores práticas</li>
+                    </ul>
+                </div>
+
+                <p>Nesta apresentação, vamos explorar anti-patterns comuns em <strong>Agile</strong>, <strong>Scrum</strong> e <strong>Lean Kanban</strong>, e como a <strong>Segurança Psicológica</strong> é fundamental para evitá-los e criar equipas de alto desempenho.</p>
+            </div>
+
+            <!-- Slide 2: Anti-Patterns Agile -->
+            <div class="slide">
+                <h2>Anti-Patterns Agile Comuns</h2>
+                <p>Muitas organizações adotam práticas "Agile" que contradizem os valores fundamentais do Manifesto Agile.</p>
+
+                <div class="antipattern-grid">
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Agile Teatro</h4>
+                        <div class="description">Adotar cerimónias e artefatos Agile sem mudança cultural real. A organização mantém estruturas de comando e controlo tradicionais.</div>
+                        <div class="solution"><strong>Solução:</strong> Focar nos valores e princípios, não apenas nas práticas.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Water-Scrum-Fall</h4>
+                        <div class="description">Manter fases waterfall (análise e deploy) com desenvolvimento "Agile" no meio.</div>
+                        <div class="solution"><strong>Solução:</strong> Implementar ciclos end-to-end verdadeiramente iterativos.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Feature Factory</h4>
+                        <div class="description">Focar apenas na quantidade de funcionalidades entregues, ignorando outcomes e valor real.</div>
+                        <div class="solution"><strong>Solução:</strong> Medir impacto e valor, não apenas output.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Agile sem Técnicas</h4>
+                        <div class="description">Adotar processos Agile sem práticas técnicas como TDD, CI/CD, ou refactoring.</div>
+                        <div class="solution"><strong>Solução:</strong> Investir em excelência técnica e práticas de engenharia.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Cargo Cult Agile</h4>
+                        <div class="description">Copiar práticas de outras equipas sem entender o contexto ou propósito.</div>
+                        <div class="solution"><strong>Solução:</strong> Adaptar práticas ao contexto específico da equipa.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Falsa Autonomia</h4>
+                        <div class="description">Declarar equipas autónomas mas manter aprovações e controlos excessivos.</div>
+                        <div class="solution"><strong>Solução:</strong> Dar verdadeira autonomia com responsabilidade clara.</div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <p><strong>Atenção:</strong> Estes anti-patterns frequentemente coexistem e reforçam-se mutuamente, criando uma cultura "Agile" superficial que não entrega os benefícios prometidos.</p>
+                </div>
+            </div>
+
+            <!-- Slide 3: Anti-Patterns Scrum -->
+            <div class="slide">
+                <h2>Anti-Patterns Scrum Específicos</h2>
+                <p>O Scrum, sendo um framework específico, tem os seus próprios anti-patterns que podem sabotar a sua eficácia.</p>
+
+                <div class="antipattern-grid">
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Scrum Master Servo</h4>
+                        <div class="description">O Scrum Master torna-se um assistente administrativo, apenas marcando reuniões e atualizando ferramentas.</div>
+                        <div class="solution"><strong>Solução:</strong> Empoderar o SM como coach e agente de mudança.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Sprint Planning Ditatorial</h4>
+                        <div class="description">O Product Owner ou gestão impõe o trabalho do Sprint sem envolvimento da equipa.</div>
+                        <div class="solution"><strong>Solução:</strong> Planning colaborativo com compromisso da equipa.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Daily Scrum de Status</h4>
+                        <div class="description">Daily transforma-se em relatório de status para o Scrum Master ou gestão.</div>
+                        <div class="solution"><strong>Solução:</strong> Focar em colaboração e planeamento do dia.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Sprint sem Done</h4>
+                        <div class="description">Não ter Definition of Done clara ou consistentemente ignorá-la.</div>
+                        <div class="solution"><strong>Solução:</strong> Estabelecer e respeitar DoD rigorosa.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Retrospectiva Superficial</h4>
+                        <div class="description">Retrospectivas sem ações concretas ou discussão de problemas reais.</div>
+                        <div class="solution"><strong>Solução:</strong> Criar ambiente seguro e focar em melhorias acionáveis.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Product Owner Ausente</h4>
+                        <div class="description">PO indisponível ou desengajado, criando bloqueios e falta de direção.</div>
+                        <div class="solution"><strong>Solução:</strong> PO dedicado e empoderado com visão clara.</div>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    "Scrum é como o xadrez - as regras são simples, mas jogar bem requer prática, disciplina e compreensão profunda."
+                    <div class="author">- Ken Schwaber</div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Anti-Patterns Lean Kanban -->
+            <div class="slide">
+                <h2>Anti-Patterns Lean Kanban</h2>
+                <p>Lean e Kanban têm princípios específicos que, quando mal aplicados, geram anti-patterns únicos.</p>
+
+                <div class="antipattern-grid">
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Kanban sem WIP Limits</h4>
+                        <div class="description">Usar quadro Kanban apenas como visualização, sem limitar trabalho em progresso.</div>
+                        <div class="solution"><strong>Solução:</strong> Estabelecer e respeitar limites WIP apropriados.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Push System Disfarçado</h4>
+                        <div class="description">Continuar a empurrar trabalho para a equipa ignorando capacidade e fluxo.</div>
+                        <div class="solution"><strong>Solução:</strong> Implementar verdadeiro sistema pull baseado em capacidade.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Métricas de Vaidade</h4>
+                        <div class="description">Focar em métricas que parecem boas mas não refletem valor real (ex: velocidade sem qualidade).</div>
+                        <div class="solution"><strong>Solução:</strong> Medir lead time, cycle time e métricas de valor.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Otimização Local</h4>
+                        <div class="description">Otimizar partes do sistema ignorando o fluxo end-to-end.</div>
+                        <div class="solution"><strong>Solução:</strong> Focar na otimização do sistema completo.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Ignorar Classes de Serviço</h4>
+                        <div class="description">Tratar todo trabalho igualmente, sem considerar urgência ou valor.</div>
+                        <div class="solution"><strong>Solução:</strong> Implementar classes de serviço com políticas claras.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-exclamation-triangle icon-danger"></i> Kanban Estático</h4>
+                        <div class="description">Não evoluir o sistema Kanban baseado em aprendizagens e feedback.</div>
+                        <div class="solution"><strong>Solução:</strong> Kaizen contínuo e evolução do sistema.</div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>Princípios Lean Fundamentais</h3>
+                    <ul>
+                        <li><strong>Eliminar Desperdício:</strong> Remover atividades que não agregam valor</li>
+                        <li><strong>Amplificar Aprendizagem:</strong> Criar ciclos de feedback rápidos</li>
+                        <li><strong>Decidir o Mais Tarde Possível:</strong> Manter opções abertas</li>
+                        <li><strong>Entregar Rapidamente:</strong> Reduzir cycle time</li>
+                        <li><strong>Empoderar a Equipa:</strong> Dar autonomia e responsabilidade</li>
+                        <li><strong>Ver o Todo:</strong> Otimizar o sistema completo</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 5: Segurança Psicológica - Fundamentos -->
+            <div class="slide">
+                <h2>Segurança Psicológica: O Fundamento</h2>
+                <p>A segurança psicológica é a crença de que não será punido ou humilhado por falar sobre ideias, perguntas, preocupações ou erros. É o fator #1 que distingue equipas de alto desempenho.</p>
+
+                <div class="quote">
+                    "A segurança psicológica não é sobre ser simpático. É sobre dar feedback direto, admitir erros e aprender juntos."
+                    <div class="author">- Amy Edmondson, Harvard Business School</div>
+                </div>
+
+                <h3>Os 4 Estágios da Segurança Psicológica</h3>
+                <div class="safety-levels">
+                    <div class="safety-level">
+                        <div class="safety-level-number">1</div>
+                        <div class="safety-level-content">
+                            <div class="safety-level-title">Segurança de Inclusão</div>
+                            <div class="safety-level-desc">Sentir-se incluído como membro da equipa. Necessidade humana básica de pertencer.</div>
+                        </div>
+                    </div>
+
+                    <div class="safety-level">
+                        <div class="safety-level-number">2</div>
+                        <div class="safety-level-content">
+                            <div class="safety-level-title">Segurança de Aprendizagem</div>
+                            <div class="safety-level-desc">Poder fazer perguntas, experimentar e cometer erros sem medo de parecer incompetente.</div>
+                        </div>
+                    </div>
+
+                    <div class="safety-level">
+                        <div class="safety-level-number">3</div>
+                        <div class="safety-level-content">
+                            <div class="safety-level-title">Segurança de Contribuição</div>
+                            <div class="safety-level-desc">Usar competências e habilidades para contribuir significativamente sem medo de crítica.</div>
+                        </div>
+                    </div>
+
+                    <div class="safety-level">
+                        <div class="safety-level-number">4</div>
+                        <div class="safety-level-content">
+                            <div class="safety-level-title">Segurança de Desafio</div>
+                            <div class="safety-level-desc">Questionar o status quo, sugerir mudanças e inovar sem medo de retaliação.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="benefits-grid">
+                    <div class="benefit-box">
+                        <div class="benefit-icon"><i class="fas fa-lightbulb"></i></div>
+                        <div class="benefit-title">Inovação</div>
+                        <div class="benefit-desc">Ideias fluem livremente quando não há medo</div>
+                    </div>
+                    <div class="benefit-box">
+                        <div class="benefit-icon"><i class="fas fa-users"></i></div>
+                        <div class="benefit-title">Colaboração</div>
+                        <div class="benefit-desc">Equipas trabalham melhor juntas</div>
+                    </div>
+                    <div class="benefit-box">
+                        <div class="benefit-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="benefit-title">Desempenho</div>
+                        <div class="benefit-desc">Resultados superiores consistentes</div>
+                    </div>
+                    <div class="benefit-box">
+                        <div class="benefit-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <div class="benefit-title">Aprendizagem</div>
+                        <div class="benefit-desc">Crescimento contínuo da equipa</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Criando Segurança Psicológica -->
+            <div class="slide">
+                <h2>Como Criar Segurança Psicológica</h2>
+                <p>Construir segurança psicológica requer ações intencionais e consistentes de líderes e membros da equipa.</p>
+
+                <h3>Práticas para Líderes</h3>
+                <div class="practice-cards">
+                    <div class="practice-card">
+                        <h4><i class="fas fa-comment icon-success"></i> Modelar Vulnerabilidade</h4>
+                        <p>Admitir erros próprios, dizer "não sei", pedir ajuda. Mostrar que é seguro ser imperfeito.</p>
+                    </div>
+
+                    <div class="practice-card">
+                        <h4><i class="fas fa-question-circle icon-success"></i> Fazer Perguntas</h4>
+                        <p>Demonstrar curiosidade genuína. Perguntar "O que pensas?" antes de dar opiniões.</p>
+                    </div>
+
+                    <div class="practice-card">
+                        <h4><i class="fas fa-hands-helping icon-success"></i> Responder Positivamente</h4>
+                        <p>Agradecer por trazer problemas, celebrar aprendizagens de falhas, não punir erros honestos.</p>
+                    </div>
+
+                    <div class="practice-card">
+                        <h4><i class="fas fa-shield-alt icon-success"></i> Estabelecer Normas</h4>
+                        <p>Criar regras claras sobre respeito, comunicação e como lidar com conflitos.</p>
+                    </div>
+
+                    <div class="practice-card">
+                        <h4><i class="fas fa-ear icon-success"></i> Escuta Ativa</h4>
+                        <p>Dar atenção total, fazer perguntas de clarificação, validar sentimentos e perspetivas.</p>
+                    </div>
+
+                    <div class="practice-card">
+                        <h4><i class="fas fa-balance-scale icon-success"></i> Justiça e Consistência</h4>
+                        <p>Aplicar regras igualmente, dar crédito devido, ser transparente nas decisões.</p>
+                    </div>
+                </div>
+
+                <h3>Sinais de Baixa Segurança Psicológica</h3>
+                <div class="warning-box">
+                    <ul>
+                        <li>Silêncio em reuniões - poucos falam além do líder</li>
+                        <li>Falta de perguntas ou desafios a ideias</li>
+                        <li>Culpar e apontar dedos quando algo corre mal</li>
+                        <li>Informação retida ou comunicação filtrada</li>
+                        <li>Conformidade excessiva e falta de diversidade de opiniões</li>
+                        <li>Alta rotatividade de pessoas</li>
+                        <li>Inovação estagnada</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>Exercício Prático: Verificação de Segurança</h3>
+                    <p>Pergunte regularmente à equipa (anonimamente):</p>
+                    <ul>
+                        <li>Numa escala de 1-10, quão seguro te sentes para expressar opiniões divergentes?</li>
+                        <li>Podes dar um exemplo recente onde sentiste que podias/não podias falar?</li>
+                        <li>O que poderia tornar mais fácil para ti partilhar ideias ou preocupações?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 7: Comportamentos Tóxicos e Resistência à Mudança -->
+            <div class="slide">
+                <h2>Comportamentos Tóxicos que Impedem Mudança</h2>
+                <p>Alguns indivíduos, consciente ou inconscientemente, sabotam a segurança psicológica e impedem progresso através de comportamentos tóxicos e auto-promoção.</p>
+
+                <h3>Frases que Matam a Inovação</h3>
+                <div class="antipattern-grid">
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-ban icon-danger"></i> "Sempre fizemos assim"</h4>
+                        <div class="description">Resistência a novas ideias baseada em tradição, não em mérito.</div>
+                        <div class="solution"><strong>Resposta:</strong> "Que resultados tivemos? Podemos experimentar algo novo por 2 sprints e comparar?"</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-ban icon-danger"></i> "Isso nunca vai funcionar"</h4>
+                        <div class="description">Pessimismo preventivo que mata ideias antes de serem testadas.</div>
+                        <div class="solution"><strong>Resposta:</strong> "Que dados temos sobre isso? Podemos fazer um pequeno teste para validar?"</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-ban icon-danger"></i> "Não é minha responsabilidade"</h4>
+                        <div class="description">Criação de silos e recusa de colaboração.</div>
+                        <div class="solution"><strong>Resposta:</strong> "Como podemos resolver isto juntos? Qual seria o impacto se não resolvermos?"</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-ban icon-danger"></i> "Já tentámos isso antes"</h4>
+                        <div class="description">Usa falhas passadas para evitar novas tentativas.</div>
+                        <div class="solution"><strong>Resposta:</strong> "O que aprendemos? O contexto mudou? Como podemos fazer diferente?"</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-ban icon-danger"></i> "A gestão nunca vai aprovar"</h4>
+                        <div class="description">Usa autoridade invisível para bloquear iniciativas.</div>
+                        <div class="solution"><strong>Resposta:</strong> "Vamos preparar um caso sólido. Qual seria o benefício se aprovassem?"</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4><i class="fas fa-ban icon-danger"></i> "Não temos tempo para isso"</h4>
+                        <div class="description">Usa urgência falsa para evitar melhorias importantes.</div>
+                        <div class="solution"><strong>Resposta:</strong> "Quanto tempo perdemos com o problema atual? Qual o ROI da mudança?"</div>
+                    </div>
+                </div>
+
+                <h3>Comportamentos Tóxicos de Auto-Promoção</h3>
+                <div class="warning-box">
+                    <h4 style="color: white; margin-bottom: 15px;">Red Flags - Comportamentos que Destroem Equipas:</h4>
+                    <ul>
+                        <li><strong>Credit Stealing:</strong> Apropria-se do trabalho dos outros, apresenta ideias da equipa como suas</li>
+                        <li><strong>Blame Shifting:</strong> Nunca assume erros, sempre encontra culpados externos</li>
+                        <li><strong>Gatekeeping:</strong> Retém informação para manter poder e parecer indispensável</li>
+                        <li><strong>Undermining:</strong> Sabota colegas subtilmente para parecer melhor em comparação</li>
+                        <li><strong>Grandstanding:</strong> Domina reuniões, interrompe outros, monopoliza atenção</li>
+                        <li><strong>Playing Politics:</strong> Cria alianças e conflitos para benefício próprio</li>
+                        <li><strong>Toxic Positivity:</strong> Invalida preocupações legítimas com falso otimismo</li>
+                        <li><strong>Passive-Aggressive:</strong> Concorda em público, sabota em privado</li>
+                    </ul>
+                </div>
+
+                <h3>Como Lidar com Comportamentos Tóxicos</h3>
+                <div class="practice-cards">
+                    <div class="practice-card">
+                        <h4><i class="fas fa-comments icon-success"></i> Confronto Respeitoso</h4>
+                        <p><strong>Privado primeiro:</strong> "Notei X comportamento. Qual é a tua perspetiva?" Dar oportunidade de mudança antes de escalar.</p>
+                    </div>
+
+                    <div class="practice-card">
+                        <h4><i class="fas fa-file-alt icon-success"></i> Documentação</h4>
+                        <p><strong>Registo factual:</strong> Manter registo de incidentes específicos, impactos e tentativas de resolução.</p>
+                    </div>
+
+                    <div class="practice-card">
+                        <h4><i class="fas fa-users icon-success"></i> Aliança de Equipa</h4>
+                        <p><strong>Normas claras:</strong> Estabelecer e enforçar regras de equipa sobre comportamento aceitável.</p>
+                    </div>
+
+                    <div class="practice-card">
+                        <h4><i class="fas fa-shield-alt icon-success"></i> Proteção Ativa</h4>
+                        <p><strong>Defender outros:</strong> "Deixa a Maria terminar o raciocínio" ou "Essa ideia foi originalmente do João".</p>
+                    </div>
+
+                    <div class="practice-card">
+                        <h4><i class="fas fa-chart-line icon-success"></i> Foco em Dados</h4>
+                        <p><strong>Objetividade:</strong> Trazer sempre dados e impactos mensuráveis para neutralizar manipulação.</p>
+                    </div>
+
+                    <div class="practice-card">
+                        <h4><i class="fas fa-arrow-up icon-success"></i> Escalar Quando Necessário</h4>
+                        <p><strong>Limites claros:</strong> Se comportamento persiste após confronto, envolver RH ou gestão.</p>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>Comportamentos Positivos para Modelar</h3>
+                    <p>Contrabalance toxicidade sendo intencionalmente o oposto:</p>
+                    <ul>
+                        <li><strong>Dar crédito generosamente:</strong> "Como a Ana sugeriu..." "Baseando na ideia do Pedro..."</li>
+                        <li><strong>Assumir responsabilidade:</strong> "Eu errei aqui. O que aprendi foi..."</li>
+                        <li><strong>Partilhar conhecimento:</strong> "Deixem-me documentar isto para todos"</li>
+                        <li><strong>Elevar outros:</strong> "O Carlos tem experiência nisto, Carlos, podes partilhar?"</li>
+                        <li><strong>Curiosidade genuína:</strong> "Interessante perspetiva, conta-me mais"</li>
+                        <li><strong>Transparência radical:</strong> Partilhar informação, decisões e raciocínios abertamente</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 8: Segurança Psicológica e Anti-Patterns -->
+            <div class="slide">
+                <h2>A Conexão: Segurança Psicológica e Anti-Patterns</h2>
+                <p>A falta de segurança psicológica é frequentemente a causa raiz de muitos anti-patterns. Quando as pessoas não se sentem seguras, comportamentos disfuncionais emergem.</p>
+
+                <h3>Como a Falta de Segurança Cria Anti-Patterns</h3>
+                <div class="antipattern-grid">
+                    <div class="antipattern-card">
+                        <h4>Medo de Falhar → Feature Factory</h4>
+                        <div class="description">Equipas focam em métricas de output porque é mais seguro do que arriscar com inovação.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4>Medo de Conflito → Retrospectivas Superficiais</h4>
+                        <div class="description">Problemas reais não são discutidos porque ninguém quer "criar problemas".</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4>Medo de Parecer Incompetente → Agile Teatro</h4>
+                        <div class="description">Seguir processos rigidamente porque questionar mostraria "não entender Agile".</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4>Medo de Perder Controlo → Falsa Autonomia</h4>
+                        <div class="description">Gestores mantêm controlo porque não confiam que equipas tomarão boas decisões.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4>Medo de Responsabilização → Sprint sem Done</h4>
+                        <div class="description">Definition of Done flexível para evitar confronto sobre qualidade.</div>
+                    </div>
+
+                    <div class="antipattern-card">
+                        <h4>Medo de Exposição → Daily de Status</h4>
+                        <div class="description">Daily torna-se relatório defensivo em vez de colaboração porque erros são punidos.</div>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    "Em ambientes psicologicamente seguros, as pessoas focam em prevenir problemas. Em ambientes inseguros, focam em evitar culpa."
+                    <div class="author">- Sidney Dekker, Safety Researcher</div>
+                </div>
+
+                <div class="info-box">
+                    <h3>Quebrando o Ciclo</h3>
+                    <p>Para eliminar anti-patterns duradouramente:</p>
+                    <ol>
+                        <li><strong>Diagnosticar:</strong> Identificar medos subjacentes</li>
+                        <li><strong>Criar Segurança:</strong> Abordar medos específicos com ações direcionadas</li>
+                        <li><strong>Experimentar:</strong> Testar novas práticas em ambiente seguro</li>
+                        <li><strong>Aprender:</strong> Celebrar aprendizagens, não apenas sucessos</li>
+                        <li><strong>Institucionalizar:</strong> Tornar comportamentos seguros parte da cultura</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Slide 9: Conclusão e Ações -->
+            <div class="slide">
+                <h2>Conclusão: Construindo Equipas Resilientes</h2>
+                <p>Anti-patterns são sintomas de problemas mais profundos. A segurança psicológica é o antídoto fundamental que permite às equipas identificar, discutir e resolver estes problemas.</p>
+
+                <div class="success-box">
+                    <h3>Princípios Chave para Lembrar</h3>
+                    <ul>
+                        <li>Anti-patterns são oportunidades de aprendizagem, não falhas</li>
+                        <li>A segurança psicológica é construída através de ações consistentes</li>
+                        <li>Líderes modelam os comportamentos que querem ver</li>
+                        <li>Pequenas melhorias consistentes superam grandes mudanças esporádicas</li>
+                        <li>Contexto importa - adapte práticas à sua realidade</li>
+                    </ul>
+                </div>
+
+                <h3>Plano de Ação Sugerido</h3>
+                <div class="practice-cards">
+                    <div class="practice-card">
+                        <h4>Semana 1-2: Avaliar</h4>
+                        <p>Fazer assessment de segurança psicológica. Identificar top 3 anti-patterns na equipa.</p>
+                    </div>
+
+                    <div class="practice-card">
+                        <h4>Semana 3-4: Dialogar</h4>
+                        <p>Discutir findings com a equipa. Co-criar plano de ação. Estabelecer "contratos de equipa".</p>
+                    </div>
+
+                    <div class="practice-card">
+                        <h4>Mês 2: Experimentar</h4>
+                        <p>Implementar uma mudança pequena. Medir impacto. Ajustar baseado em feedback.</p>
+                    </div>
+
+                    <div class="practice-card">
+                        <h4>Mês 3: Expandir</h4>
+                        <p>Adicionar mais práticas. Celebrar melhorias. Documentar aprendizagens.</p>
+                    </div>
+
+                    <div class="practice-card">
+                        <h4>Ongoing: Sustentar</h4>
+                        <p>Revisões regulares. Mentoria entre equipas. Evolução contínua.</p>
+                    </div>
+
+                    <div class="practice-card">
+                        <h4>Quarterly: Refletir</h4>
+                        <p>Retrospectivas profundas. Atualizar práticas. Partilhar com organização.</p>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    "O objetivo não é criar uma equipa perfeita, mas uma equipa que aprende e melhora continuamente. Isso só é possível num ambiente psicologicamente seguro."
+                    <div class="author">- Google's Project Aristotle</div>
+                </div>
+
+                <div class="info-box">
+                    <h3>Recursos Adicionais</h3>
+                    <ul>
+                        <li><strong>Livros:</strong> "The Fearless Organization" - Amy Edmondson</li>
+                        <li><strong>Artigo:</strong> "What Google Learned From Its Quest to Build the Perfect Team"</li>
+                        <li><strong>Tool:</strong> Team Psychological Safety Assessment</li>
+                        <li><strong>Framework:</strong> The 4 Stages of Psychological Safety - Timothy Clark</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn" id="prev-btn" disabled>
+                <i class="fas fa-arrow-left"></i> Anterior
+            </button>
+            
+            <div class="slide-indicators">
+                <div class="indicator active" data-slide="0"></div>
+                <div class="indicator" data-slide="1"></div>
+                <div class="indicator" data-slide="2"></div>
+                <div class="indicator" data-slide="3"></div>
+                <div class="indicator" data-slide="4"></div>
+                <div class="indicator" data-slide="5"></div>
+                <div class="indicator" data-slide="6"></div>
+                <div class="indicator" data-slide="7"></div>
+                <div class="indicator" data-slide="8"></div>
+            </div>
+            
+            <button class="nav-btn" id="next-btn">
+                Seguinte <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const indicators = document.querySelectorAll('.indicator');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            let currentSlide = 0;
+            
+            function updateSlide() {
+                slides.forEach((slide, index) => {
+                    if (index === currentSlide) {
+                        slide.classList.add('active');
+                    } else {
+                        slide.classList.remove('active');
+                    }
+                });
+                
+                indicators.forEach((indicator, index) => {
+                    if (index === currentSlide) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+                
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === slides.length - 1;
+            }
+            
+            prevBtn.addEventListener('click', function() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            });
+            
+            indicators.forEach(indicator => {
+                indicator.addEventListener('click', function() {
+                    currentSlide = parseInt(this.getAttribute('data-slide'));
+                    updateSlide();
+                });
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                } else if (e.key === 'ArrowRight' && currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            });
+            
+            // Touch/swipe support
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            const container = document.querySelector('.slides-container');
+            
+            container.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            container.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                if (touchEndX < touchStartX - 50 && currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlide();
+                }
+                if (touchEndX > touchStartX + 50 && currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
