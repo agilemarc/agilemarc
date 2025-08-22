@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agile Resources - Navigation</title>
+    <title>Recursos Agile - Navegação</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,65 +14,149 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="%23ffffff" opacity="0.1"/><circle cx="20" cy="60" r="0.5" fill="%23ffffff" opacity="0.1"/><circle cx="80" cy="30" r="0.5" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+            z-index: -1;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-radius: 24px;
+            box-shadow: 
+                0 32px 64px rgba(0, 0, 0, 0.12),
+                0 8px 32px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7);
             overflow: hidden;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3498db 100%);
             color: white;
-            padding: 40px;
+            padding: 60px 40px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23ffffff" opacity="0.1"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="3s" repeatCount="indefinite"/></circle><circle cx="80" cy="80" r="1.5" fill="%23ffffff" opacity="0.1"><animate attributeName="opacity" values="0.1;0.2;0.1" dur="4s" repeatCount="indefinite"/></circle><circle cx="60" cy="30" r="1" fill="%23ffffff" opacity="0.1"><animate attributeName="opacity" values="0.1;0.25;0.1" dur="2.5s" repeatCount="indefinite"/></circle></svg>');
+            pointer-events: none;
         }
 
         .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+            letter-spacing: -1px;
+            background: linear-gradient(45deg, #ffffff, #e3f2fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
+            font-size: 1.4rem;
+            opacity: 0.95;
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
         }
 
         .content {
-            padding: 40px;
+            padding: 60px 40px;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .intro h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .intro p {
+            font-size: 1.1rem;
+            color: #6c757d;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
         }
 
         .categories {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
         }
 
         .category {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-left: 5px solid;
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.08),
+                0 4px 16px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 6px solid;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%);
+            transform: translateX(100px);
+            transition: transform 0.6s ease;
+        }
+
+        .category:hover::before {
+            transform: translateX(-100px);
         }
 
         .category:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 32px 64px rgba(0, 0, 0, 0.12),
+                0 8px 32px rgba(0, 0, 0, 0.08);
         }
 
         .category.mindset {
@@ -85,12 +171,17 @@
             border-left-color: #27ae60;
         }
 
-        .category h2 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+        .category-header {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .category h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
         }
 
         .category.mindset h2 {
@@ -106,13 +197,45 @@
         }
 
         .icon {
-            font-size: 1.5rem;
+            font-size: 2.5rem;
+            padding: 12px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.9));
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .category p {
-            color: #666;
-            margin-bottom: 20px;
+        .category-description {
+            margin-bottom: 30px;
+        }
+
+        .category-description .subtitle {
+            color: #6c757d;
+            font-size: 1.1rem;
+            font-weight: 500;
             font-style: italic;
+            margin-bottom: 12px;
+        }
+
+        .category-description .details {
+            color: #495057;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            background: rgba(248, 249, 250, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid;
+        }
+
+        .category.mindset .details {
+            border-left-color: #e74c3c;
+        }
+
+        .category.frameworks .details {
+            border-left-color: #3498db;
+        }
+
+        .category.implementation .details {
+            border-left-color: #27ae60;
         }
 
         .links {
@@ -120,66 +243,109 @@
         }
 
         .links li {
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         .links a {
             display: flex;
             align-items: center;
-            padding: 12px 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
+            padding: 18px 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 12px;
             text-decoration: none;
-            color: #333;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
+            color: #2c3e50;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: width 0.6s ease;
+        }
+
+        .links a:hover::before {
+            width: 100%;
         }
 
         .links a:hover {
-            background: #e9ecef;
-            transform: translateX(5px);
-            border-left-color: currentColor;
+            transform: translateX(8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: currentColor;
         }
 
         .category.mindset .links a:hover {
-            border-left-color: #e74c3c;
+            border-color: #e74c3c;
             color: #e74c3c;
+            background: linear-gradient(135deg, #fdf2f2 0%, #ffffff 100%);
         }
 
         .category.frameworks .links a:hover {
-            border-left-color: #3498db;
+            border-color: #3498db;
             color: #3498db;
+            background: linear-gradient(135deg, #f0f8ff 0%, #ffffff 100%);
         }
 
         .category.implementation .links a:hover {
-            border-left-color: #27ae60;
+            border-color: #27ae60;
             color: #27ae60;
+            background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);
         }
 
         .link-icon {
-            margin-right: 10px;
-            font-size: 1.1rem;
+            margin-right: 15px;
+            font-size: 1.3rem;
+            min-width: 24px;
+            text-align: center;
         }
 
         .footer {
-            background: #2c3e50;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
             text-align: center;
-            padding: 20px;
-            margin-top: 40px;
+            padding: 30px;
+            margin-top: 60px;
+            font-weight: 500;
         }
 
         @media (max-width: 768px) {
             .categories {
                 grid-template-columns: 1fr;
+                gap: 30px;
             }
             
             .header h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
             }
             
             .content {
-                padding: 20px;
+                padding: 40px 20px;
+            }
+
+            .category {
+                padding: 30px 20px;
+            }
+
+            .header {
+                padding: 40px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .categories {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -187,30 +353,40 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚀 Agile Resources Hub</h1>
-            <p>Your comprehensive guide to Agile methodologies, practices, and implementations</p>
+            <h1>🚀 Hub de Recursos Agile</h1>
+            <p>O seu guia abrangente para metodologias, práticas e implementações Agile de excelência</p>
         </div>
 
         <div class="content">
+            <div class="intro">
+                <h2>Explore o Mundo Agile</h2>
+                <p>Descubra recursos cuidadosamente organizados para transformar a forma como a sua equipa trabalha. Desde os fundamentos até à implementação prática, tudo o que precisa para o sucesso Agile.</p>
+            </div>
+
             <div class="categories">
                 <!-- Mindset Category -->
                 <div class="category mindset">
-                    <h2>
+                    <div class="category-header">
                         <span class="icon">🧠</span>
-                        Mindset
-                    </h2>
-                    <p>Foundational values, principles, and cultural aspects of Agile</p>
+                        <h2>Mindset</h2>
+                    </div>
+                    <div class="category-description">
+                        <p class="subtitle">Valores fundamentais, princípios e aspectos culturais do Agile</p>
+                        <p class="details">
+                            Comece aqui para compreender a filosofia por trás do Agile. Explore os valores e princípios que constituem a base de todas as práticas ágeis, e aprenda a identificar e evitar anti-padrões que podem prejudicar o ambiente de trabalho e a segurança psicológica da equipa.
+                        </p>
+                    </div>
                     <ul class="links">
                         <li>
                             <a href="agile-values-principles.html">
                                 <span class="link-icon">⭐</span>
-                                Agile Values & Principles
+                                Valores e Princípios Agile
                             </a>
                         </li>
                         <li>
                             <a href="anti-patterns-agile-e-psychological-safety.html">
                                 <span class="link-icon">🛡️</span>
-                                Anti-patterns & Psychological Safety
+                                Anti-padrões e Segurança Psicológica
                             </a>
                         </li>
                     </ul>
@@ -218,16 +394,21 @@
 
                 <!-- Frameworks Category -->
                 <div class="category frameworks">
-                    <h2>
+                    <div class="category-header">
                         <span class="icon">📋</span>
-                        Frameworks
-                    </h2>
-                    <p>Agile methodologies and structured approaches</p>
+                        <h2>Frameworks</h2>
+                    </div>
+                    <div class="category-description">
+                        <p class="subtitle">Metodologias Agile e abordagens estruturadas</p>
+                        <p class="details">
+                            Descubra os frameworks mais populares e eficazes do mundo Agile. Desde o Scrum clássico até ao Lean Kanban e implementações específicas como o SAFe adaptado para o sector bancário. Cada framework oferece uma abordagem única para organizar e gerir o trabalho das equipas.
+                        </p>
+                    </div>
                     <ul class="links">
                         <li>
                             <a href="scrum.html">
                                 <span class="link-icon">🔄</span>
-                                Scrum Framework
+                                Framework Scrum
                             </a>
                         </li>
                         <li>
@@ -239,7 +420,7 @@
                         <li>
                             <a href="SAFe-Banking.html">
                                 <span class="link-icon">🏦</span>
-                                SAFe for Banking
+                                SAFe para Banca
                             </a>
                         </li>
                     </ul>
@@ -247,16 +428,21 @@
 
                 <!-- Implementation Category -->
                 <div class="category implementation">
-                    <h2>
+                    <div class="category-header">
                         <span class="icon">⚙️</span>
-                        Implementation
-                    </h2>
-                    <p>Practical tools, techniques, and implementation strategies</p>
+                        <h2>Implementação</h2>
+                    </div>
+                    <div class="category-description">
+                        <p class="subtitle">Ferramentas práticas, técnicas e estratégias de implementação</p>
+                        <p class="details">
+                            Transforme teoria em prática com estas ferramentas e técnicas essenciais. Aprenda a criar user stories eficazes, a distinguir impedimentos de bloqueadores, a priorizar com WSJF, e a adaptar papéis Agile para equipas mais pequenas com apenas Tech Lead, Scrum Master e developers.
+                        </p>
+                    </div>
                     <ul class="links">
                         <li>
                             <a href="impediments-vs-blockers.html">
                                 <span class="link-icon">🚧</span>
-                                Impediments vs Blockers
+                                Impedimentos vs Bloqueadores
                             </a>
                         </li>
                         <li>
@@ -274,7 +460,7 @@
                         <li>
                             <a href="scrum-kanban-papeis-atuais.html">
                                 <span class="link-icon">👥</span>
-                                Scrum Kanban - Current Roles
+                                Scrum Kanban - Papéis Atuais
                             </a>
                         </li>
                     </ul>
@@ -283,7 +469,7 @@
         </div>
 
         <div class="footer">
-            <p>💼 Agile Marc Resources | Empowering teams with better practices</p>
+            <p>💼 Recursos Agile Marc | Capacitando equipas com melhores práticas</p>
         </div>
     </div>
 </body>
