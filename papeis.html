@@ -1,0 +1,1833 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriz Comparativa Completa - Papéis Scrum vs Kanban/Lean</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50px, -50px); }
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide {
+            width: 90%;
+            max-width: 1400px;
+            height: 85vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px;
+            display: none;
+            animation: slideIn 0.5s ease-out;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-header {
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 20px 20px 0 0;
+            transition: width 0.5s ease;
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #999;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Enhanced navigation */
+        .navigation {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .menu-btn {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            position: absolute;
+            left: 30px;
+            bottom: 30px;
+        }
+
+        /* Quick navigation dots */
+        .nav-dots {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #667eea;
+            transform: scale(1.3);
+        }
+
+        .nav-dot:hover {
+            background: #764ba2;
+            transform: scale(1.2);
+        }
+
+        /* Keyboard shortcuts hint */
+        .keyboard-hint {
+            position: absolute;
+            bottom: 10px;
+            right: 30px;
+            color: #999;
+            font-size: 0.8em;
+            opacity: 0.7;
+        }
+
+        /* Menu/Glossary Styles */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .menu-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+            opacity: 0;
+        }
+
+        .menu-item:hover::before {
+            animation: shine 0.5s ease-in-out;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .menu-item h4 {
+            color: #667eea;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .menu-item p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .slide-indicator {
+            color: #999;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+
+        /* Original Styles - Typography and Components */
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            padding-left: 20px;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.4em;
+            margin: 30px 0 15px 0;
+        }
+
+        h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        /* Original Components preserved */
+        .framework-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .framework-card {
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .framework-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .scrum-card {
+            background: linear-gradient(135deg, #e8f4fd 0%, #e6e9ff 100%);
+            border-top: 5px solid var(--primary);
+        }
+
+        .kanban-card {
+            background: linear-gradient(135deg, #e8fff0 0%, #e8f5ff 100%);
+            border-top: 5px solid #11998e;
+        }
+
+        .team-composition {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .role-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .role-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .role-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        .role-original { background: #667eea; color: white; }
+        .role-adapted { background: #11998e; color: white; }
+        .role-current { background: #ff6b6b; color: white; }
+        .role-optional { background: #48dbfb; color: white; }
+        .role-combined { background: #f093fb; color: white; }
+
+        .info-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .accordion {
+            margin: 20px 0;
+        }
+
+        .accordion-item {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background: linear-gradient(135deg, #e8f4fd 0%, #e6e9ff 100%);
+        }
+
+        .accordion-header.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .accordion-content.active {
+            padding: 20px;
+            max-height: 2000px;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .tab-container {
+            margin: 30px 0;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2c3e50;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse { animation: pulse 2s infinite; }
+
+        .float { animation: float 3s ease-in-out infinite; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px 20px;
+            }
+            
+            h1 { font-size: 1.8em; }
+            h2 { font-size: 1.5em; }
+            
+            .comparison-table { font-size: 0.9em; }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 14.28%"></div>
+            </div>
+            <div class="slide-number">1 / 7 <span style="font-size: 0.8em;">📊</span></div>
+            <div style="display: flex; flex-direction: column; justify-content: center; height: 100%; text-align: center;">
+                <h1 style="font-size: 4em; margin-bottom: 30px;">Matriz Comparativa Completa de Papéis</h1>
+                <p class="subtitle" style="font-size: 1.8em; margin-bottom: 40px;">Análise detalhada de todas as composições de equipa em Scrum vs Kanban/Lean</p>
+                <div style="margin-top: 50px;">
+                    <div class="info-box" style="display: inline-block; max-width: 800px;">
+                        <h3 style="margin-top: 0; color: white;">📌 Sobre Esta Apresentação</h3>
+                        <ul style="margin-top: 15px; text-align: left;">
+                            <li>✨ Múltiplas configurações de equipa (com/sem PO, FA, TSL separado)</li>
+                            <li>🔄 Papéis combinados vs separados</li>
+                            <li>📊 Mapeamento específico para cada cenário</li>
+                            <li>🎯 Recomendações práticas baseadas na composição atual</li>
+                            <li>👥 <strong>Distribuição clara de responsabilidades quando papéis não existem</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="keyboard-hint">Use ← → ou clique nos botões | M para Menu</div>
+        </div>
+
+        <!-- Slide 2: Menu -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 28.57%"></div>
+            </div>
+            <div class="slide-number">2 / 7 <span style="font-size: 0.8em;">📚</span></div>
+            <div class="slide-header">
+                <h2>Menu Rápido - Navegação Direta</h2>
+                <p class="subtitle">Clique em qualquer tópico para saltar diretamente</p>
+            </div>
+            
+            <div class="menu-grid">
+                <div class="menu-item" onclick="goToSlide(3)">
+                    <h4>📊 Visão Geral</h4>
+                    <p>Frameworks e papéis essenciais</p>
+                    <span class="slide-indicator">Slide 3</span>
+                </div>
+                <div class="menu-item" onclick="goToSlide(4)">
+                    <h4>👥 Papéis Detalhados</h4>
+                    <p>Responsabilidades e mapeamento</p>
+                    <span class="slide-indicator">Slide 4</span>
+                </div>
+                <div class="menu-item" onclick="goToSlide(5)">
+                    <h4>🎭 Composições de Equipa</h4>
+                    <p>Diferentes configurações</p>
+                    <span class="slide-indicator">Slide 5</span>
+                </div>
+                <div class="menu-item" onclick="goToSlide(6)">
+                    <h4>🔄 Mapeamento & Prática</h4>
+                    <p>Transformação e fluxos de trabalho</p>
+                    <span class="slide-indicator">Slide 6</span>
+                </div>
+                <div class="menu-item" onclick="goToSlide(7)">
+                    <h4>✅ Recomendações</h4>
+                    <p>Guia de decisão e implementação</p>
+                    <span class="slide-indicator">Slide 7</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Overview & Roles -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 42.85%"></div>
+            </div>
+            <div class="slide-number">3 / 7 <span style="font-size: 0.8em;">📊</span></div>
+            <div class="slide-header">
+                <h2>Visão Geral - Frameworks e Papéis</h2>
+                <p class="subtitle">Comparação essencial entre Scrum e Kanban/Lean</p>
+            </div>
+
+            <h3>🏆 Frameworks em Comparação</h3>
+            
+            <div class="framework-comparison">
+                <div class="framework-card scrum-card">
+                    <h3>🏉 Scrum</h3>
+                    <p><strong>Filosofia:</strong> Papéis bem definidos e responsabilidades claras</p>
+                    <ul style="margin-top: 15px;">
+                        <li>✅ Product Owner</li>
+                        <li>✅ Scrum Master</li>
+                        <li>✅ Developers</li>
+                    </ul>
+                    <div class="note" style="margin-top: 15px;">
+                        <strong>Característica:</strong> Estrutura fixa que promove clareza e accountability
+                    </div>
+                </div>
+
+                <div class="framework-card kanban-card">
+                    <h3>📋 Kanban/Lean</h3>
+                    <p><strong>Filosofia:</strong> "Começar com o que faz agora"</p>
+                    <ul style="margin-top: 15px;">
+                        <li>🔄 Papéis existentes mantidos</li>
+                        <li>📈 Evolução gradual</li>
+                        <li>🎯 Foco no fluxo</li>
+                    </ul>
+                    <div class="note" style="margin-top: 15px;">
+                        <strong>Característica:</strong> Flexibilidade e adaptação à estrutura existente
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box" style="margin-bottom: 20px;">
+                <h4 style="color: white; margin-top: 0;">⚠️ Estrutura de Papéis - O Que É Fixo vs Opcional</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                        <strong style="color: white;">✅ SEMPRE EXISTEM (Core):</strong>
+                        <ul style="margin-top: 10px; color: white;">
+                            <li><strong>TSL:</strong> Governança técnica vertical</li>
+                            <li><strong>Tech Lead:</strong> Liderança técnica equipa (pode ser o TSL)</li>
+                            <li><strong>Scrum Master:</strong> Facilitação e processo</li>
+                            <li><strong>Team Members:</strong> Desenvolvimento</li>
+                        </ul>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                        <strong style="color: white;">🔄 OPCIONAIS:</strong>
+                        <ul style="margin-top: 10px; color: white;">
+                            <li><strong>Product Owner:</strong> Pode não existir</li>
+                            <li><strong>Functional Analyst:</strong> Pode não existir</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-size: 0.9em;">👉 Quando não existem, equipa core assume responsabilidades</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>🎯 Quick Reference - Papéis Chave</h3>
+            <div class="roles-grid">
+                <div class="role-card">
+                    <div class="role-icon">👨‍💼</div>
+                    <h4>Product Owner</h4>
+                    <span class="role-badge role-optional">Opcional</span>
+                    <p style="font-size: 0.9em; margin-top: 10px;">Visão de produto e priorização de negócio</p>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon">🔧</div>
+                    <h4>Tech Stream Lead</h4>
+                    <span class="role-badge role-current">Sempre Existe</span>
+                    <p style="font-size: 0.9em; margin-top: 10px;">Governança técnica e arquitetura cross-team</p>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon">💻</div>
+                    <h4>Tech Lead</h4>
+                    <span class="role-badge role-current">Sempre Existe</span>
+                    <p style="font-size: 0.9em; margin-top: 10px;">Liderança técnica da equipa</p>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon">📊</div>
+                    <h4>Functional Analyst</h4>
+                    <span class="role-badge role-optional">Opcional</span>
+                    <p style="font-size: 0.9em; margin-top: 10px;">Análise e requisitos funcionais</p>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon">🏃</div>
+                    <h4>Scrum Master</h4>
+                    <span class="role-badge role-current">Sempre Existe</span>
+                    <p style="font-size: 0.9em; margin-top: 10px;">Facilitação e processos ágeis</p>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon">👥</div>
+                    <h4>Team Members</h4>
+                    <span class="role-badge role-current">Sempre Existe</span>
+                    <p style="font-size: 0.9em; margin-top: 10px;">Desenvolvimento e entrega</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Detailed Roles -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 57.14%"></div>
+            </div>
+            <div class="slide-number">4 / 7 <span style="font-size: 0.8em;">👥</span></div>
+            <div class="slide-header">
+                <h2>Papéis Detalhados</h2>
+                <p class="subtitle">Responsabilidades e mapeamento de cada papel</p>
+            </div>
+
+            <div class="accordion">
+                <!-- Product Owner -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div>
+                            <strong>👨‍💼 Product Owner (PO)</strong>
+                            <span class="role-badge role-optional">Opcional</span>
+                        </div>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="grid-2">
+                            <div>
+                                <h4>No Scrum</h4>
+                                <ul>
+                                    <li>✅ Papel oficial e obrigatório</li>
+                                    <li>Define e prioriza Product Backlog</li>
+                                    <li>Maximiza valor do produto</li>
+                                    <li>Interface com stakeholders</li>
+                                    <li>Define critérios de aceitação</li>
+                                    <li>Participa em Sprint Review</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4>No Kanban</h4>
+                                <ul>
+                                    <li>🔄 Service Request Manager</li>
+                                    <li>Gere entrada de trabalho</li>
+                                    <li>Define prioridades de negócio</li>
+                                    <li>Gere expectativas de stakeholders</li>
+                                    <li>Define classes de serviço</li>
+                                    <li>Analisa métricas de valor</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="warning-box" style="margin-top: 20px;">
+                            <h4 style="color: white;">🔄 Quando NÃO existe PO - Quem assume:</h4>
+                            <table style="width: 100%; color: white; margin-top: 10px;">
+                                <tr>
+                                    <td style="padding: 8px; border-right: 1px solid rgba(255,255,255,0.3);"><strong>Se existe FA:</strong></td>
+                                    <td style="padding: 8px;">FA assume requisitos de negócio + Tech Lead assume priorização técnica</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border-right: 1px solid rgba(255,255,255,0.3);"><strong>Se NÃO existe FA:</strong></td>
+                                    <td style="padding: 8px;">Tech Lead assume papel completo de PO (priorização + requisitos)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border-right: 1px solid rgba(255,255,255,0.3);"><strong>Suporte:</strong></td>
+                                    <td style="padding: 8px;">SM facilita comunicação com stakeholders + Team Members ajudam na análise</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tech Stream Lead -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div>
+                            <strong>🔧 Tech Stream Lead (TSL)</strong>
+                            <span class="role-badge role-current">Sempre Existe</span>
+                        </div>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="grid-2">
+                            <div>
+                                <h4>No Scrum</h4>
+                                <ul>
+                                    <li>🏗️ Não é papel Scrum oficial</li>
+                                    <li>Atua como Chief Product Owner técnico</li>
+                                    <li>Define arquitetura cross-team</li>
+                                    <li>Alinha technical roadmap</li>
+                                    <li>Facilita comunidades de prática</li>
+                                    <li>Governance técnica</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4>No Kanban</h4>
+                                <ul>
+                                    <li>🎯 Portfolio Manager técnico</li>
+                                    <li>Gere fluxo entre equipas</li>
+                                    <li>Define políticas técnicas globais</li>
+                                    <li>Otimiza sistema de sistemas</li>
+                                    <li>Analisa métricas agregadas</li>
+                                    <li>Evolui capacidade organizacional</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="info-box" style="margin-top: 20px;">
+                            <strong>💡 TSL - Sempre Presente na Organização:</strong>
+                            <p style="margin-top: 10px;"><strong>Cenário 1 - TSL dedicado:</strong> Pessoa separada do Tech Lead, foca em múltiplas equipas</p>
+                            <p><strong>Cenário 2 - TSL = Tech Lead:</strong> Mesma pessoa acumula ambos os papéis (comum em equipas menores)</p>
+                            <p style="margin-top: 10px;">Em ambos os casos, as responsabilidades de governança vertical existem sempre.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tech Lead -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div>
+                            <strong>💻 Tech Lead</strong>
+                            <span class="role-badge role-current">Sempre Existe</span>
+                        </div>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="grid-2">
+                            <div>
+                                <h4>No Scrum</h4>
+                                <ul>
+                                    <li>🎯 Product Owner Técnico</li>
+                                    <li>Define prioridades técnicas</li>
+                                    <li>Gere technical debt</li>
+                                    <li>Decisões arquiteturais locais</li>
+                                    <li>Code review e qualidade</li>
+                                    <li>Mentoria técnica da equipa</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4>No Kanban</h4>
+                                <ul>
+                                    <li>💼 Tech Lead (papel mantido)</li>
+                                    <li>Define políticas técnicas</li>
+                                    <li>Prioriza trabalho técnico</li>
+                                    <li>Gere capacidade técnica</li>
+                                    <li>Analisa métricas de qualidade</li>
+                                    <li>Evolui práticas técnicas</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="success-box" style="margin-top: 20px;">
+                            <h4 style="color: white;">✅ Papel SEMPRE Presente - Cenários:</h4>
+                            <table style="width: 100%; color: white; margin-top: 10px;">
+                                <tr>
+                                    <td style="padding: 8px; width: 30%; border-right: 1px solid rgba(255,255,255,0.3);"><strong>TL Dedicado:</strong></td>
+                                    <td style="padding: 8px;">Tech Lead foca na equipa, TSL na vertical</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border-right: 1px solid rgba(255,255,255,0.3);"><strong>TL = TSL:</strong></td>
+                                    <td style="padding: 8px;">Mesma pessoa acumula liderança local + governança vertical</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border-right: 1px solid rgba(255,255,255,0.3);"><strong>Sem PO:</strong></td>
+                                    <td style="padding: 8px;">Tech Lead assume priorização completa do produto</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border-right: 1px solid rgba(255,255,255,0.3);"><strong>Sem FA:</strong></td>
+                                    <td style="padding: 8px;">Tech Lead lidera análise técnica com apoio da equipa</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Functional Analyst -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div>
+                            <strong>📊 Functional Analyst (FA)</strong>
+                            <span class="role-badge role-optional">Opcional</span>
+                        </div>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="grid-2">
+                            <div>
+                                <h4>No Scrum</h4>
+                                <ul>
+                                    <li>📝 Parte dos Developers</li>
+                                    <li>Especialista em análise</li>
+                                    <li>Define user stories detalhadas</li>
+                                    <li>Clarifica requisitos com PO</li>
+                                    <li>Cria critérios de aceitação</li>
+                                    <li>Valida funcionalidades</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4>No Kanban</h4>
+                                <ul>
+                                    <li>🔍 Business Analyst</li>
+                                    <li>Analisa fluxo de valor</li>
+                                    <li>Define requisitos just-in-time</li>
+                                    <li>Gere dependências funcionais</li>
+                                    <li>Mede impacto de negócio</li>
+                                    <li>Otimiza processos de negócio</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="success-box" style="margin-top: 20px;">
+                            <h4 style="color: white;">🔄 Quando NÃO existe FA - Distribuição de Responsabilidades:</h4>
+                            <table style="width: 100%; color: white; margin-top: 10px;">
+                                <tr>
+                                    <td style="padding: 8px; width: 40%; border-right: 1px solid rgba(255,255,255,0.3);"><strong>Análise de Requisitos:</strong></td>
+                                    <td style="padding: 8px;">Tech Lead (requisitos técnicos) + PO se existir (requisitos negócio)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border-right: 1px solid rgba(255,255,255,0.3);"><strong>User Stories:</strong></td>
+                                    <td style="padding: 8px;">Tech Lead escreve com input dos Team Members</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border-right: 1px solid rgba(255,255,255,0.3);"><strong>Critérios Aceitação:</strong></td>
+                                    <td style="padding: 8px;">Tech Lead define + SM valida completude + Team Members contribuem</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border-right: 1px solid rgba(255,255,255,0.3);"><strong>Validação:</strong></td>
+                                    <td style="padding: 8px;">Team Members (testes) + Tech Lead (aprovação final)</td>
+                                </tr>
+                            </table>
+                            <p style="margin-top: 10px; font-size: 0.9em;">💡 <strong>Nota:</strong> Sem FA dedicado, a análise torna-se responsabilidade colaborativa da equipa core</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scrum Master -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div>
+                            <strong>🏃 Scrum Master</strong>
+                            <span class="role-badge role-current">Sempre Existe</span>
+                        </div>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="grid-2">
+                            <div>
+                                <h4>No Scrum</h4>
+                                <ul>
+                                    <li>✅ Papel oficial obrigatório</li>
+                                    <li>Facilita todos os eventos Scrum</li>
+                                    <li>Coach em práticas ágeis</li>
+                                    <li>Remove impedimentos</li>
+                                    <li>Protege equipa de interrupções</li>
+                                    <li>Gere métricas de Sprint</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4>No Kanban</h4>
+                                <ul>
+                                    <li>📈 Flow Manager/Coach</li>
+                                    <li>Facilita fluxo de trabalho</li>
+                                    <li>Gere métricas de fluxo</li>
+                                    <li>Identifica bottlenecks</li>
+                                    <li>Facilita kaizen events</li>
+                                    <li>Evolui sistema Kanban</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="info-box" style="margin-top: 20px;">
+                            <strong>📋 Responsabilidades Adicionais quando papéis não existem:</strong>
+                            <p style="margin-top: 10px;"><strong>Sem PO:</strong> SM facilita comunicação com stakeholders e ajuda na gestão de expectativas</p>
+                            <p><strong>Sem FA:</strong> SM valida que critérios de aceitação estão completos e facilita sessões de refinamento</p>
+                            <p style="margin-top: 10px;">O SM mantém sempre o foco em processo e facilitação, apoiando a equipa na absorção de responsabilidades extras.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Members -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div>
+                            <strong>👥 Team Members</strong>
+                            <span class="role-badge role-current">Sempre Existem</span>
+                        </div>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="grid-2">
+                            <div>
+                                <h4>No Scrum</h4>
+                                <ul>
+                                    <li>👨‍💻 Developers (termo oficial)</li>
+                                    <li>Cross-functional</li>
+                                    <li>Auto-organizados</li>
+                                    <li>Responsáveis pelo incremento</li>
+                                    <li>Estimam trabalho</li>
+                                    <li>Participam em todas as cerimónias</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4>No Kanban</h4>
+                                <ul>
+                                    <li>🔧 Team Members</li>
+                                    <li>Especialização permitida</li>
+                                    <li>Puxam trabalho (pull system)</li>
+                                    <li>Respeitam limites WIP</li>
+                                    <li>Identificam bloqueios</li>
+                                    <li>Contribuem para melhoria contínua</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="note" style="margin-top: 20px;">
+                            <strong>👥 Responsabilidades Adicionais quando papéis não existem:</strong>
+                            <ul style="margin-top: 10px;">
+                                <li><strong>Sem FA:</strong> Team colabora na análise detalhada e refinamento de requisitos</li>
+                                <li><strong>Sem PO:</strong> Team fornece feedback direto sobre prioridades baseado em conhecimento técnico</li>
+                                <li><strong>Sempre:</strong> Team Members são a linha da frente na identificação de problemas e oportunidades</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Team Compositions -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 71.42%"></div>
+            </div>
+            <div class="slide-number">5 / 7 <span style="font-size: 0.8em;">🎭</span></div>
+            <div class="slide-header">
+                <h2>Composições de Equipa</h2>
+                <p class="subtitle">Diferentes configurações e como se adaptam a cada framework</p>
+            </div>
+
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button class="tab-button active" onclick="showTab('comp1')">📦 Completa</button>
+                    <button class="tab-button" onclick="showTab('comp2')">🔄 TSL como TL</button>
+                    <button class="tab-button" onclick="showTab('comp3')">⚡ Simplificada</button>
+                    <button class="tab-button" onclick="showTab('comp4')">🎯 Mínima</button>
+                </div>
+
+                <!-- Composition 1: Complete Team -->
+                <div id="comp1" class="tab-content active">
+                    <div class="team-composition">
+                        <h3>📦 Equipa Completa</h3>
+                        <p><strong>Composição:</strong> TSL + Tech Lead + PO + FA + SM + Team</p>
+                        
+                        <div class="roles-grid">
+                            <div class="role-card pulse">
+                                <div class="role-icon">🔧</div>
+                                <strong>TSL</strong>
+                            </div>
+                            <div class="role-card">
+                                <div class="role-icon">💻</div>
+                                <strong>Tech Lead</strong>
+                            </div>
+                            <div class="role-card">
+                                <div class="role-icon">👨‍💼</div>
+                                <strong>PO</strong>
+                            </div>
+                            <div class="role-card">
+                                <div class="role-icon">📊</div>
+                                <strong>FA</strong>
+                            </div>
+                            <div class="role-card">
+                                <div class="role-icon">🏃</div>
+                                <strong>SM</strong>
+                            </div>
+                            <div class="role-card">
+                                <div class="role-icon">👥</div>
+                                <strong>Team</strong>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 30px;">Mapeamento para Scrum</h4>
+                        <table class="comparison-table">
+                            <tr>
+                                <th>Papel Atual</th>
+                                <th>Papel Scrum</th>
+                                <th>Responsabilidades</th>
+                            </tr>
+                            <tr>
+                                <td>TSL</td>
+                                <td>Chief PO / Architect</td>
+                                <td>Governança técnica cross-team, alinhamento arquitetural</td>
+                            </tr>
+                            <tr>
+                                <td>Tech Lead</td>
+                                <td>Developer Senior</td>
+                                <td>Liderança técnica local, mentoria, code review</td>
+                            </tr>
+                            <tr>
+                                <td>PO</td>
+                                <td>Product Owner ✅</td>
+                                <td>Visão produto, priorização backlog, stakeholder management</td>
+                            </tr>
+                            <tr>
+                                <td>FA</td>
+                                <td>Developer (Analyst)</td>
+                                <td>Análise funcional, user stories, critérios aceitação</td>
+                            </tr>
+                            <tr>
+                                <td>SM</td>
+                                <td>Scrum Master ✅</td>
+                                <td>Facilitação, coaching, métricas, impedimentos</td>
+                            </tr>
+                            <tr>
+                                <td>Team</td>
+                                <td>Developers ✅</td>
+                                <td>Desenvolvimento, testes, entrega incremento</td>
+                            </tr>
+                        </table>
+
+                        <div class="success-box" style="margin-top: 20px;">
+                            <strong>✅ Vantagens desta configuração:</strong>
+                            <ul>
+                                <li>Separação clara de responsabilidades</li>
+                                <li>Especialização máxima</li>
+                                <li>Escalabilidade para projetos grandes</li>
+                                <li>Governança robusta</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition 2: TSL as Tech Lead -->
+                <div id="comp2" class="tab-content">
+                    <div class="team-composition">
+                        <h3>🔄 TSL servindo como Tech Lead</h3>
+                        <p><strong>Composição:</strong> TSL (como TL) + FA + SM + Team</p>
+                        
+                        <div class="roles-grid">
+                            <div class="role-card pulse">
+                                <div class="role-icon">🔧💻</div>
+                                <strong>TSL/TL</strong>
+                                <span class="role-badge role-combined">Combinado</span>
+                            </div>
+                            <div class="role-card">
+                                <div class="role-icon">📊</div>
+                                <strong>FA</strong>
+                            </div>
+                            <div class="role-card">
+                                <div class="role-icon">🏃</div>
+                                <strong>SM</strong>
+                            </div>
+                            <div class="role-card">
+                                <div class="role-icon">👥</div>
+                                <strong>Team</strong>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 30px;">Mapeamento para Scrum</h4>
+                        <table class="comparison-table">
+                            <tr>
+                                <th>Papel Atual</th>
+                                <th>Papel Scrum</th>
+                                <th>Responsabilidades</th>
+                            </tr>
+                            <tr>
+                                <td>TSL/TL</td>
+                                <td>Product Owner Técnico</td>
+                                <td>Priorização técnica + governança + arquitetura</td>
+                            </tr>
+                            <tr>
+                                <td>FA</td>
+                                <td>Proxy PO / Developer</td>
+                                <td>Requisitos negócio + análise funcional</td>
+                            </tr>
+                            <tr>
+                                <td>SM</td>
+                                <td>Scrum Master ✅</td>
+                                <td>Facilitação + coaching + métricas</td>
+                            </tr>
+                            <tr>
+                                <td>Team</td>
+                                <td>Developers ✅</td>
+                                <td>Desenvolvimento + testes + entrega</td>
+                            </tr>
+                        </table>
+
+                        <div class="warning-box" style="margin-top: 20px;">
+                            <strong>⚠️ Pontos de atenção:</strong>
+                            <ul>
+                                <li>TSL pode ficar sobrecarregado com dupla função</li>
+                                <li>FA assume responsabilidades de requisitos de negócio do PO</li>
+                                <li>Tech Lead (TSL) mantém toda a priorização técnica e estratégica</li>
+                                <li>SM facilita comunicação com stakeholders na ausência do PO</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition 3: Simplified -->
+                <div id="comp3" class="tab-content">
+                    <div class="team-composition">
+                        <h3>⚡ Equipa Simplificada</h3>
+                        <p><strong>Composição:</strong> TSL + Tech Lead + SM + Team</p>
+                        
+                        <div class="roles-grid">
+                            <div class="role-card">
+                                <div class="role-icon">🔧</div>
+                                <strong>TSL</strong>
+                            </div>
+                            <div class="role-card pulse">
+                                <div class="role-icon">💻</div>
+                                <strong>Tech Lead</strong>
+                            </div>
+                            <div class="role-card">
+                                <div class="role-icon">🏃</div>
+                                <strong>SM</strong>
+                            </div>
+                            <div class="role-card">
+                                <div class="role-icon">👥</div>
+                                <strong>Team</strong>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 30px;">Distribuição de Responsabilidades</h4>
+                        <table class="comparison-table">
+                            <tr>
+                                <th>Responsabilidade</th>
+                                <th>Scrum</th>
+                                <th>Kanban</th>
+                            </tr>
+                            <tr>
+                                <td>Priorização Negócio</td>
+                                <td>Tech Lead (como PO)</td>
+                                <td>Tech Lead + TSL</td>
+                            </tr>
+                            <tr>
+                                <td>Análise Funcional</td>
+                                <td>Team (Developers)</td>
+                                <td>Team Members + Tech Lead</td>
+                            </tr>
+                            <tr>
+                                <td>Arquitetura</td>
+                                <td>TSL + Tech Lead</td>
+                                <td>TSL (estratégica) + TL (tática)</td>
+                            </tr>
+                            <tr>
+                                <td>Facilitação</td>
+                                <td>Scrum Master</td>
+                                <td>SM (Flow Manager)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Composition 4: Minimal -->
+                <div id="comp4" class="tab-content">
+                    <div class="team-composition">
+                        <h3>🎯 Equipa Mínima</h3>
+                        <p><strong>Composição:</strong> TSL (como TL) + SM + Team</p>
+                        
+                        <div class="roles-grid">
+                            <div class="role-card pulse">
+                                <div class="role-icon">🔧💻</div>
+                                <strong>TSL/TL</strong>
+                                <span class="role-badge role-combined">Combinado</span>
+                            </div>
+                            <div class="role-card">
+                                <div class="role-icon">🏃</div>
+                                <strong>SM</strong>
+                            </div>
+                            <div class="role-card">
+                                <div class="role-icon">👥</div>
+                                <strong>Team</strong>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 30px;">Adaptação Framework</h4>
+                        <div class="grid-2">
+                            <div>
+                                <h5>🏉 No Scrum</h5>
+                                <ul>
+                                    <li>TSL/TL = Product Owner</li>
+                                    <li>SM = Scrum Master</li>
+                                    <li>Team = Developers (incluindo análise)</li>
+                                </ul>
+                                <div class="note" style="margin-top: 10px;">
+                                    Configuração mínima viável para Scrum
+                                </div>
+                            </div>
+                            <div>
+                                <h5>📋 No Kanban</h5>
+                                <ul>
+                                    <li>TSL/TL mantém papel atual</li>
+                                    <li>SM evolui para Flow Manager</li>
+                                    <li>Team auto-organizado com pull system</li>
+                                </ul>
+                                <div class="note" style="margin-top: 10px;">
+                                    Transição mais suave e natural
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Mapping & Practice -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 85.71%"></div>
+            </div>
+            <div class="slide-number">6 / 7 <span style="font-size: 0.8em;">🔄</span></div>
+            <div class="slide-header">
+                <h2>Mapeamento e Prática</h2>
+                <p class="subtitle">Transformação de papéis e fluxos de trabalho</p>
+            </div>
+
+            <h3>📊 Matriz de Transformação</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Papel</th>
+                        <th colspan="2">Scrum</th>
+                        <th colspan="2">Kanban/Lean</th>
+                    </tr>
+                    <tr>
+                        <th>Mapeamento</th>
+                        <th>Responsabilidades</th>
+                        <th>Evolução</th>
+                        <th>Foco</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Product Owner</strong><br><span class="role-badge role-optional">Se existir</span></td>
+                        <td>Product Owner ✅</td>
+                        <td>Backlog, Valor, Stakeholders</td>
+                        <td>Service Request Manager</td>
+                        <td>Demanda, Classes Serviço, Métricas Valor</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td><strong>Tech Stream Lead</strong><br><span class="role-badge role-optional">Se existir</span></td>
+                        <td>Chief PO / Architect</td>
+                        <td>Governança, Arquitetura Cross-team</td>
+                        <td>Portfolio Manager</td>
+                        <td>Sistema de Sistemas, Capacidade Org</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tech Lead</strong><br><span class="role-badge role-current">Core</span></td>
+                        <td>PO Técnico / Dev Senior</td>
+                        <td>Priorização Técnica, Mentoria</td>
+                        <td>Tech Lead</td>
+                        <td>Políticas Técnicas, Fluxo Técnico</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td><strong>Functional Analyst</strong><br><span class="role-badge role-optional">Se existir</span></td>
+                        <td>Developer (Analyst)</td>
+                        <td>User Stories, Critérios Aceitação</td>
+                        <td>Business Analyst</td>
+                        <td>Fluxo Valor, Requisitos JIT</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scrum Master</strong><br><span class="role-badge role-current">Core</span></td>
+                        <td>Scrum Master ✅</td>
+                        <td>Facilitação, Coaching, Eventos</td>
+                        <td>Flow Manager</td>
+                        <td>Métricas Fluxo, Kaizen, Sistema</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td><strong>Team Members</strong><br><span class="role-badge role-current">Core</span></td>
+                        <td>Developers ✅</td>
+                        <td>Incremento, Auto-organização</td>
+                        <td>Team Members</td>
+                        <td>Pull System, WIP, Melhoria</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>🎯 Cenários de Decisão - Quem Assume o Quê</h3>
+            
+            <div class="warning-box" style="background: linear-gradient(135deg, #ff6b6b 0%, #ff4757 100%);">
+                <h3 style="margin-top: 0; color: white;">📋 Matriz de Cobertura de Responsabilidades</h3>
+                <p style="color: white; margin-bottom: 15px;"><strong>Quando papéis opcionais não existem, a equipa core assume:</strong></p>
+                
+                <table style="width: 100%; background: white; border-radius: 8px; overflow: hidden; color: #333;">
+                    <thead>
+                        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <th style="padding: 12px;">Cenário</th>
+                            <th style="padding: 12px;">Responsabilidades do PO</th>
+                            <th style="padding: 12px;">Responsabilidades do FA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f8f9fa; color: #333;">
+                            <td style="padding: 12px; color: #333;"><strong>Sem PO, Com FA</strong></td>
+                            <td style="padding: 12px; color: #333;">
+                                <strong>Tech Lead:</strong> Priorização<br>
+                                <strong>FA:</strong> Requisitos negócio<br>
+                                <strong>SM:</strong> Facilitação stakeholders
+                            </td>
+                            <td style="padding: 12px; color: #333;">FA mantém papel normal</td>
+                        </tr>
+                        <tr style="color: #333;">
+                            <td style="padding: 12px; color: #333;"><strong>Com PO, Sem FA</strong></td>
+                            <td style="padding: 12px; color: #333;">PO mantém papel normal</td>
+                            <td style="padding: 12px; color: #333;">
+                                <strong>PO:</strong> Requisitos alto nível<br>
+                                <strong>Tech Lead:</strong> Análise técnica<br>
+                                <strong>Team:</strong> Detalhamento
+                            </td>
+                        </tr>
+                        <tr style="background: #f8f9fa; color: #333;">
+                            <td style="padding: 12px; color: #333;"><strong>Sem PO, Sem FA</strong></td>
+                            <td style="padding: 12px; color: #333;">
+                                <strong>Tech Lead:</strong> Priorização completa<br>
+                                <strong>SM:</strong> Interface stakeholders<br>
+                                <strong>Team:</strong> Feedback utilizador
+                            </td>
+                            <td style="padding: 12px; color: #333;">
+                                <strong>Tech Lead:</strong> Requisitos principais<br>
+                                <strong>Team:</strong> Análise colaborativa<br>
+                                <strong>SM:</strong> Validação processo
+                            </td>
+                        </tr>
+                        <tr style="color: #333;">
+                            <td style="padding: 12px; color: #333;"><strong>Com PO e FA</strong></td>
+                            <td style="padding: 12px; color: #333;">PO - papel completo</td>
+                            <td style="padding: 12px; color: #333;">FA - papel completo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>📊 Métricas por Papel</h3>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Papel</th>
+                        <th>Métricas Scrum</th>
+                        <th>Métricas Kanban</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>PO / Service Manager</strong></td>
+                        <td>
+                            • Valor entregue por Sprint<br>
+                            • Satisfação stakeholders<br>
+                            • ROI features<br>
+                            • Backlog health
+                        </td>
+                        <td>
+                            • Customer lead time<br>
+                            • Valor por classe de serviço<br>
+                            • Throughput de valor<br>
+                            • Satisfação contínua
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tech Lead</strong></td>
+                        <td>
+                            • Technical debt ratio<br>
+                            • Code quality metrics<br>
+                            • Architecture fitness<br>
+                            • Team skill growth
+                        </td>
+                        <td>
+                            • Defect rate<br>
+                            • Technical WIP<br>
+                            • Rework percentage<br>
+                            • Tech excellence trends
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scrum Master / Flow Manager</strong></td>
+                        <td>
+                            • Velocity<br>
+                            • Sprint burndown<br>
+                            • Team happiness<br>
+                            • Impediments resolved
+                        </td>
+                        <td>
+                            • Cycle time<br>
+                            • Flow efficiency<br>
+                            • WIP limits adherence<br>
+                            • Blocker clustering
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Slide 7: Recommendations -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%"></div>
+            </div>
+            <div class="slide-number">7 / 7 <span style="font-size: 0.8em;">✅</span></div>
+            <div class="slide-header">
+                <h2>Recomendações Finais</h2>
+                <p class="subtitle">Guia de decisão baseado na sua composição de equipa</p>
+            </div>
+
+            <h3>🎯 Análise por Composição</h3>
+            
+            <div class="team-composition" style="background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);">
+                <h3>✅ Melhor para Scrum</h3>
+                <div class="grid-2">
+                    <div>
+                        <h4>Composições Ideais:</h4>
+                        <ul>
+                            <li>✅ PO + TL + SM + Team</li>
+                            <li>✅ TSL + PO + TL + FA + SM + Team</li>
+                            <li>⚠️ TL (como PO) + SM + Team</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Quando escolher:</h4>
+                        <ul>
+                            <li>Organização quer transformação clara</li>
+                            <li>Projetos com scope definido</li>
+                            <li>Equipas que precisam de estrutura</li>
+                            <li>Cultura que valoriza cerimónias</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="team-composition" style="background: linear-gradient(135deg, #cff4fc 0%, #b6e5fc 100%); margin-top: 20px;">
+                <h3>✅ Melhor para Kanban</h3>
+                <div class="grid-2">
+                    <div>
+                        <h4>Composições Ideais:</h4>
+                        <ul>
+                            <li>✅ Qualquer composição existente</li>
+                            <li>✅ TSL/TL + SM + Team</li>
+                            <li>✅ Estruturas híbridas/variáveis</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Quando escolher:</h4>
+                        <ul>
+                            <li>Minimizar disrupção organizacional</li>
+                            <li>Trabalho com fluxo contínuo</li>
+                            <li>Equipas maduras e autónomas</li>
+                            <li>Múltiplas classes de trabalho</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>⚖️ Matriz de Decisão</h3>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Critério</th>
+                        <th>Favorece Scrum</th>
+                        <th>Favorece Kanban</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Composição Equipa</strong></td>
+                        <td>PO dedicado existe ✅</td>
+                        <td>Sem PO ou papéis fluidos ✅</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TSL vs Tech Lead</strong></td>
+                        <td>Papéis separados ✅</td>
+                        <td>Papel combinado ✅</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Maturidade Ágil</strong></td>
+                        <td>Iniciando jornada ✅</td>
+                        <td>Já tem práticas ágeis ✅</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tipo de Trabalho</strong></td>
+                        <td>Projetos definidos ✅</td>
+                        <td>Fluxo contínuo/suporte ✅</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box" style="margin-top: 30px; text-align: center; background: linear-gradient(135deg, #48dbfb 0%, #0abde3 100%);">
+                <h2 style="margin-top: 0; color: white;">📌 Recomendação Final Personalizada</h2>
+                <p style="font-size: 1.2em; margin: 20px 0; color: white;">
+                    <strong>Analise a sua composição atual de equipa:</strong>
+                </p>
+                <div style="background: white; border-radius: 10px; padding: 20px; color: #2c3e50;">
+                    <h4 style="color: #667eea; margin-bottom: 15px;">🎯 Decisão Baseada na Composição:</h4>
+                    <p style="font-size: 1.1em; text-align: left;">
+                        <strong>✅ Equipa completa (TSL + TL + PO + FA + SM + Team):</strong><br>
+                        → Ambos os frameworks funcionam perfeitamente<br><br>
+                        
+                        <strong>⚠️ Sem PO (TSL + TL + FA + SM + Team):</strong><br>
+                        → Kanban mais flexível | Scrum: TL assume PO<br><br>
+                        
+                        <strong>⚠️ Sem FA (TSL + TL + PO + SM + Team):</strong><br>
+                        → Ambos funcionam | Análise distribuída pela equipa<br><br>
+                        
+                        <strong>🔄 Sem PO nem FA (TSL + TL + SM + Team):</strong><br>
+                        → Kanban recomendado | Scrum possível mas com sobrecarga do TL<br><br>
+                        
+                        <strong>💡 TSL = TL (papéis combinados):</strong><br>
+                        → Kanban mais natural | Scrum: risco de sobrecarga
+                    </p>
+                </div>
+                <p style="margin-top: 20px; color: white;">
+                    <em>Lembre-se: A equipa core (TL + SM + Team) sempre consegue absorver responsabilidades dos papéis opcionais!</em>
+                </p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button id="prevBtn" onclick="changeSlide(-1)">← Anterior</button>
+            <button id="nextBtn" onclick="changeSlide(1)">Próximo →</button>
+        </div>
+
+        <!-- Menu button -->
+        <button class="menu-btn" onclick="goToSlide(2)">📚 Menu</button>
+
+        <!-- Navigation dots -->
+        <div class="nav-dots" id="navDots"></div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 7;
+
+        // Initialize navigation dots
+        function initNavDots() {
+            const dotsContainer = document.getElementById('navDots');
+            for (let i = 1; i <= totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'nav-dot';
+                if (i === 1) dot.classList.add('active');
+                dot.onclick = () => goToSlide(i);
+                dot.title = `Slide ${i}`;
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function updateProgressBar() {
+            const progressFill = document.querySelector('.slide.active .progress-fill');
+            if (progressFill) {
+                progressFill.style.width = `${(currentSlide / totalSlides) * 100}%`;
+            }
+        }
+
+        function updateNavDots() {
+            const dots = document.querySelectorAll('.nav-dot');
+            dots.forEach((dot, index) => {
+                if (index + 1 === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        function showSlide(n) {
+            const slides = document.getElementsByClassName('slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            if (n > totalSlides) currentSlide = totalSlides;
+            if (n < 1) currentSlide = 1;
+
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active');
+            }
+
+            slides[currentSlide - 1].classList.add('active');
+
+            prevBtn.disabled = currentSlide === 1;
+            nextBtn.disabled = currentSlide === totalSlides;
+
+            // Update button text on last slide
+            if (currentSlide === totalSlides) {
+                nextBtn.textContent = 'Fim';
+            } else {
+                nextBtn.textContent = 'Próximo →';
+            }
+
+            updateProgressBar();
+            updateNavDots();
+        }
+
+        function changeSlide(n) {
+            currentSlide += n;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            showSlide(currentSlide);
+        }
+
+        // Tab functionality
+        function showTab(tabId) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Update tab buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        // Accordion functionality
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const isActive = header.classList.contains('active');
+            
+            // Close all accordions in the same container
+            const accordionItems = header.closest('.accordion').querySelectorAll('.accordion-header');
+            accordionItems.forEach(item => {
+                item.classList.remove('active');
+                item.nextElementSibling.classList.remove('active');
+            });
+            
+            // Open clicked accordion if it wasn't active
+            if (!isActive) {
+                header.classList.add('active');
+                content.classList.add('active');
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === 'm' || e.key === 'M') goToSlide(2); // Menu
+            if (e.key === 'Home') goToSlide(1);
+            if (e.key === 'End') goToSlide(totalSlides);
+            // Number keys for first 7 slides
+            if (e.key >= '1' && e.key <= '7') {
+                goToSlide(parseInt(e.key));
+            }
+        });
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) changeSlide(1); // Swipe left
+            if (touchEndX > touchStartX + 50) changeSlide(-1); // Swipe right
+        }
+
+        // Initialize
+        initNavDots();
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
