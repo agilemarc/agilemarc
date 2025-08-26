@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixed vs Growth Mindset - Transforme a Sua Mentalidade</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 60%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255,255,255,0.05) 0%, transparent 50%);
+            animation: floatBackground 25s ease-in-out infinite;
+        }
+
+        @keyframes floatBackground {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-20px, -20px) rotate(120deg); }
+            66% { transform: translate(20px, -10px) rotate(240deg); }
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide {
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px;
+            display: none;
+            animation: slideIn 0.5s ease-out;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-header {
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 3em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #764ba2;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            padding-left: 20px;
+        }
+
+        h3 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.3em;
+            font-style: italic;
+        }
+
+        /* Menu/Navigation Styles */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .menu-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+            opacity: 0;
+        }
+
+        .menu-item:hover::before {
+            animation: shine 0.5s ease-in-out;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .menu-item h4 {
+            color: #667eea;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .menu-item p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 20px 20px 0 0;
+            transition: width 0.5s ease;
+        }
+
+        /* Navigation buttons */
+        .navigation {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .menu-btn {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            position: absolute;
+            left: 30px;
+            bottom: 30px;
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #999;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Mindset comparison cards */
+        .mindset-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .mindset-card {
+            border-radius: 15px;
+            padding: 25px;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fixed-mindset {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .growth-mindset {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .mindset-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .mindset-card h3 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .mindset-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .mindset-card li {
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .mindset-card li:before {
+            content: "×";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+
+        .growth-mindset li:before {
+            content: "✓";
+        }
+
+        /* Value cards */
+        .value-card {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            transform: scale(1.02);
+        }
+
+        /* Grid layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        /* Success and warning boxes */
+        .warning-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.3);
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(56, 239, 125, 0.3);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Brain illustration */
+        .brain-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 40px 0;
+        }
+
+        .brain-side {
+            text-align: center;
+            flex: 1;
+            padding: 20px;
+        }
+
+        .brain-icon {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+        }
+
+        .fixed-brain {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .growth-brain {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .growth-brain::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+            100% { transform: scale(0.8); opacity: 1; }
+        }
+
+        /* Quote styles */
+        .quote-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            position: relative;
+            font-style: italic;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .quote-box::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 4em;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Example cards */
+        .example-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .example-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Scenario boxes */
+        .scenario-box {
+            background: white;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .fixed-scenario {
+            border-left-color: #f5576c;
+        }
+
+        .growth-scenario {
+            border-left-color: #00f2fe;
+        }
+
+        /* Transformation steps */
+        .transformation-steps {
+            counter-reset: step-counter;
+            margin: 30px 0;
+        }
+
+        .step-card {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 20px 20px 20px 60px;
+            margin: 20px 0;
+            position: relative;
+            counter-increment: step-counter;
+            transition: all 0.3s ease;
+        }
+
+        .step-card::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .step-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        /* Navigation dots */
+        .nav-dots {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #667eea;
+            transform: scale(1.3);
+        }
+
+        .nav-dot:hover {
+            background: #764ba2;
+            transform: scale(1.2);
+        }
+
+        /* Keyboard hint */
+        .keyboard-hint {
+            position: absolute;
+            bottom: 10px;
+            right: 30px;
+            color: #999;
+            font-size: 0.8em;
+            opacity: 0.7;
+        }
+
+        /* Strategy grid */
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .strategy-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-top: 5px solid;
+            transition: all 0.3s ease;
+        }
+
+        .strategy-card:nth-child(1) { border-top-color: #667eea; }
+        .strategy-card:nth-child(2) { border-top-color: #764ba2; }
+        .strategy-card:nth-child(3) { border-top-color: #11998e; }
+        .strategy-card:nth-child(4) { border-top-color: #f5576c; }
+        .strategy-card:nth-child(5) { border-top-color: #00f2fe; }
+        .strategy-card:nth-child(6) { border-top-color: #fcb69f; }
+
+        .strategy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .strategy-card h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        /* Animation for lists */
+        .animated-list li {
+            animation: fadeInLeft 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animated-list li:nth-child(1) { animation-delay: 0.1s; }
+        .animated-list li:nth-child(2) { animation-delay: 0.2s; }
+        .animated-list li:nth-child(3) { animation-delay: 0.3s; }
+        .animated-list li:nth-child(4) { animation-delay: 0.4s; }
+        .animated-list li:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 6.67%"></div>
+            </div>
+            <div class="slide-number">1 / 15 <span style="font-size: 0.8em;">🧠</span></div>
+            <div style="display: flex; flex-direction: column; justify-content: center; height: 100%; text-align: center;">
+                <h1 style="font-size: 4em; margin-bottom: 30px;">Mindset</h1>
+                <p class="subtitle" style="font-size: 1.8em; margin-bottom: 40px;">Fixed vs Growth</p>
+                <div style="margin-top: 50px;">
+                    <p style="font-size: 1.2em; color: #666; margin-bottom: 20px;">Transforme a Sua Mentalidade</p>
+                    <p style="font-size: 1em; color: #999;">Baseado na investigação de Carol Dweck</p>
+                </div>
+                <div class="brain-container" style="margin-top: 60px;">
+                    <div class="brain-side">
+                        <div class="brain-icon fixed-brain">🔒</div>
+                        <p style="color: #f5576c;">Fixed Mindset</p>
+                    </div>
+                    <div class="brain-side">
+                        <div class="brain-icon growth-brain">🚀</div>
+                        <p style="color: #00f2fe;">Growth Mindset</p>
+                    </div>
+                </div>
+            </div>
+            <div class="keyboard-hint">Use ← → ou clique nos botões | M para Menu</div>
+        </div>
+
+        <!-- Slide 2: Menu -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 13.33%"></div>
+            </div>
+            <div class="slide-number">2 / 15 <span style="font-size: 0.8em;">📚</span></div>
+            <div class="slide-header">
+                <h2>Navegação Rápida</h2>
+                <p class="subtitle">Clique em qualquer tópico para explorar</p>
+            </div>
+            
+            <div class="menu-grid">
+                <div class="menu-item" onclick="goToSlide(3)">
+                    <h4>🧠 O Que É Mindset</h4>
+                    <p>Definição e importância</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(4)">
+                    <h4>🔒 Fixed Mindset</h4>
+                    <p>Características e limitações</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(5)">
+                    <h4>🚀 Growth Mindset</h4>
+                    <p>Características e benefícios</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(6)">
+                    <h4>⚖️ Comparação Direta</h4>
+                    <p>Fixed vs Growth lado a lado</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(7)">
+                    <h4>💼 No Ambiente de Trabalho</h4>
+                    <p>Impacto profissional</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(8)">
+                    <h4>🎯 Cenários Práticos</h4>
+                    <p>Exemplos do dia-a-dia</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(9)">
+                    <h4>🧩 Desafios e Fracassos</h4>
+                    <p>Como cada mindset reage</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(10)">
+                    <h4>📈 Feedback e Críticas</h4>
+                    <p>Diferentes perspetivas</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(11)">
+                    <h4>🔄 Como Mudar</h4>
+                    <p>Desenvolver Growth Mindset</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(12)">
+                    <h4>💡 Estratégias Práticas</h4>
+                    <p>Técnicas e exercícios</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(13)">
+                    <h4>👥 Para Líderes</h4>
+                    <p>Promover Growth na equipa</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(14)">
+                    <h4>⚠️ Sinais de Alerta</h4>
+                    <p>Identificar Fixed Mindset</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(15)">
+                    <h4>🎯 Conclusão</h4>
+                    <p>Pontos-chave e ação</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: O Que É Mindset -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 20%"></div>
+            </div>
+            <div class="slide-number">3 / 15 <span style="font-size: 0.8em;">🧠</span></div>
+            <div class="slide-header">
+                <h2>O Que É Mindset?</h2>
+                <p class="subtitle">A base da nossa relação com aprendizagem e desenvolvimento</p>
+            </div>
+            
+            <div class="info-box">
+                <h3 style="color: white; margin-top: 0;">📖 Definição</h3>
+                <p style="font-size: 1.1em;">Mindset é o conjunto de crenças que moldam como interpretamos e respondemos a situações. É a "lente" através da qual vemos nossas capacidades e potencial.</p>
+            </div>
+
+            <div class="grid">
+                <div class="value-card">
+                    <h3 style="color: #667eea; margin-top: 0;">🔬 A Ciência</h3>
+                    <p>Carol Dweck, psicóloga de Stanford, descobriu que o sucesso depende mais da nossa mentalidade do que do talento inato.</p>
+                    <div style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                        <small><strong>Estudo:</strong> 30+ anos de investigação com milhares de participantes</small>
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <h3 style="color: #667eea; margin-top: 0;">🌱 Neuroplasticidade</h3>
+                    <p>O cérebro pode formar novas conexões durante toda a vida. Não estamos "presos" às nossas capacidades atuais.</p>
+                    <div style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                        <small><strong>Facto:</strong> O cérebro continua a desenvolver-se até aos 25 anos e adapta-se sempre</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote-box">
+                "Tornar-se é melhor do que ser. Ainda não sei tocar piano, mas posso aprender."
+                <p style="text-align: right; margin-top: 15px; font-style: normal;">- Carol Dweck</p>
+            </div>
+
+            <h3>Por Que É Importante?</h3>
+            <div class="success-box">
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 10px 0;">✓ Determina como enfrentamos desafios</li>
+                    <li style="margin: 10px 0;">✓ Influencia a nossa resiliência</li>
+                    <li style="margin: 10px 0;">✓ Afeta relacionamentos e colaboração</li>
+                    <li style="margin: 10px 0;">✓ Define limites (reais ou imaginários) do nosso potencial</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 4: Fixed Mindset -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 26.67%"></div>
+            </div>
+            <div class="slide-number">4 / 15 <span style="font-size: 0.8em;">🔒</span></div>
+            <div class="slide-header">
+                <h2>Fixed Mindset - Mentalidade Fixa</h2>
+                <p class="subtitle">Quando acreditamos que as capacidades são estáticas</p>
+            </div>
+
+            <div class="warning-box">
+                <h3 style="margin-top: 0;">🔒 Crença Central</h3>
+                <p>"A inteligência, talento e capacidades são traços fixos. Ou tenho ou não tenho."</p>
+            </div>
+
+            <h3>Características Principais</h3>
+            <div class="example-card">
+                <ul class="animated-list" style="list-style: none; padding: 0;">
+                    <li style="margin: 15px 0;">❌ <strong>Evita desafios</strong> - "Se falhar, vão pensar que não sou capaz"</li>
+                    <li style="margin: 15px 0;">❌ <strong>Desiste facilmente</strong> - "Não nasci para isto"</li>
+                    <li style="margin: 15px 0;">❌ <strong>Ignora feedback negativo</strong> - "Não sabem do que falam"</li>
+                    <li style="margin: 15px 0;">❌ <strong>Sente-se ameaçado pelo sucesso dos outros</strong> - "Teve sorte"</li>
+                    <li style="margin: 15px 0;">❌ <strong>Esconde erros e fraquezas</strong> - "Não posso parecer incompetente"</li>
+                </ul>
+            </div>
+
+            <h3>Frases Típicas</h3>
+            <div class="scenario-box fixed-scenario">
+                <p style="margin: 10px 0;">💭 "Não sou bom com números"</p>
+                <p style="margin: 10px 0;">💭 "Sempre fui assim"</p>
+                <p style="margin: 10px 0;">💭 "Não tenho jeito para tecnologia"</p>
+                <p style="margin: 10px 0;">💭 "Ou se nasce líder ou não"</p>
+                <p style="margin: 10px 0;">💭 "Já sou demasiado velho para aprender"</p>
+            </div>
+
+            <h3>Consequências</h3>
+            <div class="grid">
+                <div class="value-card" style="border-color: #f5576c;">
+                    <h4 style="color: #f5576c;">🚫 Pessoais</h4>
+                    <ul style="font-size: 0.9em;">
+                        <li>Potencial não desenvolvido</li>
+                        <li>Baixa resiliência</li>
+                        <li>Medo constante de falhar</li>
+                        <li>Autoestima frágil</li>
+                    </ul>
+                </div>
+                <div class="value-card" style="border-color: #f5576c;">
+                    <h4 style="color: #f5576c;">🚫 Profissionais</h4>
+                    <ul style="font-size: 0.9em;">
+                        <li>Estagnação na carreira</li>
+                        <li>Resistência à mudança</li>
+                        <li>Dificuldade em colaborar</li>
+                        <li>Evita responsabilidades</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Growth Mindset -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 33.33%"></div>
+            </div>
+            <div class="slide-number">5 / 15 <span style="font-size: 0.8em;">🚀</span></div>
+            <div class="slide-header">
+                <h2>Growth Mindset - Mentalidade de Crescimento</h2>
+                <p class="subtitle">Quando acreditamos no poder do desenvolvimento</p>
+            </div>
+
+            <div class="success-box">
+                <h3 style="margin-top: 0;">🚀 Crença Central</h3>
+                <p>"As capacidades podem ser desenvolvidas através de dedicação, trabalho e aprendizagem."</p>
+            </div>
+
+            <h3>Características Principais</h3>
+            <div class="example-card" style="background: linear-gradient(135deg, #e8f5ff 0%, #cce7ff 100%);">
+                <ul class="animated-list" style="list-style: none; padding: 0;">
+                    <li style="margin: 15px 0;">✅ <strong>Abraça desafios</strong> - "Oportunidade para crescer"</li>
+                    <li style="margin: 15px 0;">✅ <strong>Persiste face a obstáculos</strong> - "Ainda não consegui"</li>
+                    <li style="margin: 15px 0;">✅ <strong>Aprende com críticas</strong> - "Como posso melhorar?"</li>
+                    <li style="margin: 15px 0;">✅ <strong>Inspira-se no sucesso dos outros</strong> - "O que posso aprender?"</li>
+                    <li style="margin: 15px 0;">✅ <strong>Vê o esforço como caminho</strong> - "Prática leva à mestria"</li>
+                </ul>
+            </div>
+
+            <h3>Frases Típicas</h3>
+            <div class="scenario-box growth-scenario">
+                <p style="margin: 10px 0;">💭 "Ainda não sei fazer isto"</p>
+                <p style="margin: 10px 0;">💭 "O que posso aprender com este erro?"</p>
+                <p style="margin: 10px 0;">💭 "Isto é desafiante - ótimo!"</p>
+                <p style="margin: 10px 0;">💭 "Vou precisar de praticar mais"</p>
+                <p style="margin: 10px 0;">💭 "Que estratégia diferente posso tentar?"</p>
+            </div>
+
+            <h3>Benefícios</h3>
+            <div class="grid">
+                <div class="value-card" style="border-color: #00f2fe;">
+                    <h4 style="color: #00f2fe;">🌟 Pessoais</h4>
+                    <ul style="font-size: 0.9em;">
+                        <li>Aprendizagem contínua</li>
+                        <li>Alta resiliência</li>
+                        <li>Maior criatividade</li>
+                        <li>Autoconfiança sólida</li>
+                    </ul>
+                </div>
+                <div class="value-card" style="border-color: #00f2fe;">
+                    <h4 style="color: #00f2fe;">🌟 Profissionais</h4>
+                    <ul style="font-size: 0.9em;">
+                        <li>Progressão acelerada</li>
+                        <li>Adaptabilidade</li>
+                        <li>Liderança eficaz</li>
+                        <li>Inovação constante</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Comparação Direta -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 40%"></div>
+            </div>
+            <div class="slide-number">6 / 15 <span style="font-size: 0.8em;">⚖️</span></div>
+            <div class="slide-header">
+                <h2>Fixed vs Growth - Comparação Direta</h2>
+                <p class="subtitle">Como cada mindset vê o mundo</p>
+            </div>
+
+            <div class="mindset-comparison">
+                <div class="mindset-card fixed-mindset">
+                    <h3>🔒 Fixed Mindset</h3>
+                    <ul>
+                        <li><strong>Inteligência:</strong> É estática</li>
+                        <li><strong>Desafios:</strong> Evita-os</li>
+                        <li><strong>Obstáculos:</strong> Desiste facilmente</li>
+                        <li><strong>Esforço:</strong> É inútil</li>
+                        <li><strong>Feedback:</strong> Ignora o negativo</li>
+                        <li><strong>Sucesso dos outros:</strong> Ameaça</li>
+                        <li><strong>Resultado:</strong> Plateau precoce</li>
+                    </ul>
+                </div>
+
+                <div class="mindset-card growth-mindset">
+                    <h3>🚀 Growth Mindset</h3>
+                    <ul>
+                        <li><strong>Inteligência:</strong> Pode ser desenvolvida</li>
+                        <li><strong>Desafios:</strong> Abraça-os</li>
+                        <li><strong>Obstáculos:</strong> Persiste</li>
+                        <li><strong>Esforço:</strong> Caminho para mestria</li>
+                        <li><strong>Feedback:</strong> Aprende com ele</li>
+                        <li><strong>Sucesso dos outros:</strong> Inspiração</li>
+                        <li><strong>Resultado:</strong> Alcança potencial</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; margin-top: 40px;">🎯 Situações do Dia-a-Dia</h3>
+            
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+                    <thead>
+                        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <th style="color: white; padding: 15px; text-align: left;">Situação</th>
+                            <th style="color: white; padding: 15px;">Fixed Response 🔒</th>
+                            <th style="color: white; padding: 15px;">Growth Response 🚀</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 15px; font-weight: bold;">Erro no projeto</td>
+                            <td style="padding: 15px; color: #f5576c;">"Não sirvo para isto"</td>
+                            <td style="padding: 15px; color: #00f2fe;">"O que aprendi?"</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 15px; font-weight: bold;">Nova tecnologia</td>
+                            <td style="padding: 15px; color: #f5576c;">"É muito complicado"</td>
+                            <td style="padding: 15px; color: #00f2fe;">"Vou aprender passo a passo"</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 15px; font-weight: bold;">Feedback negativo</td>
+                            <td style="padding: 15px; color: #f5576c;">"Estão contra mim"</td>
+                            <td style="padding: 15px; color: #00f2fe;">"Como posso melhorar?"</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 15px; font-weight: bold;">Colega promovido</td>
+                            <td style="padding: 15px; color: #f5576c;">"Injustiça/Favoritismo"</td>
+                            <td style="padding: 15px; color: #00f2fe;">"O que fez bem?"</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 7: No Ambiente de Trabalho -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 46.67%"></div>
+            </div>
+            <div class="slide-number">7 / 15 <span style="font-size: 0.8em;">💼</span></div>
+            <div class="slide-header">
+                <h2>Mindset no Ambiente de Trabalho</h2>
+                <p class="subtitle">Impacto na performance e cultura organizacional</p>
+            </div>
+
+            <h3>🏢 Cultura Fixed Mindset</h3>
+            <div class="warning-box">
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 10px 0;">❌ Foco excessivo em "talentos" e "estrelas"</li>
+                    <li style="margin: 10px 0;">❌ Competição interna destrutiva</li>
+                    <li style="margin: 10px 0;">❌ Esconder erros e problemas</li>
+                    <li style="margin: 10px 0;">❌ Resistência à mudança e inovação</li>
+                    <li style="margin: 10px 0;">❌ Política e jogos de poder</li>
+                </ul>
+            </div>
+
+            <h3>🚀 Cultura Growth Mindset</h3>
+            <div class="success-box">
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 10px 0;">✅ Desenvolvimento de todos os colaboradores</li>
+                    <li style="margin: 10px 0;">✅ Colaboração e partilha de conhecimento</li>
+                    <li style="margin: 10px 0;">✅ Aprendizagem com falhas</li>
+                    <li style="margin: 10px 0;">✅ Inovação e experimentação</li>
+                    <li style="margin: 10px 0;">✅ Transparência e confiança</li>
+                </ul>
+            </div>
+
+            <h3>📊 Impacto nos Resultados</h3>
+            <div class="grid">
+                <div class="value-card">
+                    <h4 style="color: #667eea;">Produtividade</h4>
+                    <p><strong>Growth:</strong> +47% em inovação</p>
+                    <p><strong>Fixed:</strong> Estagnação após 2 anos</p>
+                </div>
+                <div class="value-card">
+                    <h4 style="color: #667eea;">Retenção</h4>
+                    <p><strong>Growth:</strong> 87% satisfação</p>
+                    <p><strong>Fixed:</strong> 34% turnover anual</p>
+                </div>
+                <div class="value-card">
+                    <h4 style="color: #667eea;">Liderança</h4>
+                    <p><strong>Growth:</strong> Líderes coaches</p>
+                    <p><strong>Fixed:</strong> Líderes controladores</p>
+                </div>
+            </div>
+
+            <div class="quote-box">
+                "Empresas com cultura Growth Mindset têm colaboradores 65% mais engajados e 49% mais inovadores."
+                <p style="text-align: right; margin-top: 15px; font-style: normal;">- Estudo Microsoft, 2020</p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Cenários Práticos -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 53.33%"></div>
+            </div>
+            <div class="slide-number">8 / 15 <span style="font-size: 0.8em;">🎯</span></div>
+            <div class="slide-header">
+                <h2>Cenários Práticos</h2>
+                <p class="subtitle">Como reagiria em cada situação?</p>
+            </div>
+
+            <h3>📝 Cenário 1: Apresentação Importante</h3>
+            <div class="scenario-box">
+                <p><strong>Situação:</strong> A sua apresentação ao board correu mal. Esqueceu-se de pontos importantes e gaguejou nas respostas.</p>
+            </div>
+            <div class="mindset-comparison">
+                <div class="example-card" style="background: linear-gradient(135deg, #ffe0e0 0%, #ffcece 100%);">
+                    <h4 style="color: #f5576c;">🔒 Reação Fixed</h4>
+                    <p>"Não tenho perfil para apresentações. Nunca mais me vou voluntariar. Vou evitar estas situações."</p>
+                </div>
+                <div class="example-card" style="background: linear-gradient(135deg, #e0f7ff 0%, #b3e5fc 100%);">
+                    <h4 style="color: #00a8e8;">🚀 Reação Growth</h4>
+                    <p>"Foi difícil, mas aprendi que preciso de me preparar melhor. Vou praticar mais e pedir feedback."</p>
+                </div>
+            </div>
+
+            <h3>💻 Cenário 2: Nova Ferramenta Digital</h3>
+            <div class="scenario-box">
+                <p><strong>Situação:</strong> A empresa implementou um novo sistema. Após 2 dias, ainda tem dificuldades enquanto colegas já dominam.</p>
+            </div>
+            <div class="mindset-comparison">
+                <div class="example-card" style="background: linear-gradient(135deg, #ffe0e0 0%, #ffcece 100%);">
+                    <h4 style="color: #f5576c;">🔒 Reação Fixed</h4>
+                    <p>"Não tenho jeito para tecnologia. Os mais novos aprendem mais rápido. Vou fazer o mínimo necessário."</p>
+                </div>
+                <div class="example-card" style="background: linear-gradient(135deg, #e0f7ff 0%, #b3e5fc 100%);">
+                    <h4 style="color: #00a8e8;">🚀 Reação Growth</h4>
+                    <p>"Cada pessoa tem o seu ritmo. Vou dedicar 30min por dia a explorar. Posso pedir ajuda aos colegas."</p>
+                </div>
+            </div>
+
+            <h3>🎯 Cenário 3: Promoção Negada</h3>
+            <div class="scenario-box">
+                <p><strong>Situação:</strong> Não foi promovido. O feedback indica falta de competências de liderança.</p>
+            </div>
+            <div class="mindset-comparison">
+                <div class="example-card" style="background: linear-gradient(135deg, #ffe0e0 0%, #ffcece 100%);">
+                    <h4 style="color: #f5576c;">🔒 Reação Fixed</h4>
+                    <p>"Não valorizam o meu trabalho. Não nasci para ser líder. Talvez deva mudar de empresa."</p>
+                </div>
+                <div class="example-card" style="background: linear-gradient(135deg, #e0f7ff 0%, #b3e5fc 100%);">
+                    <h4 style="color: #00a8e8;">🚀 Reação Growth</h4>
+                    <p>"Vou pedir exemplos específicos. Que formação posso fazer? Posso liderar um projeto piloto?"</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Desafios e Fracassos -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 60%"></div>
+            </div>
+            <div class="slide-number">9 / 15 <span style="font-size: 0.8em;">🧩</span></div>
+            <div class="slide-header">
+                <h2>Face aos Desafios e Fracassos</h2>
+                <p class="subtitle">A verdadeira diferença entre mindsets</p>
+            </div>
+
+            <div class="info-box">
+                <h3 style="color: white; margin-top: 0;">💡 Insight Crucial</h3>
+                <p>Não é o fracasso em si que nos define, mas como interpretamos e respondemos a ele.</p>
+            </div>
+
+            <h3>🎢 A Jornada do Desafio</h3>
+            <div style="display: flex; justify-content: space-around; align-items: center; margin: 40px 0;">
+                <div style="text-align: center; flex: 1;">
+                    <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 20px; border-radius: 15px;">
+                        <h4>Fixed Mindset</h4>
+                        <p style="margin: 10px 0;">Desafio → Medo → Evitar → Estagnação</p>
+                    </div>
+                </div>
+                <div style="text-align: center; flex: 1;">
+                    <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 15px;">
+                        <h4>Growth Mindset</h4>
+                        <p style="margin: 10px 0;">Desafio → Curiosidade → Tentar → Crescimento</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>📊 Reframing do Fracasso</h3>
+            <div class="grid">
+                <div class="value-card">
+                    <h4 style="color: #f5576c;">❌ Fixed: Fracasso é...</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>• Prova de incompetência</li>
+                        <li>• Identidade ("Sou um fracasso")</li>
+                        <li>• Permanente</li>
+                        <li>• Vergonhoso</li>
+                        <li>• Para esconder</li>
+                    </ul>
+                </div>
+                <div class="value-card">
+                    <h4 style="color: #00f2fe;">✅ Growth: Fracasso é...</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>• Informação valiosa</li>
+                        <li>• Evento ("Isto falhou")</li>
+                        <li>• Temporário</li>
+                        <li>• Normal e esperado</li>
+                        <li>• Para partilhar e aprender</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>🏆 Exemplos Inspiradores</h3>
+            <div class="example-card">
+                <p><strong>Michael Jordan:</strong> "Falhei mais de 9000 lançamentos. Perdi quase 300 jogos. 26 vezes confiaram-me o lançamento da vitória e falhei. É por isso que tenho sucesso."</p>
+                <hr style="margin: 15px 0; border: none; border-top: 1px solid #ddd;">
+                <p><strong>Thomas Edison:</strong> "Não falhei. Apenas encontrei 10.000 formas que não funcionam."</p>
+            </div>
+        </div>
+
+        <!-- Slide 10: Feedback e Críticas -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 66.67%"></div>
+            </div>
+            <div class="slide-number">10 / 15 <span style="font-size: 0.8em;">📈</span></div>
+            <div class="slide-header">
+                <h2>Feedback e Críticas</h2>
+                <p class="subtitle">Como transformar feedback em combustível para crescimento</p>
+            </div>
+
+            <h3>🎭 Duas Perspetivas Opostas</h3>
+            <div class="mindset-comparison">
+                <div class="mindset-card fixed-mindset">
+                    <h3>🔒 Fixed: Feedback é Ataque</h3>
+                    <ul>
+                        <li>Toma como pessoal</li>
+                        <li>Fica na defensiva</li>
+                        <li>Procura desculpas</li>
+                        <li>Culpa outros</li>
+                        <li>Evita quem critica</li>
+                        <li>Rejeita a mensagem</li>
+                    </ul>
+                </div>
+                <div class="mindset-card growth-mindset">
+                    <h3>🚀 Growth: Feedback é Presente</h3>
+                    <ul>
+                        <li>Vê como informação</li>
+                        <li>Mantém curiosidade</li>
+                        <li>Faz perguntas</li>
+                        <li>Assume responsabilidade</li>
+                        <li>Agradece a honestidade</li>
+                        <li>Implementa melhorias</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>🛠️ Como Receber Feedback (Growth Style)</h3>
+            <div class="transformation-steps">
+                <div class="step-card">
+                    <h4>Ouvir sem interromper</h4>
+                    <p>Resista ao impulso de se defender. Respire fundo e escute.</p>
+                </div>
+                <div class="step-card">
+                    <h4>Fazer perguntas clarificadoras</h4>
+                    <p>"Pode dar-me um exemplo específico?" "O que sugere que faça diferente?"</p>
+                </div>
+                <div class="step-card">
+                    <h4>Agradecer genuinamente</h4>
+                    <p>"Obrigado por dedicar tempo a ajudar-me a melhorar."</p>
+                </div>
+                <div class="step-card">
+                    <h4>Refletir e processar</h4>
+                    <p>Dê tempo a si mesmo para digerir a informação sem reagir emocionalmente.</p>
+                </div>
+                <div class="step-card">
+                    <h4>Criar plano de ação</h4>
+                    <p>Identifique 1-2 mudanças específicas que pode implementar.</p>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <strong>💡 Lembre-se:</strong> Quem lhe dá feedback está a investir no seu crescimento. É um ato de coragem e cuidado.
+            </div>
+        </div>
+
+        <!-- Slide 11: Como Mudar -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 73.33%"></div>
+            </div>
+            <div class="slide-number">11 / 15 <span style="font-size: 0.8em;">🔄</span></div>
+            <div class="slide-header">
+                <h2>Como Desenvolver Growth Mindset</h2>
+                <p class="subtitle">A transformação é possível em qualquer idade</p>
+            </div>
+
+            <div class="info-box">
+                <h3 style="color: white; margin-top: 0;">🧠 Boa Notícia!</h3>
+                <p>O mindset não é fixo! Com consciência e prática, podemos mudar nossas crenças e padrões de pensamento.</p>
+            </div>
+
+            <h3>🔄 O Processo de Mudança</h3>
+            <div class="transformation-steps">
+                <div class="step-card">
+                    <h4>Consciência</h4>
+                    <p>Reconhecer quando está em Fixed Mindset. Observe seus pensamentos e reações.</p>
+                </div>
+                <div class="step-card">
+                    <h4>Escolha</h4>
+                    <p>Perceber que tem opção. Pode escolher interpretar situações de forma diferente.</p>
+                </div>
+                <div class="step-card">
+                    <h4>Voz Interior</h4>
+                    <p>Mudar o diálogo interno. Substituir "não consigo" por "ainda não consigo".</p>
+                </div>
+                <div class="step-card">
+                    <h4>Ação</h4>
+                    <p>Agir com base no Growth Mindset, mesmo que não seja natural inicialmente.</p>
+                </div>
+                <div class="step-card">
+                    <h4>Prática</h4>
+                    <p>Repetir até se tornar hábito. Celebrar pequenos progressos.</p>
+                </div>
+            </div>
+
+            <h3>🎯 Gatilhos Fixed Mindset</h3>
+            <div class="warning-box">
+                <p><strong>Identifique seus gatilhos:</strong></p>
+                <ul style="list-style: none; padding: 0; margin-top: 15px;">
+                    <li>• Quando enfrenta um grande desafio?</li>
+                    <li>• Quando recebe críticas?</li>
+                    <li>• Quando alguém tem mais sucesso?</li>
+                    <li>• Quando falha publicamente?</li>
+                    <li>• Quando sai da zona de conforto?</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>Nomear o gatilho ajuda a controlá-lo!</strong></p>
+            </div>
+
+            <div class="quote-box">
+                "Tornar-se é melhor do que ser."
+                <p style="text-align: right; margin-top: 15px; font-style: normal;">- Carol Dweck</p>
+            </div>
+        </div>
+
+        <!-- Slide 12: Estratégias Práticas -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 80%"></div>
+            </div>
+            <div class="slide-number">12 / 15 <span style="font-size: 0.8em;">💡</span></div>
+            <div class="slide-header">
+                <h2>Estratégias Práticas</h2>
+                <p class="subtitle">Ferramentas e exercícios para cultivar Growth Mindset</p>
+            </div>
+
+            <h3>🛠️ Toolkit de Transformação</h3>
+            <div class="strategy-grid">
+                <div class="strategy-card">
+                    <h4>1. Poder do "Ainda"</h4>
+                    <p>Adicione "ainda" às frases negativas:</p>
+                    <ul style="font-size: 0.9em; margin-top: 10px;">
+                        <li>"Não sei fazer isto" → "Ainda não sei"</li>
+                        <li>"Não sou bom nisso" → "Ainda não sou"</li>
+                    </ul>
+                </div>
+
+                <div class="strategy-card">
+                    <h4>2. Diário de Aprendizagem</h4>
+                    <p>Diariamente, responda:</p>
+                    <ul style="font-size: 0.9em; margin-top: 10px;">
+                        <li>O que aprendi hoje?</li>
+                        <li>Que erro me ensinou algo?</li>
+                        <li>Como posso melhorar amanhã?</li>
+                    </ul>
+                </div>
+
+                <div class="strategy-card">
+                    <h4>3. Celebrar o Processo</h4>
+                    <p>Reconheça e valorize:</p>
+                    <ul style="font-size: 0.9em; margin-top: 10px;">
+                        <li>Esforço, não só resultados</li>
+                        <li>Estratégias utilizadas</li>
+                        <li>Persistência demonstrada</li>
+                    </ul>
+                </div>
+
+                <div class="strategy-card">
+                    <h4>4. Zona de Aprendizagem</h4>
+                    <p>Semanalmente:</p>
+                    <ul style="font-size: 0.9em; margin-top: 10px;">
+                        <li>Faça algo desconfortável</li>
+                        <li>Aprenda uma skill nova</li>
+                        <li>Peça feedback difícil</li>
+                    </ul>
+                </div>
+
+                <div class="strategy-card">
+                    <h4>5. Mentores e Modelos</h4>
+                    <p>Procure pessoas que:</p>
+                    <ul style="font-size: 0.9em; margin-top: 10px;">
+                        <li>Superaram dificuldades</li>
+                        <li>Aprendem constantemente</li>
+                        <li>Abraçam desafios</li>
+                    </ul>
+                </div>
+
+                <div class="strategy-card">
+                    <h4>6. Reframe de Falhas</h4>
+                    <p>Pergunte sempre:</p>
+                    <ul style="font-size: 0.9em; margin-top: 10px;">
+                        <li>O que esta experiência me ensinou?</li>
+                        <li>Como posso usar isto no futuro?</li>
+                        <li>Que porta se abriu?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>📝 Exercício Prático: Mapa Mental</h3>
+            <div class="example-card">
+                <p><strong>Esta semana, escolha um desafio e mapeie:</strong></p>
+                <ol style="margin-top: 15px;">
+                    <li>Pensamento Fixed inicial</li>
+                    <li>Emoções associadas</li>
+                    <li>Reformulação Growth</li>
+                    <li>Ação específica a tomar</li>
+                    <li>Aprendizagem esperada</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Slide 13: Para Líderes -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 86.67%"></div>
+            </div>
+            <div class="slide-number">13 / 15 <span style="font-size: 0.8em;">👥</span></div>
+            <div class="slide-header">
+                <h2>Growth Mindset para Líderes</h2>
+                <p class="subtitle">Como criar uma cultura de crescimento na equipa</p>
+            </div>
+
+            <h3>🌟 O Líder Growth Mindset</h3>
+            <div class="info-box">
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 10px 0;">✅ Vê potencial em todos os membros da equipa</li>
+                    <li style="margin: 10px 0;">✅ Cria segurança psicológica para errar</li>
+                    <li style="margin: 10px 0;">✅ Modela aprendizagem contínua</li>
+                    <li style="margin: 10px 0;">✅ Celebra esforço e progresso, não só resultados</li>
+                    <li style="margin: 10px 0;">✅ Transforma falhas em oportunidades de aprendizagem</li>
+                </ul>
+            </div>
+
+            <h3>🚀 Estratégias para a Equipa</h3>
+            <div class="grid">
+                <div class="value-card">
+                    <h4 style="color: #667eea;">1. Linguagem</h4>
+                    <p><strong>Mude o vocabulário:</strong></p>
+                    <ul style="font-size: 0.9em; margin-top: 10px;">
+                        <li>"Falhámos" → "Aprendemos que..."</li>
+                        <li>"Problema" → "Oportunidade"</li>
+                        <li>"Não sabemos" → "Vamos descobrir"</li>
+                    </ul>
+                </div>
+
+                <div class="value-card">
+                    <h4 style="color: #667eea;">2. Reuniões</h4>
+                    <p><strong>Novos rituais:</strong></p>
+                    <ul style="font-size: 0.9em; margin-top: 10px;">
+                        <li>Partilha de aprendizagens</li>
+                        <li>"Fail parties" mensais</li>
+                        <li>Retrospetivas focadas em crescimento</li>
+                    </ul>
+                </div>
+
+                <div class="value-card">
+                    <h4 style="color: #667eea;">3. Avaliação</h4>
+                    <p><strong>Critérios Growth:</strong></p>
+                    <ul style="font-size: 0.9em; margin-top: 10px;">
+                        <li>Valorizar melhoria, não só performance</li>
+                        <li>Reconhecer tomada de riscos</li>
+                        <li>Premiar colaboração e mentoria</li>
+                    </ul>
+                </div>
+
+                <div class="value-card">
+                    <h4 style="color: #667eea;">4. Desenvolvimento</h4>
+                    <p><strong>Investimento em todos:</strong></p>
+                    <ul style="font-size: 0.9em; margin-top: 10px;">
+                        <li>Planos individualizados</li>
+                        <li>Rotação de projetos</li>
+                        <li>Mentoria cruzada</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>💬 Frases Poderosas do Líder Growth</h3>
+            <div class="quote-box">
+                <p style="margin: 10px 0;">"O que aprendemos com isto?"</p>
+                <p style="margin: 10px 0;">"Excelente esforço na abordagem!"</p>
+                <p style="margin: 10px 0;">"Que estratégia diferente podemos tentar?"</p>
+                <p style="margin: 10px 0;">"Errar faz parte do processo"</p>
+                <p style="margin: 10px 0;">"Ainda não chegámos lá, mas estamos no caminho"</p>
+            </div>
+
+            <div class="success-box">
+                <strong>📈 Resultado:</strong> Equipas com líderes Growth Mindset são 34% mais inovadoras e têm 49% maior engagement.
+            </div>
+        </div>
+
+        <!-- Slide 14: Sinais de Alerta -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 93.33%"></div>
+            </div>
+            <div class="slide-number">14 / 15 <span style="font-size: 0.8em;">⚠️</span></div>
+            <div class="slide-header">
+                <h2>Sinais de Alerta</h2>
+                <p class="subtitle">Como identificar Fixed Mindset em si e nos outros</p>
+            </div>
+
+            <h3>🚨 Red Flags Pessoais</h3>
+            <div class="warning-box">
+                <p><strong>Está em Fixed Mindset quando:</strong></p>
+                <ul style="list-style: none; padding: 0; margin-top: 15px;">
+                    <li>📍 Evita tarefas onde pode falhar</li>
+                    <li>📍 Sente inveja em vez de inspiração com sucesso alheio</li>
+                    <li>📍 Esconde erros ou culpa outros</li>
+                    <li>📍 Usa muito "sempre" e "nunca" ("sempre fui assim")</li>
+                    <li>📍 Desiste rapidamente quando algo é difícil</li>
+                    <li>📍 Fica na defensiva com feedback</li>
+                    <li>📍 Procura validação constante</li>
+                    <li>📍 Compara-se negativamente com outros</li>
+                </ul>
+            </div>
+
+            <h3>👥 Sinais na Equipa/Organização</h3>
+            <div class="grid">
+                <div class="value-card" style="border-color: #f5576c;">
+                    <h4 style="color: #f5576c;">Cultura Tóxica</h4>
+                    <ul style="font-size: 0.9em;">
+                        <li>Blame culture dominante</li>
+                        <li>Informação é poder (silos)</li>
+                        <li>Medo de experimentar</li>
+                        <li>Foco em parecer bom vs ser bom</li>
+                        <li>Política > Mérito</li>
+                    </ul>
+                </div>
+                <div class="value-card" style="border-color: #f5576c;">
+                    <h4 style="color: #f5576c;">Comunicação</h4>
+                    <ul style="font-size: 0.9em;">
+                        <li>"Não é minha responsabilidade"</li>
+                        <li>"Sempre fizemos assim"</li>
+                        <li>"Isso é impossível"</li>
+                        <li>"Não sou pago para pensar"</li>
+                        <li>"É culpa do departamento X"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>🔄 O Que Fazer Quando Detecta</h3>
+            <div class="transformation-steps">
+                <div class="step-card">
+                    <h4>Pause e Respire</h4>
+                    <p>Não julgue. Reconheça o mindset sem autocrítica.</p>
+                </div>
+                <div class="step-card">
+                    <h4>Questione</h4>
+                    <p>"Esta crença está a ajudar-me ou limitar-me?"</p>
+                </div>
+                <div class="step-card">
+                    <h4>Reformule</h4>
+                    <p>Encontre uma perspetiva Growth para a situação.</p>
+                </div>
+                <div class="step-card">
+                    <h4>Aja Diferente</h4>
+                    <p>Faça uma pequena ação alinhada com Growth Mindset.</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Lembre-se:</strong> Todos temos momentos Fixed Mindset. O objetivo não é perfeição, mas consciência e escolha consciente.
+            </div>
+        </div>
+
+        <!-- Slide 15: Conclusão -->
+        <div class="slide">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%"></div>
+            </div>
+            <div class="slide-number">15 / 15 <span style="font-size: 0.8em;">🎯</span></div>
+            <div class="slide-header">
+                <h2>Conclusão - A Sua Jornada Começa Agora</h2>
+                <p class="subtitle">Principais takeaways e próximos passos</p>
+            </div>
+
+            <h3 style="text-align: center;">🎯 Pontos-Chave para Recordar</h3>
+            <div class="success-box">
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 15px 0;">✨ <strong>Mindset é escolha</strong> - Pode mudar a qualquer momento</li>
+                    <li style="margin: 15px 0;">✨ <strong>Growth > Fixed</strong> - Leva a maior sucesso e satisfação</li>
+                    <li style="margin: 15px 0;">✨ <strong>Esforço é o caminho</strong> - Não é sobre talento, é sobre persistência</li>
+                    <li style="margin: 15px 0;">✨ <strong>Falhar é aprender</strong> - Cada erro é uma oportunidade</li>
+                    <li style="margin: 15px 0;">✨ <strong>Ainda não</strong> - Duas palavras que mudam tudo</li>
+                </ul>
+            </div>
+
+            <h3>📋 Plano de Ação - Próximos 30 Dias</h3>
+            <div class="transformation-steps">
+                <div class="step-card">
+                    <h4>Semana 1: Consciência</h4>
+                    <p>Observe seus pensamentos. Identifique momentos Fixed.</p>
+                </div>
+                <div class="step-card">
+                    <h4>Semana 2: Linguagem</h4>
+                    <p>Mude seu vocabulário. Use "ainda", celebre esforço.</p>
+                </div>
+                <div class="step-card">
+                    <h4>Semana 3: Ação</h4>
+                    <p>Aceite um desafio. Peça feedback difícil.</p>
+                </div>
+                <div class="step-card">
+                    <h4>Semana 4: Reflexão</h4>
+                    <p>Avalie progresso. Partilhe aprendizagens.</p>
+                </div>
+            </div>
+
+            <div class="quote-box">
+                "Numa Growth Mindset, os desafios são excitantes em vez de ameaçadores. Então, em vez de pensar 'vou falhar?', pensa 'esta é uma oportunidade para melhorar'."
+                <p style="text-align: right; margin-top: 15px; font-style: normal;">- Carol Dweck</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; display: inline-block;">
+                    <h3 style="margin: 0; color: white;">🚀 A Sua Jornada Growth Começa AGORA!</h3>
+                    <p style="margin: 15px 0 0 0; font-size: 1.1em;">Lembre-se: Não é sobre ser perfeito.<br>É sobre ser melhor do que ontem.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button id="prevBtn" onclick="changeSlide(-1)">← Anterior</button>
+            <button id="nextBtn" onclick="changeSlide(1)">Próximo →</button>
+        </div>
+
+        <!-- Menu button -->
+        <button class="menu-btn" onclick="goToSlide(2)">📚 Menu</button>
+
+        <!-- Navigation dots -->
+        <div class="nav-dots" id="navDots"></div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 15;
+
+        // Initialize navigation dots
+        function initNavDots() {
+            const dotsContainer = document.getElementById('navDots');
+            for (let i = 1; i <= totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'nav-dot';
+                if (i === 1) dot.classList.add('active');
+                dot.onclick = () => goToSlide(i);
+                dot.title = `Slide ${i}`;
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function updateProgressBar() {
+            const progressFill = document.querySelector('.slide.active .progress-fill');
+            if (progressFill) {
+                progressFill.style.width = `${(currentSlide / totalSlides) * 100}%`;
+            }
+        }
+
+        function updateNavDots() {
+            const dots = document.querySelectorAll('.nav-dot');
+            dots.forEach((dot, index) => {
+                if (index + 1 === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        function showSlide(n) {
+            const slides = document.getElementsByClassName('slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            if (n > totalSlides) currentSlide = totalSlides;
+            if (n < 1) currentSlide = 1;
+
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active');
+            }
+
+            slides[currentSlide - 1].classList.add('active');
+
+            prevBtn.disabled = currentSlide === 1;
+            nextBtn.disabled = currentSlide === totalSlides;
+
+            // Update button text on last slide
+            if (currentSlide === totalSlides) {
+                nextBtn.textContent = 'Fim';
+            } else {
+                nextBtn.textContent = 'Próximo →';
+            }
+
+            updateProgressBar();
+            updateNavDots();
+        }
+
+        function changeSlide(n) {
+            currentSlide += n;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === 'm' || e.key === 'M') goToSlide(2); // Menu
+            if (e.key === 'Home') goToSlide(1);
+            if (e.key === 'End') goToSlide(totalSlides);
+            // Number keys for first 9 slides
+            if (e.key >= '1' && e.key <= '9') {
+                goToSlide(parseInt(e.key));
+            }
+        });
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) changeSlide(1); // Swipe left
+            if (touchEndX > touchStartX + 50) changeSlide(-1); // Swipe right
+        }
+
+        // Initialize
+        initNavDots();
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
