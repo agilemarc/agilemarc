@@ -307,6 +307,26 @@
             text-align: center;
         }
 
+        /* Highlight for new items */
+        .new-badge {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: auto;
+            letter-spacing: 0.5px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
         .footer {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
@@ -376,27 +396,26 @@
                             Comece aqui para compreender a filosofia por trás do Agile. Explore os valores e princípios que constituem a base de todas as práticas ágeis, e aprenda a identificar e evitar anti-padrões que podem prejudicar o ambiente de trabalho e a segurança psicológica da equipa.
                         </p>
                     </div>
-<!-- Update the Mindset Category links section -->
-<ul class="links">
-    <li>
-        <a href="agile-values-principles.html">
-            <span class="link-icon">⭐</span>
-            Valores e Princípios Agile
-        </a>
-    </li>
-    <li>
-        <a href="fixed-vs-growth-mindset.html">
-            <span class="link-icon">🌱</span>
-            Fixed vs Growth Mindset
-        </a>
-    </li>
-    <li>
-        <a href="anti-patterns-agile-e-psychological-safety.html">
-            <span class="link-icon">🛡️</span>
-            Anti-padrões e Segurança Psicológica
-        </a>
-    </li>
-</ul>
+                    <ul class="links">
+                        <li>
+                            <a href="agile-values-principles.html">
+                                <span class="link-icon">⭐</span>
+                                Valores e Princípios Agile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="fixed-vs-growth-mindset.html">
+                                <span class="link-icon">🌱</span>
+                                Fixed vs Growth Mindset
+                            </a>
+                        </li>
+                        <li>
+                            <a href="anti-patterns-agile-e-psychological-safety.html">
+                                <span class="link-icon">🛡️</span>
+                                Anti-padrões e Segurança Psicológica
+                            </a>
+                        </li>
+                    </ul>
                 </div>
 
                 <!-- Frameworks Category -->
@@ -416,6 +435,13 @@
                             <a href="scrum.html">
                                 <span class="link-icon">🔄</span>
                                 Framework Scrum
+                            </a>
+                        </li>
+                        <li>
+                            <a href="kanban-simples.html">
+                                <span class="link-icon">🎯</span>
+                                Kanban Simples para Developers
+                                <span class="new-badge">Novo</span>
                             </a>
                         </li>
                         <li>
