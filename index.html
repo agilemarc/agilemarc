@@ -160,15 +160,15 @@
 
         .categories {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 30px;
             margin-bottom: 40px;
         }
 
         .category {
             background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
             border-radius: 20px;
-            padding: 40px;
+            padding: 35px;
             box-shadow: 
                 0 20px 40px rgba(0, 0, 0, 0.08),
                 0 4px 16px rgba(0, 0, 0, 0.04),
@@ -202,21 +202,26 @@
                 0 8px 32px rgba(0, 0, 0, 0.08);
         }
 
-        /* Category Colors */
-        .category.mindset {
-            border-left-color: #e74c3c;
-        }
-
-        .category.quick-guides {
+        /* Beginner Category Colors */
+        .category.beginner-agile {
             border-left-color: #10b981;
         }
 
-        .category.frameworks {
+        .category.beginner-lean {
+            border-left-color: #f59e0b;
+        }
+
+        .category.beginner-knowledge {
+            border-left-color: #8b5cf6;
+        }
+
+        /* Advanced Category Colors */
+        .category.advanced-agile {
             border-left-color: #6366f1;
         }
 
-        .category.implementation {
-            border-left-color: #f59e0b;
+        .category.advanced-lean {
+            border-left-color: #ef4444;
         }
 
         .category-header {
@@ -227,71 +232,79 @@
         }
 
         .category h3 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 700;
             margin: 0;
         }
 
-        .category.mindset h3 {
-            color: #e74c3c;
-        }
-
-        .category.quick-guides h3 {
+        .category.beginner-agile h3 {
             color: #10b981;
         }
 
-        .category.frameworks h3 {
-            color: #6366f1;
-        }
-
-        .category.implementation h3 {
+        .category.beginner-lean h3 {
             color: #f59e0b;
         }
 
+        .category.beginner-knowledge h3 {
+            color: #8b5cf6;
+        }
+
+        .category.advanced-agile h3 {
+            color: #6366f1;
+        }
+
+        .category.advanced-lean h3 {
+            color: #ef4444;
+        }
+
         .icon {
-            font-size: 2.2rem;
-            padding: 12px;
+            font-size: 2rem;
+            padding: 10px;
             border-radius: 12px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.9));
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .category-description {
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .category-description .subtitle {
             color: #6c757d;
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 500;
             font-style: italic;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .category-description .details {
             color: #495057;
-            font-size: 0.95rem;
-            line-height: 1.7;
+            font-size: 0.9rem;
+            line-height: 1.6;
             background: rgba(248, 249, 250, 0.7);
-            padding: 15px;
-            border-radius: 10px;
+            padding: 12px;
+            border-radius: 8px;
             border-left: 3px solid;
         }
 
-        .category.mindset .details {
-            border-left-color: #e74c3c;
-        }
-
-        .category.quick-guides .details {
+        .category.beginner-agile .details {
             border-left-color: #10b981;
         }
 
-        .category.frameworks .details {
+        .category.beginner-lean .details {
+            border-left-color: #f59e0b;
+        }
+
+        .category.beginner-knowledge .details {
+            border-left-color: #8b5cf6;
+        }
+
+        .category.advanced-agile .details {
             border-left-color: #6366f1;
         }
 
-        .category.implementation .details {
-            border-left-color: #f59e0b;
+        .category.advanced-lean .details {
+            border-left-color: #ef4444;
         }
 
         .links {
@@ -299,20 +312,21 @@
         }
 
         .links li {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .links a {
             display: flex;
             align-items: center;
-            padding: 18px 20px;
+            padding: 15px 18px;
             background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-            border-radius: 12px;
+            border-radius: 10px;
             text-decoration: none;
             color: #2c3e50;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid rgba(0, 0, 0, 0.05);
             font-weight: 500;
+            font-size: 0.95rem;
             position: relative;
             overflow: hidden;
         }
@@ -338,34 +352,40 @@
             border-color: currentColor;
         }
 
-        .category.mindset .links a:hover {
-            border-color: #e74c3c;
-            color: #e74c3c;
-            background: linear-gradient(135deg, #fdf2f2 0%, #ffffff 100%);
-        }
-
-        .category.quick-guides .links a:hover {
+        .category.beginner-agile .links a:hover {
             border-color: #10b981;
             color: #10b981;
             background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);
         }
 
-        .category.frameworks .links a:hover {
-            border-color: #6366f1;
-            color: #6366f1;
-            background: linear-gradient(135deg, #f0f3ff 0%, #ffffff 100%);
-        }
-
-        .category.implementation .links a:hover {
+        .category.beginner-lean .links a:hover {
             border-color: #f59e0b;
             color: #f59e0b;
             background: linear-gradient(135deg, #fffbf0 0%, #ffffff 100%);
         }
 
+        .category.beginner-knowledge .links a:hover {
+            border-color: #8b5cf6;
+            color: #8b5cf6;
+            background: linear-gradient(135deg, #f3f0ff 0%, #ffffff 100%);
+        }
+
+        .category.advanced-agile .links a:hover {
+            border-color: #6366f1;
+            color: #6366f1;
+            background: linear-gradient(135deg, #f0f3ff 0%, #ffffff 100%);
+        }
+
+        .category.advanced-lean .links a:hover {
+            border-color: #ef4444;
+            color: #ef4444;
+            background: linear-gradient(135deg, #fef2f2 0%, #ffffff 100%);
+        }
+
         .link-icon {
-            margin-right: 15px;
-            font-size: 1.3rem;
-            min-width: 24px;
+            margin-right: 12px;
+            font-size: 1.2rem;
+            min-width: 20px;
             text-align: center;
         }
 
@@ -396,8 +416,19 @@
             animation: pulse 2s infinite;
         }
 
-        .dev-badge {
+        .beginner-badge {
             background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .advanced-badge {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
             color: white;
             padding: 3px 8px;
             border-radius: 20px;
@@ -425,7 +456,7 @@
         @media (max-width: 768px) {
             .categories {
                 grid-template-columns: 1fr;
-                gap: 30px;
+                gap: 25px;
             }
             
             .header h1 {
@@ -441,7 +472,7 @@
             }
 
             .category {
-                padding: 30px 20px;
+                padding: 25px 20px;
             }
 
             .header {
@@ -466,29 +497,67 @@
         <div class="content">
             <div class="intro">
                 <h2>Explore o Mundo Agile</h2>
-                <p>Descubra recursos cuidadosamente organizados para transformar a forma como a sua equipa trabalha. Desde guias rápidos para developers até frameworks completos, tudo o que precisa para o sucesso Agile.</p>
+                <p>Descubra recursos cuidadosamente organizados para transformar a forma como a sua equipa trabalha. Desde conceitos fundamentais até implementações enterprise avançadas.</p>
             </div>
 
-            <!-- GUIAS RÁPIDOS SECTION -->
+            <!-- BEGINNER SECTION -->
             <div class="section-header beginner">
-                <div class="section-icon">🚀</div>
+                <div class="section-icon">🌱</div>
                 <div class="section-info">
-                    <h2>Guias Rápidos para Developers</h2>
-                    <p>Guias práticos e diretos ao ponto, focados em valor imediato. Perfeitos para equipas de desenvolvimento que querem começar já.</p>
+                    <h2>Nível Iniciante</h2>
+                    <p>Fundamentos essenciais para começar a jornada Agile. Conceitos base, primeiros passos e conhecimento fundamental.</p>
                 </div>
             </div>
 
             <div class="categories">
-                <!-- Quick Guides for Devs -->
-                <div class="category quick-guides">
+                <!-- Beginner Agile -->
+                <div class="category beginner-agile">
                     <div class="category-header">
-                        <span class="icon">⚡</span>
-                        <h3>Start Fast</h3>
+                        <span class="icon">🔄</span>
+                        <h3>Agile</h3>
                     </div>
                     <div class="category-description">
-                        <p class="subtitle">Implementação imediata, sem complicações</p>
+                        <p class="subtitle">Primeiros passos no mundo Agile</p>
                         <p class="details">
-                            Guias essenciais criados especificamente para developers. Foco no PORQUÊ e no VALOR de cada prática, com exemplos práticos e resultados mensuráveis. Comece a aplicar hoje mesmo!
+                            Introdução às metodologias Agile com foco prático. Guias diretos para developers e equipas que querem começar já com Scrum básico.
+                        </p>
+                    </div>
+                    <ul class="links">
+                        <li>
+                            <a href="agile-values-principles.html">
+                                <span class="link-icon">⭐</span>
+                                Valores e Princípios Agile
+                                <span class="beginner-badge">Iniciante</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="scrum-para-devs.html">
+                                <span class="link-icon">🔄</span>
+                                Scrum para Developers
+                                <span class="new-badge">Novo</span>
+                                <span class="beginner-badge">Iniciante</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="anti-patterns-agile-e-psychological-safety.html">
+                                <span class="link-icon">🛡️</span>
+                                Anti-padrões e Segurança Psicológica
+                                <span class="beginner-badge">Iniciante</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Beginner Lean -->
+                <div class="category beginner-lean">
+                    <div class="category-header">
+                        <span class="icon">📋</span>
+                        <h3>Lean</h3>
+                    </div>
+                    <div class="category-description">
+                        <p class="subtitle">Fluxo de trabalho visual e simples</p>
+                        <p class="details">
+                            Aprenda os conceitos Lean através do Kanban simples. Visualização de trabalho, limitação de WIP e melhoria contínua.
                         </p>
                     </div>
                     <ul class="links">
@@ -497,75 +566,63 @@
                                 <span class="link-icon">📋</span>
                                 Kanban Simples - Guia Essencial
                                 <span class="hot-badge">Hot</span>
-                                <span class="dev-badge">Para Devs</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="scrum-para-devs.html">
-                                <span class="link-icon">🔄</span>
-                                Scrum para Developers
-                                <span class="new-badge">Novo</span>
-                                <span class="dev-badge">Para Devs</span>
+                                <span class="beginner-badge">Iniciante</span>
                             </a>
                         </li>
                     </ul>
                 </div>
 
-                <!-- Mindset Category -->
-                <div class="category mindset">
+                <!-- Beginner Knowledge -->
+                <div class="category beginner-knowledge">
                     <div class="category-header">
                         <span class="icon">🧠</span>
-                        <h3>Mindset Agile</h3>
+                        <h3>Conhecimento</h3>
                     </div>
                     <div class="category-description">
-                        <p class="subtitle">A base de tudo - valores e princípios</p>
+                        <p class="subtitle">Fundamentos e mindset</p>
                         <p class="details">
-                            Compreenda a filosofia por trás do Agile. Explore valores, princípios e aprenda a criar um ambiente de segurança psicológica onde a equipa prospera.
+                            Base teórica essencial: valores Agile, growth mindset e criação de ambientes seguros para equipas prosperarem.
                         </p>
                     </div>
                     <ul class="links">
                         <li>
-                            <a href="agile-values-principles.html">
-                                <span class="link-icon">⭐</span>
-                                Valores e Princípios Agile
-                            </a>
-                        </li>
-                        <li>
                             <a href="fixed-vs-growth-mindset.html">
                                 <span class="link-icon">🌱</span>
                                 Fixed vs Growth Mindset
+                                <span class="beginner-badge">Iniciante</span>
                             </a>
                         </li>
                         <li>
-                            <a href="anti-patterns-agile-e-psychological-safety.html">
-                                <span class="link-icon">🛡️</span>
-                                Anti-padrões e Segurança Psicológica
+                            <a href="impediments-vs-blockers.html">
+                                <span class="link-icon">🚧</span>
+                                Impedimentos vs Bloqueadores
+                                <span class="beginner-badge">Iniciante</span>
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
 
-            <!-- FRAMEWORKS COMPLETOS SECTION -->
+            <!-- ADVANCED SECTION -->
             <div class="section-header advanced">
-                <div class="section-icon">📚</div>
+                <div class="section-icon">🎯</div>
                 <div class="section-info">
-                    <h2>Frameworks Completos e Guias Extensivos</h2>
-                    <p>Documentação detalhada e abrangente para implementações enterprise e equipas que procuram profundidade técnica.</p>
+                    <h2>Nível Avançado</h2>
+                    <p>Frameworks completos e técnicas avançadas para organizações enterprise. Implementações profundas e especializadas.</p>
                 </div>
             </div>
 
             <div class="categories">
-                <!-- Complete Frameworks -->
-                <div class="category frameworks">
+                <!-- Advanced Agile -->
+                <div class="category advanced-agile">
                     <div class="category-header">
                         <span class="icon">🏗️</span>
-                        <h3>Frameworks Enterprise</h3>
+                        <h3>Agile</h3>
                     </div>
                     <div class="category-description">
-                        <p class="subtitle">Metodologias completas para organizações</p>
+                        <p class="subtitle">Frameworks enterprise e técnicas avançadas</p>
                         <p class="details">
-                            Frameworks robustos e testados para diferentes contextos organizacionais. Desde Scrum clássico até SAFe para banca, passando por Lean Kanban avançado.
+                            Scrum completo, SAFe para sector bancário, user stories eficazes, gestão de impedimentos e estruturação de papéis organizacionais.
                         </p>
                     </div>
                     <ul class="links">
@@ -573,58 +630,59 @@
                             <a href="scrum.html">
                                 <span class="link-icon">🔄</span>
                                 Framework Scrum Completo
-                            </a>
-                        </li>
-                        <li>
-                            <a href="lean-kanban.html">
-                                <span class="link-icon">📊</span>
-                                Lean Kanban Avançado
+                                <span class="advanced-badge">Avançado</span>
                             </a>
                         </li>
                         <li>
                             <a href="SAFe-Banking.html">
                                 <span class="link-icon">🏦</span>
                                 SAFe para Sector Bancário
+                                <span class="advanced-badge">Avançado</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="user-stories.html">
+                                <span class="link-icon">📝</span>
+                                User Stories Eficazes
+                                <span class="advanced-badge">Avançado</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="papeis.html">
+                                <span class="link-icon">👥</span>
+                                Papéis em Scrum e Kanban
+                                <span class="advanced-badge">Avançado</span>
                             </a>
                         </li>
                     </ul>
                 </div>
 
-                <!-- Implementation Tools -->
-                <div class="category implementation">
+                <!-- Advanced Lean -->
+                <div class="category advanced-lean">
                     <div class="category-header">
-                        <span class="icon">⚙️</span>
-                        <h3>Ferramentas de Implementação</h3>
+                        <span class="icon">📊</span>
+                        <h3>Lean</h3>
                     </div>
                     <div class="category-description">
-                        <p class="subtitle">Técnicas práticas e estratégias avançadas</p>
+                        <p class="subtitle">Lean avançado e otimização de fluxo</p>
                         <p class="details">
-                            Ferramentas essenciais para implementação eficaz. User stories bem estruturadas, gestão de impedimentos, priorização com WSJF e adaptação de papéis para diferentes estruturas de equipa.
+                            Kanban enterprise, métricas avançadas, WSJF para priorização e técnicas de otimização de fluxo de valor.
                         </p>
                     </div>
                     <ul class="links">
                         <li>
-                            <a href="user-stories.html">
-                                <span class="link-icon">📝</span>
-                                User Stories Eficazes
-                            </a>
-                        </li>
-                        <li>
-                            <a href="impediments-vs-blockers.html">
-                                <span class="link-icon">🚧</span>
-                                Impedimentos vs Bloqueadores
+                            <a href="lean-kanban.html">
+                                <span class="link-icon">📊</span>
+                                Lean Kanban Avançado
+                                <span class="advanced-badge">Avançado</span>
                             </a>
                         </li>
                         <li>
                             <a href="WSJF.html">
                                 <span class="link-icon">📈</span>
                                 WSJF - Priorização Avançada
-                            </a>
-                        </li>
-                        <li>
-                            <a href="papeis.html">
-                                <span class="link-icon">👥</span>
-                                Papéis em Scrum e Kanban
+                                <span class="advanced-badge">Avançado</span>
                             </a>
                         </li>
                     </ul>
