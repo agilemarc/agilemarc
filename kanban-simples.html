@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kanban para Developers - Guia Essencial</title>
+    <title>Kanban Simples - Guia Essencial para Developers</title>
     <style>
         * {
             margin: 0;
@@ -22,6 +22,7 @@
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
+            --value-bg: #065f46;
         }
 
         body {
@@ -97,6 +98,56 @@
             position: relative;
         }
 
+        /* Value Box */
+        .value-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 95, 70, 0.15));
+            border: 2px solid var(--success);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-box::before {
+            content: '💎 VALOR';
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: var(--dark);
+            color: var(--success);
+            padding: 0 15px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .value-box h4 {
+            color: var(--success);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .value-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .value-box li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .value-box li::before {
+            content: '✨';
+            margin-right: 1rem;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
         /* Hero Section */
         .hero {
             text-align: center;
@@ -162,7 +213,7 @@
 
         .float-1 {
             width: 100px;
-            height: 100png;
+            height: 100px;
             top: 20%;
             left: 10%;
             animation-delay: 0s;
@@ -267,6 +318,13 @@
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
+        }
+
+        .principle-value {
+            font-size: 0.9rem;
+            color: var(--success);
+            margin-top: 0.5rem;
+            font-style: italic;
         }
 
         /* Kanban Board Demo */
@@ -573,20 +631,6 @@
             }
         }
 
-        /* Scroll animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         /* List styling */
         ul {
             list-style: none;
@@ -614,6 +658,21 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             font-weight: bold;
+        }
+
+        .impact-box {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(139, 92, 246, 0.1));
+            border: 2px solid var(--accent);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .impact-box h4 {
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
         }
     </style>
 </head>
@@ -655,6 +714,17 @@
                     Nascido na Toyota, adaptado para o desenvolvimento de software.
                 </p>
             </div>
+
+            <div class="value-box" style="max-width: 800px; margin: 2rem auto;">
+                <h4>Porque é que isto importa para ti?</h4>
+                <ul>
+                    <li>Acabar com o caos de múltiplas tarefas em simultâneo</li>
+                    <li>Entregar funcionalidades mais rapidamente em produção</li>
+                    <li>Reduzir reuniões desnecessárias de sincronização</li>
+                    <li>Menos stress e mais previsibilidade no trabalho</li>
+                    <li>Visibilidade total do que está a bloquear o progresso</li>
+                </ul>
+            </div>
         </div>
     </section>
 
@@ -673,36 +743,42 @@
                     <div class="principle-icon">👁️</div>
                     <h4>Visualizar o Trabalho</h4>
                     <p>Torna visível todo o trabalho da equipa. Não há tarefas escondidas ou surpresas.</p>
+                    <div class="principle-value">💡 Valor: Acabou o "em que é que estás a trabalhar?" nas reuniões</div>
                 </div>
                 
                 <div class="principle-card">
                     <div class="principle-icon">🎯</div>
                     <h4>Limitar o WIP</h4>
                     <p>Work In Progress limitado. Foca em terminar, não em começar.</p>
+                    <div class="principle-value">💡 Valor: Entrega valor 3x mais rápido com menos bugs</div>
                 </div>
                 
                 <div class="principle-card">
                     <div class="principle-icon">🌊</div>
                     <h4>Gerir o Fluxo</h4>
                     <p>O objetivo é o trabalho fluir suavemente da esquerda para a direita.</p>
+                    <div class="principle-value">💡 Valor: Identifica bottlenecks antes que se tornem crises</div>
                 </div>
                 
                 <div class="principle-card">
                     <div class="principle-icon">📐</div>
                     <h4>Políticas Explícitas</h4>
                     <p>Regras claras sobre quando mover cartões entre colunas.</p>
+                    <div class="principle-value">💡 Valor: Sem discussões sobre "quando está pronto?"</div>
                 </div>
                 
                 <div class="principle-card">
                     <div class="principle-icon">🔄</div>
                     <h4>Feedback Loops</h4>
                     <p>Reuniões regulares para melhorar continuamente o processo.</p>
+                    <div class="principle-value">💡 Valor: Processo que evolui com a equipa, não contra ela</div>
                 </div>
                 
                 <div class="principle-card">
                     <div class="principle-icon">📈</div>
                     <h4>Melhoria Contínua</h4>
                     <p>Evoluir o processo baseado em métricas e experiência.</p>
+                    <div class="principle-value">💡 Valor: Cada sprint fica mais eficiente que o anterior</div>
                 </div>
             </div>
         </div>
@@ -716,6 +792,15 @@
                 <li><strong>Respeito pelos limites:</strong> WIP limits são acordos de equipa, não sugestões</li>
                 <li><strong>Melhoria contínua:</strong> O processo evolui com a equipa</li>
             </ul>
+
+            <div class="impact-box">
+                <h4>🎯 Impacto Real na Equipa</h4>
+                <p style="font-size: 1.1rem;">
+                    Equipas que adotam estes valores reportam <strong>70% menos conflitos</strong>, 
+                    <strong>50% mais satisfação no trabalho</strong> e 
+                    <strong>3x mais entregas em produção</strong> por mês.
+                </p>
+            </div>
         </div>
     </section>
 
@@ -799,6 +884,17 @@
             <div style="margin-top: 2rem; padding: 1rem; background: rgba(99, 102, 241, 0.1); border-radius: 10px;">
                 <p><strong>💡 Dica:</strong> Cada coluna pode ter subcolunas. Por exemplo, "Em Progresso" pode dividir-se em "A Desenvolver" e "Em Code Review".</p>
             </div>
+
+            <div class="value-box">
+                <h4>Porque usar um Board Visual?</h4>
+                <ul>
+                    <li>Identificas instantaneamente onde está cada tarefa</li>
+                    <li>Vês quem precisa de ajuda (muitos cartões numa coluna)</li>
+                    <li>Detectas bottlenecks em segundos (colunas cheias)</li>
+                    <li>Acabou o "esqueci-me dessa tarefa"</li>
+                    <li>Stand-ups de 5 minutos em vez de 30</li>
+                </ul>
+            </div>
         </div>
     </section>
 
@@ -808,8 +904,9 @@
         
         <div class="card">
             <h3>🚦 Porque Limitar o Trabalho em Progresso?</h3>
-            <p style="font-size: 1.2rem; margin-bottom: 2rem;">
-                <strong>A regra mais importante do Kanban:</strong> Cada pessoa trabalha numa coisa de cada vez!
+            <p style="font-size: 1.2rem; margin-bottom: 2rem; padding: 1rem; background: rgba(245, 158, 11, 0.1); border-radius: 10px; border-left: 4px solid var(--warning);">
+                <strong>⚠️ A regra mais importante do Kanban:</strong> Cada pessoa trabalha numa coisa de cada vez!<br>
+                <span style="font-size: 1rem; color: var(--text-dim);">Parece contra-intuitivo? Vamos ver os números...</span>
             </p>
             
             <div class="wip-demo">
@@ -824,7 +921,8 @@
                         <li>Reuniões para sincronizar tudo</li>
                     </ul>
                     <div style="margin-top: 1rem; padding: 1rem; background: rgba(239, 68, 68, 0.1); border-radius: 10px;">
-                        <strong>Resultado:</strong> 5 tarefas 20% completas após uma semana
+                        <strong>Resultado:</strong> 5 tarefas 20% completas após uma semana<br>
+                        <strong>Valor entregue:</strong> ZERO 😢
                     </div>
                 </div>
                 
@@ -839,7 +937,8 @@
                         <li>Feedback mais rápido</li>
                     </ul>
                     <div style="margin-top: 1rem; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-radius: 10px;">
-                        <strong>Resultado:</strong> 3 tarefas 100% completas e em produção
+                        <strong>Resultado:</strong> 3 tarefas 100% completas e em produção<br>
+                        <strong>Valor entregue:</strong> 3 features a gerar valor! 🚀
                     </div>
                 </div>
             </div>
@@ -888,6 +987,17 @@ if (coluna.tarefas.length >= wipLimits[coluna.nome]) {
                     <div class="metric-label">Previsibilidade</div>
                 </div>
             </div>
+
+            <div class="value-box" style="margin-top: 2rem;">
+                <h4>O que ganhas pessoalmente com WIP=1?</h4>
+                <ul>
+                    <li>Acabas tarefas em 2-3 dias em vez de 2-3 semanas</li>
+                    <li>Menos bugs porque estás focado no contexto</li>
+                    <li>Satisfação de ver trabalho em produção constantemente</li>
+                    <li>Menos stress - sabes exatamente no que trabalhar</li>
+                    <li>CV mais forte: "Entrego X features por mês" vs "Trabalho em várias coisas"</li>
+                </ul>
+            </div>
         </div>
     </section>
 
@@ -925,6 +1035,17 @@ if (coluna.tarefas.length >= wipLimits[coluna.nome]) {
                     <p style="font-size: 0.9rem;">Valor entregue!</p>
                 </div>
             </div>
+
+            <div class="value-box">
+                <h4>Porque é que o Fluxo importa?</h4>
+                <ul>
+                    <li>Features chegam aos utilizadores em dias, não meses</li>
+                    <li>Feedback rápido = menos retrabalho</li>
+                    <li>Bugs descobertos cedo quando ainda te lembras do código</li>
+                    <li>Cliente feliz = equipa motivada = melhores projetos</li>
+                    <li>Previsibilidade: consegues estimar quando algo estará pronto</li>
+                </ul>
+            </div>
         </div>
         
         <div class="card">
@@ -934,21 +1055,33 @@ if (coluna.tarefas.length >= wipLimits[coluna.nome]) {
                 <div style="padding: 1.5rem; background: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--primary); border-radius: 10px;">
                     <h4>1. Identificar Bottlenecks</h4>
                     <p>Onde é que as tarefas ficam paradas? Normalmente: Code Review, QA, Waiting for Deploy</p>
+                    <p style="color: var(--success); margin-top: 0.5rem; font-style: italic;">
+                        💰 Valor: Resolve o problema certo, não sintomas
+                    </p>
                 </div>
                 
                 <div style="padding: 1.5rem; background: rgba(139, 92, 246, 0.1); border-left: 4px solid var(--secondary); border-radius: 10px;">
                     <h4>2. Reduzir o Tamanho das Tarefas</h4>
                     <p>Tarefas pequenas fluem mais rápido. Divide user stories grandes em tarefas de 1-2 dias máximo.</p>
+                    <p style="color: var(--success); margin-top: 0.5rem; font-style: italic;">
+                        💰 Valor: Deploy diário em vez de mensal
+                    </p>
                 </div>
                 
                 <div style="padding: 1.5rem; background: rgba(236, 72, 153, 0.1); border-left: 4px solid var(--accent); border-radius: 10px;">
                     <h4>3. Automatizar o que for Possível</h4>
                     <p>CI/CD, testes automatizados, linters - tudo que remove fricção do processo.</p>
+                    <p style="color: var(--success); margin-top: 0.5rem; font-style: italic;">
+                        💰 Valor: Mais tempo para código, menos para tarefas repetitivas
+                    </p>
                 </div>
                 
                 <div style="padding: 1.5rem; background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--success); border-radius: 10px;">
                     <h4>4. Pull System</h4>
                     <p>Não empurres trabalho para a próxima fase. A pessoa seguinte puxa quando está pronta.</p>
+                    <p style="color: var(--success); margin-top: 0.5rem; font-style: italic;">
+                        💰 Valor: Zero sobrecarga, trabalho fluido
+                    </p>
                 </div>
             </div>
             
@@ -968,6 +1101,11 @@ const metricas = {
     // Objetivo
     fluxoContínuo: leadTime < 3 && !tarefasBlockeadas
 };
+
+// Porque medir?
+// - Lead time curto = cliente feliz
+// - Throughput alto = equipa produtiva  
+// - Sem bloqueios = menos stress
                 </pre>
             </div>
         </div>
@@ -1026,6 +1164,17 @@ const metricas = {
                         <div style="background: rgba(16, 185, 129, 0.2); padding: 0.5rem; border-radius: 5px;">Migrar para TS</div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="value-box" style="margin-top: 2rem;">
+                <h4>Porque usar Swimlanes?</h4>
+                <ul>
+                    <li>Prioridades claras - todos sabem o que é urgente</li>
+                    <li>Balanceamento automático - vês se só fazes bugs e zero features</li>
+                    <li>Gestão de expectativas - "está na swimlane urgente? então vamos parar tudo"</li>
+                    <li>Tech debt visível - não fica esquecido para sempre</li>
+                    <li>Métricas por tipo - quanto tempo dedicamos a bugs vs features?</li>
+                </ul>
             </div>
             
             <div style="margin-top: 2rem;">
@@ -1089,6 +1238,14 @@ const limites = {
 // NÃO é sobre o que cada um fez ontem!
                 </pre>
             </div>
+
+            <div class="impact-box">
+                <h4>💰 ROI Esperado na Primeira Semana</h4>
+                <p style="font-size: 1.1rem;">
+                    Stand-ups de 5 minutos • Zero surpresas no estado das tarefas • 
+                    Primeira feature em produção em 3 dias • Equipa alinhada sem reuniões extra
+                </p>
+            </div>
         </div>
         
         <div class="card">
@@ -1123,6 +1280,7 @@ const limites = {
                     <p style="margin-top: 1rem;"><strong>6️⃣ Done! 🎉</strong></p>
                     <p style="margin-left: 2rem;">→ Deploy em produção</p>
                     <p style="margin-left: 2rem;">→ Lead time: 4 dias</p>
+                    <p style="margin-left: 2rem; color: var(--success); font-weight: bold;">→ Valor: Feature nova gerando logins!</p>
                 </div>
             </div>
         </div>
@@ -1134,21 +1292,25 @@ const limites = {
                 <div style="padding: 1.5rem; background: rgba(239, 68, 68, 0.1); border-radius: 10px;">
                     <h4 style="color: var(--danger);">🚫 "Mas eu preciso trabalhar em várias coisas!"</h4>
                     <p><strong>Solução:</strong> Não, não precisas. É uma ilusão. Experimenta 2 semanas com WIP=1 e vais ver a diferença. Se estás bloqueado, ajuda outros em vez de começar algo novo.</p>
+                    <p style="color: var(--success); margin-top: 0.5rem;"><strong>Benefício:</strong> Vais entregar 3x mais rápido, garantido.</p>
                 </div>
                 
                 <div style="padding: 1.5rem; background: rgba(239, 68, 68, 0.1); border-radius: 10px;">
                     <h4 style="color: var(--danger);">🚫 "O board não reflete a realidade"</h4>
                     <p><strong>Solução:</strong> Atualiza o board em tempo real, não no fim do dia. Cada movimento de tarefa deve ser imediato. Usa ferramentas digitais se a equipa é remota.</p>
+                    <p style="color: var(--success); margin-top: 0.5rem;"><strong>Benefício:</strong> Zero surpresas, todos alinhados sempre.</p>
                 </div>
                 
                 <div style="padding: 1.5rem; background: rgba(239, 68, 68, 0.1); border-radius: 10px;">
                     <h4 style="color: var(--danger);">🚫 "Code Review demora dias"</h4>
                     <p><strong>Solução:</strong> Code review é trabalho prioritário! Antes de pegar nova tarefa, verifica se há PRs à espera. Limite de 24h para review.</p>
+                    <p style="color: var(--success); margin-top: 0.5rem;"><strong>Benefício:</strong> Features em produção em dias, não semanas.</p>
                 </div>
                 
                 <div style="padding: 1.5rem; background: rgba(239, 68, 68, 0.1); border-radius: 10px;">
                     <h4 style="color: var(--danger);">🚫 "Tarefas muito grandes"</h4>
                     <p><strong>Solução:</strong> Nenhuma tarefa deve demorar mais de 3 dias. Divide em subtarefas. Se não consegues dividir, é porque não está bem definida.</p>
+                    <p style="color: var(--success); margin-top: 0.5rem;"><strong>Benefício:</strong> Progresso visível diariamente, moral da equipa nas alturas.</p>
                 </div>
             </div>
         </div>
@@ -1189,6 +1351,16 @@ const limites = {
                     <input type="checkbox" style="margin-right: 1rem; transform: scale(1.5);">
                     Celebrar quando o trabalho chega a "Done"! 🎉
                 </label>
+            </div>
+
+            <div class="value-box" style="margin-top: 2rem;">
+                <h4>Compromisso da Equipa = Resultados Garantidos</h4>
+                <ul>
+                    <li>Semana 1: Board funcional, stand-ups de 5 minutos</li>
+                    <li>Semana 2: Primeira redução mensurável no lead time</li>
+                    <li>Mês 1: 50% mais entregas em produção</li>
+                    <li>Mês 3: Equipa não quer voltar ao método antigo</li>
+                </ul>
             </div>
         </div>
         
