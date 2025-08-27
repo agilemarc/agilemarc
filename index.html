@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recursos Agile - Hub Central</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
         * {
             margin: 0;
@@ -13,102 +13,288 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --beginner-color: #10b981;
+            --advanced-color: #6366f1;
+            --card-radius: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
             color: #1a1a1a;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background: #0a0a0a;
             min-height: 100vh;
-            padding: 20px;
-            position: relative;
             overflow-x: hidden;
         }
 
-        body::before {
-            content: '';
+        /* Animated Background */
+        .animated-bg {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="%23ffffff" opacity="0.1"/><circle cx="20" cy="60" r="0.5" fill="%23ffffff" opacity="0.1"/><circle cx="80" cy="30" r="0.5" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            pointer-events: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #667eea 75%, #764ba2 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -2;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.5;
+            animation: float 20s infinite ease-in-out;
             z-index: -1;
+        }
+
+        .orb1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.6), transparent);
+            top: -200px;
+            left: -200px;
+            animation-duration: 25s;
+        }
+
+        .orb2 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(240, 147, 251, 0.6), transparent);
+            bottom: -150annon
+            right: -150px;
+            animation-duration: 30s;
+            animation-delay: -5s;
+        }
+
+        .orb3 {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(118, 75, 162, 0.6), transparent);
+            top: 50%;
+            left: 50%;
+            animation-duration: 35s;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(100px, -100px) scale(1.1); }
+            50% { transform: translate(-100px, 100px) scale(0.9); }
+            75% { transform: translate(50px, 50px) scale(1.05); }
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 24px;
-            box-shadow: 
-                0 32px 64px rgba(0, 0, 0, 0.12),
-                0 8px 32px rgba(0, 0, 0, 0.08),
-                inset 0 1px 0 rgba(255, 255, 255, 0.7);
-            overflow: hidden;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3498db 100%);
-            color: white;
-            padding: 60px 40px;
-            text-align: center;
             position: relative;
-            overflow: hidden;
         }
 
-        .header::before {
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .menu-icon {
+            position: relative;
+            width: 24px;
+            height: 2px;
+            background: white;
+            margin: 24px auto;
+            transition: var(--transition);
+        }
+
+        .menu-icon::before,
+        .menu-icon::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23ffffff" opacity="0.1"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="3s" repeatCount="indefinite"/></circle><circle cx="80" cy="80" r="1.5" fill="%23ffffff" opacity="0.1"><animate attributeName="opacity" values="0.1;0.2;0.1" dur="4s" repeatCount="indefinite"/></circle><circle cx="60" cy="30" r="1" fill="%23ffffff" opacity="0.1"><animate attributeName="opacity" values="0.1;0.25;0.1" dur="2.5s" repeatCount="indefinite"/></circle></svg>');
-            pointer-events: none;
+            width: 24px;
+            height: 2px;
+            background: white;
+            transition: var(--transition);
         }
 
-        .header h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
-            letter-spacing: -1px;
-            background: linear-gradient(45deg, #ffffff, #e3f2fd);
+        .menu-icon::before {
+            top: -8px;
+        }
+
+        .menu-icon::after {
+            top: 8px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 50%, #ffffff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 0 0 80px rgba(255, 255, 255, 0.3);
+            letter-spacing: -2px;
+            line-height: 1.1;
         }
 
-        .header p {
-            font-size: 1.4rem;
-            opacity: 0.95;
-            font-weight: 400;
+        .hero .emoji {
+            font-size: clamp(3rem, 10vw, 6rem);
+            display: block;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.9);
             max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.7;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            animation: pulse 2s infinite;
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scrollBounce 2s infinite;
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            color: white;
+            font-size: 2rem;
+            opacity: 0.7;
+        }
+
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Main Content */
+        .main-content {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 40px 40px 0 0;
+            margin-top: -40px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 -20px 80px rgba(0, 0, 0, 0.3);
         }
 
         .content {
-            padding: 60px 40px;
+            padding: 80px 20px 40px;
         }
 
         .intro {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 80px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .intro h2 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 15px;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
         }
 
         .intro p {
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2vw, 1.2rem);
             color: #6c757d;
             max-width: 800px;
             margin: 0 auto;
@@ -117,35 +303,59 @@
 
         /* Section Headers */
         .section-header {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 16px;
-            padding: 25px 35px;
-            margin: 50px 0 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 30px;
+            padding: 30px;
+            margin: 80px 0 40px;
             display: flex;
             align-items: center;
-            gap: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            border-left: 5px solid;
+            gap: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 2px solid;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, currentColor, transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         .section-header.beginner {
-            border-left-color: #10b981;
+            border-color: var(--beginner-color);
+            color: var(--beginner-color);
         }
 
         .section-header.advanced {
-            border-left-color: #6366f1;
+            border-color: var(--advanced-color);
+            color: var(--advanced-color);
         }
 
         .section-icon {
-            font-size: 2.5rem;
-            padding: 15px;
+            font-size: 3rem;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
 
         .section-info h2 {
-            font-size: 1.8rem;
+            font-size: clamp(1.5rem, 3vw, 2rem);
             font-weight: 700;
             margin-bottom: 8px;
             color: #2c3e50;
@@ -153,28 +363,25 @@
 
         .section-info p {
             color: #6c757d;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
             margin: 0;
-            line-height: 1.6;
         }
 
+        /* Categories Grid */
         .categories {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
         }
 
         .category {
-            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
-            border-radius: 20px;
-            padding: 35px;
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.08),
-                0 4px 16px rgba(0, 0, 0, 0.04),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border-left: 6px solid;
+            background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            border: 3px solid transparent;
             position: relative;
             overflow: hidden;
         }
@@ -183,144 +390,139 @@
             content: '';
             position: absolute;
             top: 0;
+            left: 0;
             right: 0;
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%);
-            transform: translateX(100px);
-            transition: transform 0.6s ease;
+            height: 5px;
+            background: linear-gradient(90deg, var(--beginner-color), var(--advanced-color));
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .category:hover::before {
-            transform: translateX(-100px);
+            opacity: 1;
         }
 
         .category:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 
-                0 32px 64px rgba(0, 0, 0, 0.12),
-                0 8px 32px rgba(0, 0, 0, 0.08);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
         }
 
-        /* Beginner Category Colors */
-        .category.beginner-lean-agile {
-            border-left-color: #10b981;
+        .category.beginner-lean-agile:hover {
+            border-color: var(--beginner-color);
         }
 
-        /* Advanced Category Colors */
-        .category.advanced-lean-agile {
-            border-left-color: #6366f1;
+        .category.advanced-lean-agile:hover {
+            border-color: var(--advanced-color);
         }
 
         .category-header {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 20px;
+            margin-bottom: 25px;
         }
 
         .category h3 {
-            font-size: 1.6rem;
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
             font-weight: 700;
             margin: 0;
         }
 
         .category.beginner-lean-agile h3 {
-            color: #10b981;
+            color: var(--beginner-color);
         }
 
         .category.advanced-lean-agile h3 {
-            color: #6366f1;
+            color: var(--advanced-color);
         }
 
         .icon {
-            font-size: 2rem;
-            padding: 10px;
-            border-radius: 12px;
+            font-size: 2.5rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.9));
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
 
-        .category-description {
-            margin-bottom: 25px;
-        }
-
-        .category-description .subtitle {
-            color: #6c757d;
-            font-size: 1rem;
-            font-weight: 500;
-            font-style: italic;
-            margin-bottom: 10px;
-        }
-
-        .category-description .details {
-            color: #495057;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            background: rgba(248, 249, 250, 0.7);
-            padding: 12px;
-            border-radius: 8px;
-            border-left: 3px solid;
-        }
-
-        .category.beginner-lean-agile .details {
-            border-left-color: #10b981;
-        }
-
-        .category.advanced-lean-agile .details {
-            border-left-color: #6366f1;
-        }
-
+        /* Reading Guide - Collapsible on Mobile */
         .reading-guide {
-            background: rgba(248, 249, 250, 0.7);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 3px solid #6c757d;
+            background: rgba(248, 249, 250, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border-left: 4px solid #6c757d;
         }
 
         .reading-guide h4 {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #2c3e50;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .reading-guide h4::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+        }
+
+        .reading-guide.collapsed h4::after {
+            transform: rotate(-90deg);
         }
 
         .reading-guide ol {
             padding-left: 20px;
+            transition: max-height 0.3s, opacity 0.3s;
+            max-height: 1000px;
+            opacity: 1;
+        }
+
+        .reading-guide.collapsed ol {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
         }
 
         .reading-guide li {
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             color: #495057;
         }
 
         .reading-guide .why {
             font-style: italic;
             color: #6c757d;
-            font-size: 0.9rem;
-            margin-top: 3px;
+            font-size: 0.85rem;
+            margin-top: 5px;
         }
 
+        /* Links */
         .links {
             list-style: none;
         }
 
         .links li {
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         .links a {
             display: flex;
             align-items: center;
-            padding: 15px 18px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-            border-radius: 10px;
+            padding: 18px 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 15px;
             text-decoration: none;
             color: #2c3e50;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            border: 2px solid rgba(0, 0, 0, 0.05);
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: clamp(0.9rem, 2vw, 1rem);
             position: relative;
             overflow: hidden;
         }
@@ -328,358 +530,529 @@
         .links a::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
+            top: 50%;
+            left: -100%;
+            width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: width 0.6s ease;
+            transform: translateY(-50%);
+            transition: left 0.6s;
         }
 
         .links a:hover::before {
-            width: 100%;
+            left: 100%;
         }
 
         .links a:hover {
-            transform: translateX(8px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            border-color: currentColor;
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         .category.beginner-lean-agile .links a:hover {
-            border-color: #10b981;
-            color: #10b981;
+            border-color: var(--beginner-color);
             background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);
         }
 
         .category.advanced-lean-agile .links a:hover {
-            border-color: #6366f1;
-            color: #6366f1;
+            border-color: var(--advanced-color);
             background: linear-gradient(135deg, #f0f3ff 0%, #ffffff 100%);
         }
 
         .link-icon {
-            margin-right: 12px;
-            font-size: 1.2rem;
-            min-width: 20px;
+            margin-right: 15px;
+            font-size: 1.3rem;
+            min-width: 25px;
             text-align: center;
         }
 
         /* Badges */
-        .new-badge {
-            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-            color: white;
-            padding: 3px 8px;
+        .badge {
+            padding: 4px 10px;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             margin-left: auto;
             letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .new-badge {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
             animation: pulse 2s infinite;
         }
 
         .hot-badge {
             background: linear-gradient(135deg, #f59e0b, #ef4444);
             color: white;
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-left: 10px;
-            letter-spacing: 0.5px;
             animation: pulse 2s infinite;
+            margin-left: 10px;
         }
 
         .beginner-badge {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
             margin-left: 10px;
-            letter-spacing: 0.5px;
         }
 
         .advanced-badge {
             background: linear-gradient(135deg, #6366f1, #4f46e5);
             color: white;
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
             margin-left: 10px;
-            letter-spacing: 0.5px;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
+        /* Footer */
         .footer {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
             text-align: center;
-            padding: 30px;
-            margin-top: 60px;
+            padding: 40px 20px;
             font-weight: 500;
         }
 
+        .footer p {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+
+        /* Quick Actions - Floating Button */
+        .quick-actions {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+        }
+
+        .fab {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            font-size: 1.5rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Mobile Styles */
         @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero {
+                min-height: 100vh;
+                padding: 80px 20px 40px;
+            }
+
             .categories {
                 grid-template-columns: 1fr;
                 gap: 25px;
             }
             
-            .header h1 {
-                font-size: 2.5rem;
-            }
-            
-            .header p {
-                font-size: 1.1rem;
-            }
-            
             .content {
-                padding: 40px 20px;
+                padding: 60px 15px 30px;
             }
 
             .category {
-                padding: 25px 20px;
-            }
-
-            .header {
-                padding: 40px 20px;
+                padding: 30px 20px;
             }
 
             .section-header {
                 flex-direction: column;
                 text-align: center;
-                padding: 20px;
+                padding: 25px 20px;
+                gap: 15px;
+            }
+
+            .section-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+
+            .links a {
+                padding: 15px;
+                flex-wrap: wrap;
+            }
+
+            .badge {
+                margin-left: 0;
+                margin-top: 8px;
+            }
+
+            .reading-guide {
+                cursor: pointer;
+            }
+
+            .main-content {
+                border-radius: 25px 25px 0 0;
+            }
+
+            .orb1, .orb2, .orb3 {
+                display: none;
+            }
+        }
+
+        /* Tablet Styles */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .categories {
+                grid-template-columns: 1fr;
+                max-width: 700px;
+                margin: 0 auto 60px;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            .main-content {
+                background: rgba(30, 30, 30, 0.98);
+                color: #e0e0e0;
+            }
+
+            .category {
+                background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
+                color: #e0e0e0;
+            }
+
+            .section-header {
+                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            }
+
+            .section-info h2,
+            .category h3 {
+                color: #e0e0e0;
+            }
+
+            .links a {
+                background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+                color: #e0e0e0;
+                border-color: rgba(255, 255, 255, 0.1);
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🚀 Hub de Recursos Agile</h1>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <!-- Mobile Menu Button -->
+    <div class="mobile-menu-btn">
+        <div class="menu-icon"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <span class="emoji">🚀</span>
+            <h1>Hub de Recursos Agile</h1>
             <p>O seu guia abrangente para metodologias, práticas e implementações Agile de excelência</p>
+            <a href="#content" class="cta-button">Explorar Recursos</a>
         </div>
+        <div class="scroll-indicator"></div>
+    </div>
 
-        <div class="content">
-            <div class="intro">
-                <h2>Explore o Mundo Agile</h2>
-                <p>Descubra recursos cuidadosamente organizados para transformar a forma como a sua equipa trabalha. Desde conceitos fundamentais até implementações enterprise avançadas.</p>
-            </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="content" id="content">
+                <div class="intro">
+                    <h2>Explore o Mundo Agile</h2>
+                    <p>Descubra recursos cuidadosamente organizados para transformar a forma como a sua equipa trabalha. Desde conceitos fundamentais até implementações enterprise avançadas.</p>
+                </div>
 
-            <!-- BEGINNER SECTION -->
-            <div class="section-header beginner">
-                <div class="section-icon">🌱</div>
-                <div class="section-info">
-                    <h2>Nível Iniciante</h2>
-                    <p>Fundamentos essenciais para começar a jornada Agile. Conceitos base, primeiros passos e conhecimento fundamental.</p>
+                <!-- BEGINNER SECTION -->
+                <div class="section-header beginner">
+                    <div class="section-icon">🌱</div>
+                    <div class="section-info">
+                        <h2>Nível Iniciante</h2>
+                        <p>Fundamentos essenciais para começar a jornada Agile</p>
+                    </div>
+                </div>
+
+                <div class="categories">
+                    <!-- Beginner Lean-Agile -->
+                    <div class="category beginner-lean-agile">
+                        <div class="category-header">
+                            <span class="icon">🔄</span>
+                            <h3>Lean-Agile</h3>
+                        </div>
+                        <div class="category-description">
+                            <p class="subtitle">Fundamentos para iniciantes em Agile e Lean</p>
+                            <p class="details">
+                                Recursos essenciais para começar a sua jornada Agile. Estes materiais introduzem os conceitos básicos, valores e práticas fundamentais.
+                            </p>
+                        </div>
+                        
+                        <div class="reading-guide">
+                            <h4>Guia de Leitura Recomendado</h4>
+                            <ol>
+                                <li>Valores e Princípios Agile
+                                    <div class="why">Porquê: Compreender os valores e princípios é o fundamento de tudo em Agile</div>
+                                </li>
+                                <li>Fixed vs Growth Mindset
+                                    <div class="why">Porquê: Desenvolver a mentalidade correta é crucial para a adaptação Agile</div>
+                                </li>
+                                <li>Scrum para Developers
+                                    <div class="why">Porquê: Aprender a implementar Scrum na prática como developer</div>
+                                </li>
+                                <li>User Stories Fáceis
+                                    <div class="why">Porquê: Aprender a criar boas user stories é essencial para planeamento eficaz</div>
+                                </li>
+                                <li>Kanban Simples
+                                    <div class="why">Porquê: Compreender fluxo visual e gestão de trabalho com Kanban</div>
+                                </li>
+                                <li>Anti-padrões e Segurança Psicológica
+                                    <div class="why">Porquê: Evitar erros comuns e criar ambiente seguro para equipas</div>
+                                </li>
+                                <li>Impedimentos vs Bloqueadores
+                                    <div class="why">Porquê: Distinguir e resolver obstáculos no trabalho Agile</div>
+                                </li>
+                            </ol>
+                        </div>
+                        
+                        <ul class="links">
+                            <li>
+                                <a href="agile-values-principles.html">
+                                    <span class="link-icon">⭐</span>
+                                    Valores e Princípios Agile
+                                    <span class="badge beginner-badge">Iniciante</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="fixed-vs-growth-mindset.html">
+                                    <span class="link-icon">🌱</span>
+                                    Fixed vs Growth Mindset
+                                    <span class="badge beginner-badge">Iniciante</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="scrum-para-devs.html">
+                                    <span class="link-icon">🔄</span>
+                                    Scrum para Developers
+                                    <span class="badge new-badge">Novo</span>
+                                    <span class="badge beginner-badge">Iniciante</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="stories-easy.html">
+                                    <span class="link-icon">📝</span>
+                                    User Stories Fáceis - Guia Prático
+                                    <span class="badge hot-badge">Hot</span>
+                                    <span class="badge beginner-badge">Iniciante</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="kanban-simples.html">
+                                    <span class="link-icon">📋</span>
+                                    Kanban Simples - Guia Essencial
+                                    <span class="badge beginner-badge">Iniciante</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="anti-patterns-agile-e-psychological-safety.html">
+                                    <span class="link-icon">🛡️</span>
+                                    Anti-padrões e Segurança Psicológica
+                                    <span class="badge beginner-badge">Iniciante</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="impediments-vs-blockers.html">
+                                    <span class="link-icon">🚧</span>
+                                    Impedimentos vs Bloqueadores
+                                    <span class="badge beginner-badge">Iniciante</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- ADVANCED SECTION -->
+                <div class="section-header advanced">
+                    <div class="section-icon">🎯</div>
+                    <div class="section-info">
+                        <h2>Nível Avançado</h2>
+                        <p>Frameworks completos e técnicas avançadas para organizações enterprise</p>
+                    </div>
+                </div>
+
+                <div class="categories">
+                    <!-- Advanced Lean-Agile -->
+                    <div class="category advanced-lean-agile">
+                        <div class="category-header">
+                            <span class="icon">🏗️</span>
+                            <h3>Lean-Agile</h3>
+                        </div>
+                        <div class="category-description">
+                            <p class="subtitle">Técnicas avançadas e frameworks enterprise</p>
+                            <p class="details">
+                                Recursos para profissionais experientes que procuram implementar Agile em escala e otimizar processos em ambientes complexos.
+                            </p>
+                        </div>
+                        
+                        <div class="reading-guide">
+                            <h4>Guia de Leitura Recomendado</h4>
+                            <ol>
+                                <li>Framework Scrum Completo
+                                    <div class="why">Porquê: Domínio completo de todos os aspetos do Scrum</div>
+                                </li>
+                                <li>User Stories Eficazes
+                                    <div class="why">Porquê: Aprofundar técnicas avançadas de criação e gestão de user stories</div>
+                                </li>
+                                <li>SAFe para Sector Bancário
+                                    <div class="why">Porquê: Implementar Agile em escala em setores regulamentados</div>
+                                </li>
+                                <li>Papéis em Scrum e Kanban
+                                    <div class="why">Porquê: Compreender claramente responsabilidades e funções</div>
+                                </li>
+                                <li>Lean Kanban Avançado
+                                    <div class="why">Porquê: Otimização de fluxo e métricas avançadas</div>
+                                </li>
+                                <li>WSJF - Priorização Avançada
+                                    <div class="why">Porquê: Técnica sofisticada para priorização em ambientes complexos</div>
+                                </li>
+                            </ol>
+                        </div>
+                        
+                        <ul class="links">
+                            <li>
+                                <a href="scrum.html">
+                                    <span class="link-icon">🔄</span>
+                                    Framework Scrum Completo
+                                    <span class="badge advanced-badge">Avançado</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="user-stories.html">
+                                    <span class="link-icon">📝</span>
+                                    User Stories Eficazes
+                                    <span class="badge advanced-badge">Avançado</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="SAFe-Banking.html">
+                                    <span class="link-icon">🏦</span>
+                                    SAFe para Sector Bancário
+                                    <span class="badge advanced-badge">Avançado</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="papeis.html">
+                                    <span class="link-icon">👥</span>
+                                    Papéis em Scrum e Kanban
+                                    <span class="badge advanced-badge">Avançado</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="lean-kanban.html">
+                                    <span class="link-icon">📊</span>
+                                    Lean Kanban Avançado
+                                    <span class="badge advanced-badge">Avançado</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="WSJF.html">
+                                    <span class="link-icon">📈</span>
+                                    WSJF - Priorização Avançada
+                                    <span class="badge advanced-badge">Avançado</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <div class="categories">
-                <!-- Beginner Lean-Agile -->
-                <div class="category beginner-lean-agile">
-                    <div class="category-header">
-                        <span class="icon">🔄</span>
-                        <h3>Lean-Agile</h3>
-                    </div>
-                    <div class="category-description">
-                        <p class="subtitle">Fundamentos para iniciantes em Agile e Lean</p>
-                        <p class="details">
-                            Recursos essenciais para começar a sua jornada Agile. Estes materiais introduzem os conceitos básicos, valores e práticas fundamentais.
-                        </p>
-                    </div>
-                    
-                    <div class="reading-guide">
-                        <h4>Guia de Leitura Recomendado:</h4>
-                        <ol>
-                            <li>Valores e Princípios Agile
-                                <div class="why">Porquê: Compreender os valores e princípios é o fundamento de tudo em Agile</div>
-                            </li>
-                            <li>Fixed vs Growth Mindset
-                                <div class="why">Porquê: Desenvolver a mentalidade correta é crucial para a adaptação Agile</div>
-                            </li>
-                            <li>Scrum para Developers
-                                <div class="why">Porquê: Aprender a implementar Scrum na prática como developer</div>
-                            </li>
-                            <li>User Stories Fáceis
-                                <div class="why">Porquê: Aprender a criar boas user stories é essencial para planeamento eficaz</div>
-                            </li>
-                            <li>Kanban Simples
-                                <div class="why">Porquê: Compreender fluxo visual e gestão de trabalho com Kanban</div>
-                            </li>
-                            <li>Anti-padrões e Segurança Psicológica
-                                <div class="why">Porquê: Evitar erros comuns e criar ambiente seguro para equipas</div>
-                            </li>
-                            <li>Impedimentos vs Bloqueadores
-                                <div class="why">Porquê: Distinguir e resolver obstáculos no trabalho Agile</div>
-                            </li>
-                        </ol>
-                    </div>
-                    
-                    <ul class="links">
-                        <li>
-                            <a href="agile-values-principles.html">
-                                <span class="link-icon">⭐</span>
-                                Valores e Princípios Agile
-                                <span class="beginner-badge">Iniciante</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="fixed-vs-growth-mindset.html">
-                                <span class="link-icon">🌱</span>
-                                Fixed vs Growth Mindset
-                                <span class="beginner-badge">Iniciante</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="scrum-para-devs.html">
-                                <span class="link-icon">🔄</span>
-                                Scrum para Developers
-                                <span class="new-badge">Novo</span>
-                                <span class="beginner-badge">Iniciante</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stories-easy.html">
-                                <span class="link-icon">📝</span>
-                                User Stories Fáceis - Guia Prático
-                                <span class="hot-badge">Hot</span>
-                                <span class="beginner-badge">Iniciante</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="kanban-simples.html">
-                                <span class="link-icon">📋</span>
-                                Kanban Simples - Guia Essencial
-                                <span class="beginner-badge">Iniciante</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="anti-patterns-agile-e-psychological-safety.html">
-                                <span class="link-icon">🛡️</span>
-                                Anti-padrões e Segurança Psicológica
-                                <span class="beginner-badge">Iniciante</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="impediments-vs-blockers.html">
-                                <span class="link-icon">🚧</span>
-                                Impedimentos vs Bloqueadores
-                                <span class="beginner-badge">Iniciante</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="footer">
+                <p>💼 Recursos Agile Marc | Capacitando equipas com melhores práticas</p>
             </div>
-
-            <!-- ADVANCED SECTION -->
-            <div class="section-header advanced">
-                <div class="section-icon">🎯</div>
-                <div class="section-info">
-                    <h2>Nível Avançado</h2>
-                    <p>Frameworks completos e técnicas avançadas para organizações enterprise. Implementações profundas e especializadas.</p>
-                </div>
-            </div>
-
-            <div class="categories">
-                <!-- Advanced Lean-Agile -->
-                <div class="category advanced-lean-agile">
-                    <div class="category-header">
-                        <span class="icon">🏗️</span>
-                        <h3>Lean-Agile</h3>
-                    </div>
-                    <div class="category-description">
-                        <p class="subtitle">Técnicas avançadas e frameworks enterprise</p>
-                        <p class="details">
-                            Recursos para profissionais experientes que procuram implementar Agile em escala e otimizar processos em ambientes complexos.
-                        </p>
-                    </div>
-                    
-                    <div class="reading-guide">
-                        <h4>Guia de Leitura Recomendado:</h4>
-                        <ol>
-                            <li>Framework Scrum Completo
-                                <div class="why">Porquê: Domínio completo de todos os aspetos do Scrum</div>
-                            </li>
-                            <li>User Stories Eficazes
-                                <div class="why">Porquê: Aprofundar técnicas avançadas de criação e gestão de user stories</div>
-                            </li>
-                            <li>SAFe para Sector Bancário
-                                <div class="why">Porquê: Implementar Agile em escala em setores regulamentados</div>
-                            </li>
-                            <li>Papéis em Scrum e Kanban
-                                <div class="why">Porquê: Compreender claramente responsabilidades e funções</div>
-                            </li>
-                            <li>Lean Kanban Avançado
-                                <div class="why">Porquê: Otimização de fluxo e métricas avançadas</div>
-                            </li>
-                            <li>WSJF - Priorização Avançada
-                                <div class="why">Porquê: Técnica sofisticada para priorização em ambientes complexos</div>
-                            </li>
-                        </ol>
-                    </div>
-                    
-                    <ul class="links">
-                        <li>
-                            <a href="scrum.html">
-                                <span class="link-icon">🔄</span>
-                                Framework Scrum Completo
-                                <span class="advanced-badge">Avançado</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="user-stories.html">
-                                <span class="link-icon">📝</span>
-                                User Stories Eficazes
-                                <span class="advanced-badge">Avançado</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="SAFe-Banking.html">
-                                <span class="link-icon">🏦</span>
-                                SAFe para Sector Bancário
-                                <span class="advanced-badge">Avançado</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="papeis.html">
-                                <span class="link-icon">👥</span>
-                                Papéis em Scrum e Kanban
-                                <span class="advanced-badge">Avançado</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="lean-kanban.html">
-                                <span class="link-icon">📊</span>
-                                Lean Kanban Avançado
-                                <span class="advanced-badge">Avançado</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="WSJF.html">
-                                <span class="link-icon">📈</span>
-                                WSJF - Priorização Avançada
-                                <span class="advanced-badge">Avançado</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer">
-            <p>💼 Recursos Agile Marc | Capacitando equipas com melhores práticas</p>
         </div>
     </div>
+
+    <!-- Floating Action Button -->
+    <div class="quick-actions">
+        <button class="fab">⚡</button>
+    </div>
+
+    <script>
+        // Smooth scrolling for CTA button
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('content').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Reading guide collapsible on mobile
+        if (window.innerWidth <= 768) {
+            document.querySelectorAll('.reading-guide').forEach(guide => {
+                guide.classList.add('collapsed');
+                guide.querySelector('h4').addEventListener('click', function() {
+                    guide.classList.toggle('collapsed');
+                });
+            });
+        }
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.category, .section-header').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // FAB functionality
+        document.querySelector('.fab').addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Show/hide FAB based on scroll
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const fab = document.querySelector('.fab');
+            
+            if (scrollTop > 500) {
+                fab.style.transform = 'scale(1)';
+            } else {
+                fab.style.transform = 'scale(0)';
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+    </script>
 </body>
 </html>
