@@ -202,11 +202,12 @@
                 0 8px 32px rgba(0, 0, 0, 0.08);
         }
 
-        /* Category Colors */
+        /* Beginner Category Colors */
         .category.beginner-lean-agile {
             border-left-color: #10b981;
         }
 
+        /* Advanced Category Colors */
         .category.advanced-lean-agile {
             border-left-color: #6366f1;
         }
@@ -223,11 +224,11 @@
             font-weight: 700;
             margin: 0;
         }
-        
+
         .category.beginner-lean-agile h3 {
             color: #10b981;
         }
-        
+
         .category.advanced-lean-agile h3 {
             color: #6366f1;
         }
@@ -249,7 +250,7 @@
             font-size: 1rem;
             font-weight: 500;
             font-style: italic;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .category-description .details {
@@ -262,35 +263,42 @@
             border-left: 3px solid;
         }
 
-        .reading-guide {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            background: rgba(240, 240, 240, 0.5);
-        }
-
-        .reading-guide h4 {
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-
-        .reading-guide p {
-            font-size: 0.9rem;
-            color: #495057;
-            margin-bottom: 8px;
-        }
-
-        .reading-guide i {
-            color: #6c757d;
-        }
-
         .category.beginner-lean-agile .details {
             border-left-color: #10b981;
         }
 
         .category.advanced-lean-agile .details {
             border-left-color: #6366f1;
+        }
+
+        .reading-guide {
+            background: rgba(248, 249, 250, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 3px solid #6c757d;
+        }
+
+        .reading-guide h4 {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .reading-guide ol {
+            padding-left: 20px;
+        }
+
+        .reading-guide li {
+            margin-bottom: 8px;
+            color: #495057;
+        }
+
+        .reading-guide .why {
+            font-style: italic;
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 3px;
         }
 
         .links {
@@ -337,7 +345,7 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             border-color: currentColor;
         }
-        
+
         .category.beginner-lean-agile .links a:hover {
             border-color: #10b981;
             color: #10b981;
@@ -468,6 +476,7 @@
                 <p>Descubra recursos cuidadosamente organizados para transformar a forma como a sua equipa trabalha. Desde conceitos fundamentais até implementações enterprise avançadas.</p>
             </div>
 
+            <!-- BEGINNER SECTION -->
             <div class="section-header beginner">
                 <div class="section-icon">🌱</div>
                 <div class="section-info">
@@ -477,36 +486,103 @@
             </div>
 
             <div class="categories">
+                <!-- Beginner Lean-Agile -->
                 <div class="category beginner-lean-agile">
                     <div class="category-header">
-                        <span class="icon">🚀</span>
-                        <h3>Lean-Agile: A Sua Jornada Guiada</h3>
+                        <span class="icon">🔄</span>
+                        <h3>Lean-Agile</h3>
                     </div>
                     <div class="category-description">
-                        <p class="subtitle">Comece aqui. Esta é a sua base para entender o mindset e as práticas fundamentais que combinam a flexibilidade do Agile com a eficiência do Lean.</p>
-                        
-                        <div class="reading-guide">
-                            <h4>O seu caminho de aprendizagem sugerido:</h4>
-                            <p><b>1º Leia: Valores e Princípios Agile.</b><br><i>Porquê? É o alicerce de tudo. Sem entender o 'porquê', as práticas perdem o seu propósito.</i></p>
-                            <p><b>2º Leia: Fixed vs Growth Mindset.</b><br><i>Porquê? Agile é uma mudança cultural. Este artigo explica a mentalidade necessária para ter sucesso.</i></p>
-                            <p><b>3º Leia: User Stories - O Essencial.</b><br><i>Porquê? Aprenda a descrever o trabalho da forma mais eficaz e centrada no utilizador, a unidade base de qualquer backlog.</i></p>
-                            <p><b>4º Leia: Scrum para Developers.</b><br><i>Porquê? É o seu primeiro framework prático. Um guia rápido para começar a trabalhar em sprints e entregar valor.</i></p>
-                            <p><b>5º Leia: Kanban Simples.</b><br><i>Porquê? Oferece uma alternativa visual e focada em fluxo contínuo, excelente para complementar ou substituir o Scrum dependendo do contexto.</i></p>
-                            <p><b>6º Leia: Impedimentos vs Bloqueadores & Anti-padrões.</b><br><i>Porquê? Agora que conhece as bases, aprenda a identificar e resolver os problemas mais comuns do dia a dia.</i></p>
-                        </div>
+                        <p class="subtitle">Fundamentos para iniciantes em Agile e Lean</p>
+                        <p class="details">
+                            Recursos essenciais para começar a sua jornada Agile. Estes materiais introduzem os conceitos básicos, valores e práticas fundamentais.
+                        </p>
                     </div>
+                    
+                    <div class="reading-guide">
+                        <h4>Guia de Leitura Recomendado:</h4>
+                        <ol>
+                            <li>Valores e Princípios Agile
+                                <div class="why">Porquê: Compreender os valores e princípios é o fundamento de tudo em Agile</div>
+                            </li>
+                            <li>Fixed vs Growth Mindset
+                                <div class="why">Porquê: Desenvolver a mentalidade correta é crucial para a adaptação Agile</div>
+                            </li>
+                            <li>Scrum para Developers
+                                <div class="why">Porquê: Aprender a implementar Scrum na prática como developer</div>
+                            </li>
+                            <li>User Stories Fáceis
+                                <div class="why">Porquê: Aprender a criar boas user stories é essencial para planeamento eficaz</div>
+                            </li>
+                            <li>Kanban Simples
+                                <div class="why">Porquê: Compreender fluxo visual e gestão de trabalho com Kanban</div>
+                            </li>
+                            <li>Anti-padrões e Segurança Psicológica
+                                <div class="why">Porquê: Evitar erros comuns e criar ambiente seguro para equipas</div>
+                            </li>
+                            <li>Impedimentos vs Bloqueadores
+                                <div class="why">Porquê: Distinguir e resolver obstáculos no trabalho Agile</div>
+                            </li>
+                        </ol>
+                    </div>
+                    
                     <ul class="links">
-                        <li><a href="agile-values-principles.html"><span class="link-icon">⭐</span>Valores e Princípios Agile<span class="beginner-badge">1º Passo</span></a></li>
-                        <li><a href="fixed-vs-growth-mindset.html"><span class="link-icon">🧠</span>Fixed vs Growth Mindset<span class="beginner-badge">2º Passo</span></a></li>
-                        <li><a href="stories-easy.html"><span class="link-icon">📝</span>User Stories - O Essencial<span class="new-badge">Novo</span><span class="beginner-badge">3º Passo</span></a></li>
-                        <li><a href="scrum-para-devs.html"><span class="link-icon">🔄</span>Scrum para Developers<span class="beginner-badge">4º Passo</span></a></li>
-                        <li><a href="kanban-simples.html"><span class="link-icon">📋</span>Kanban Simples - Guia Essencial<span class="hot-badge">Hot</span><span class="beginner-badge">5º Passo</span></a></li>
-                        <li><a href="impediments-vs-blockers.html"><span class="link-icon">🚧</span>Impedimentos vs Bloqueadores<span class="beginner-badge">6º Passo</span></a></li>
-                        <li><a href="anti-patterns-agile-e-psychological-safety.html"><span class="link-icon">🛡️</span>Anti-padrões e Segurança Psicológica<span class="beginner-badge">6º Passo</span></a></li>
+                        <li>
+                            <a href="agile-values-principles.html">
+                                <span class="link-icon">⭐</span>
+                                Valores e Princípios Agile
+                                <span class="beginner-badge">Iniciante</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="fixed-vs-growth-mindset.html">
+                                <span class="link-icon">🌱</span>
+                                Fixed vs Growth Mindset
+                                <span class="beginner-badge">Iniciante</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="scrum-para-devs.html">
+                                <span class="link-icon">🔄</span>
+                                Scrum para Developers
+                                <span class="new-badge">Novo</span>
+                                <span class="beginner-badge">Iniciante</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="stories-easy.html">
+                                <span class="link-icon">📝</span>
+                                User Stories Fáceis - Guia Prático
+                                <span class="hot-badge">Hot</span>
+                                <span class="beginner-badge">Iniciante</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="kanban-simples.html">
+                                <span class="link-icon">📋</span>
+                                Kanban Simples - Guia Essencial
+                                <span class="beginner-badge">Iniciante</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="anti-patterns-agile-e-psychological-safety.html">
+                                <span class="link-icon">🛡️</span>
+                                Anti-padrões e Segurança Psicológica
+                                <span class="beginner-badge">Iniciante</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="impediments-vs-blockers.html">
+                                <span class="link-icon">🚧</span>
+                                Impedimentos vs Bloqueadores
+                                <span class="beginner-badge">Iniciante</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
 
+            <!-- ADVANCED SECTION -->
             <div class="section-header advanced">
                 <div class="section-icon">🎯</div>
                 <div class="section-info">
@@ -516,31 +592,86 @@
             </div>
 
             <div class="categories">
+                <!-- Advanced Lean-Agile -->
                 <div class="category advanced-lean-agile">
                     <div class="category-header">
                         <span class="icon">🏗️</span>
-                        <h3>Lean-Agile: Domínio e Escala</h3>
+                        <h3>Lean-Agile</h3>
                     </div>
                     <div class="category-description">
-                        <p class="subtitle">Aprofunde os seus conhecimentos com frameworks robustos, técnicas de otimização de fluxo e estratégias para aplicar Lean-Agile em escala na sua organização.</p>
-
-                        <div class="reading-guide">
-                            <h4>O seu caminho de aprendizagem sugerido:</h4>
-                            <p><b>1º Leia: Framework Scrum Completo.</b><br><i>Porquê? Mergulhe fundo no framework mais popular, compreendendo todas as suas cerimónias, artefactos e papéis em detalhe.</i></p>
-                            <p><b>2º Leia: User Stories Eficazes.</b><br><i>Porquê? Vá além do básico. Aprenda técnicas avançadas para escrever e dividir stories que realmente impulsionam o desenvolvimento.</i></p>
-                            <p><b>3º Leia: Papéis em Scrum e Kanban.</b><br><i>Porquê? A clareza de papéis é crucial para o sucesso. Este guia define as responsabilidades e como interagem.</i></p>
-                            <p><b>4º Leia: Lean Kanban Avançado.</b><br><i>Porquê? Transforme um quadro Kanban num sistema de gestão poderoso com métricas e otimização de fluxo.</i></p>
-                            <p><b>5º Leia: WSJF - Priorização Avançada.</b><br><i>Porquê? Aprenda um modelo económico para tomar decisões de priorização baseadas em dados e não em opiniões.</i></p>
-                            <p><b>6º Leia: SAFe para Sector Bancário.</b><br><i>Porquê? Este é o guia para escalar Agile em ambientes complexos. Leia este quando o desafio for coordenar múltiplas equipas.</i></p>
-                        </div>
+                        <p class="subtitle">Técnicas avançadas e frameworks enterprise</p>
+                        <p class="details">
+                            Recursos para profissionais experientes que procuram implementar Agile em escala e otimizar processos em ambientes complexos.
+                        </p>
                     </div>
+                    
+                    <div class="reading-guide">
+                        <h4>Guia de Leitura Recomendado:</h4>
+                        <ol>
+                            <li>Framework Scrum Completo
+                                <div class="why">Porquê: Domínio completo de todos os aspetos do Scrum</div>
+                            </li>
+                            <li>User Stories Eficazes
+                                <div class="why">Porquê: Aprofundar técnicas avançadas de criação e gestão de user stories</div>
+                            </li>
+                            <li>SAFe para Sector Bancário
+                                <div class="why">Porquê: Implementar Agile em escala em setores regulamentados</div>
+                            </li>
+                            <li>Papéis em Scrum e Kanban
+                                <div class="why">Porquê: Compreender claramente responsabilidades e funções</div>
+                            </li>
+                            <li>Lean Kanban Avançado
+                                <div class="why">Porquê: Otimização de fluxo e métricas avançadas</div>
+                            </li>
+                            <li>WSJF - Priorização Avançada
+                                <div class="why">Porquê: Técnica sofisticada para priorização em ambientes complexos</div>
+                            </li>
+                        </ol>
+                    </div>
+                    
                     <ul class="links">
-                        <li><a href="scrum.html"><span class="link-icon">🔄</span>Framework Scrum Completo<span class="advanced-badge">1º Passo</span></a></li>
-                        <li><a href="user-stories.html"><span class="link-icon">📝</span>User Stories Eficazes<span class="advanced-badge">2º Passo</span></a></li>
-                        <li><a href="papeis.html"><span class="link-icon">👥</span>Papéis em Scrum e Kanban<span class="advanced-badge">3º Passo</span></a></li>
-                        <li><a href="lean-kanban.html"><span class="link-icon">📊</span>Lean Kanban Avançado<span class="advanced-badge">4º Passo</span></a></li>
-                        <li><a href="WSJF.html"><span class="link-icon">📈</span>WSJF - Priorização Avançada<span class="advanced-badge">5º Passo</span></a></li>
-                        <li><a href="SAFe-Banking.html"><span class="link-icon">🏦</span>SAFe para Sector Bancário<span class="advanced-badge">6º Passo</span></a></li>
+                        <li>
+                            <a href="scrum.html">
+                                <span class="link-icon">🔄</span>
+                                Framework Scrum Completo
+                                <span class="advanced-badge">Avançado</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="user-stories.html">
+                                <span class="link-icon">📝</span>
+                                User Stories Eficazes
+                                <span class="advanced-badge">Avançado</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="SAFe-Banking.html">
+                                <span class="link-icon">🏦</span>
+                                SAFe para Sector Bancário
+                                <span class="advanced-badge">Avançado</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="papeis.html">
+                                <span class="link-icon">👥</span>
+                                Papéis em Scrum e Kanban
+                                <span class="advanced-badge">Avançado</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="lean-kanban.html">
+                                <span class="link-icon">📊</span>
+                                Lean Kanban Avançado
+                                <span class="advanced-badge">Avançado</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="WSJF.html">
+                                <span class="link-icon">📈</span>
+                                WSJF - Priorização Avançada
+                                <span class="advanced-badge">Avançado</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
