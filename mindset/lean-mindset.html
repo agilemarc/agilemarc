@@ -1,0 +1,2118 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentalidade LEAN - O Guia Completo de Iniciante a Especialista</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e74c3c;
+            --secondary: #3498db;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --text: #34495e;
+            --gradient-lean: linear-gradient(135deg, #e74c3c, #c0392b);
+            --gradient-value: linear-gradient(135deg, #3498db, #2980b9);
+            --gradient-improve: linear-gradient(135deg, #27ae60, #229954);
+            --gradient-respect: linear-gradient(135deg, #9b59b6, #8e44ad);
+            --gradient-flow: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(231, 76, 60, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(52, 152, 219, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(46, 204, 113, 0.1) 0%, transparent 50%);
+            animation: backgroundFloat 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes backgroundFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-20px, -20px) rotate(1deg); }
+            66% { transform: translate(20px, -20px) rotate(-1deg); }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--gradient-lean);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-lean);
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 2rem 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: white;
+            border-radius: 30px;
+            margin-bottom: 4rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(231, 76, 60, 0.05) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            background: var(--gradient-lean);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-description {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+            color: var(--text);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Section Styles */
+        .section {
+            background: white;
+            border-radius: 30px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--gradient-lean);
+            border-radius: 2px;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-lean);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-lean);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Principles Section */
+        .principles-container {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .principle {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .principle:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .principle-number {
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-lean);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.3);
+        }
+
+        .principle-content h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .principle-content p {
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        /* Wastes Grid */
+        .wastes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .waste-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .waste-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.5s ease;
+        }
+
+        .waste-card:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .waste-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.2);
+        }
+
+        .waste-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+
+        .waste-card:hover .waste-icon {
+            filter: grayscale(0%);
+        }
+
+        .waste-title {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .waste-description {
+            font-size: 0.9rem;
+            color: var(--text);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Tools Section */
+        .tools-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 50px;
+            color: var(--text);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            background: var(--gradient-lean);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: var(--gradient-lean);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tool Detail Card */
+        .tool-detail {
+            background: linear-gradient(135deg, #f8f9fa 0%, white 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .tool-icon-large {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-lean);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Value Stream Map */
+        .vsm-container {
+            overflow-x: auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+
+        .vsm-flow {
+            display: flex;
+            gap: 2rem;
+            min-width: 800px;
+            align-items: center;
+        }
+
+        .vsm-step {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .vsm-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .vsm-arrow {
+            font-size: 2rem;
+            color: var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Interactive Examples */
+        .interactive-demo {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            color: white;
+            margin: 2rem 0;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .demo-btn {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .demo-btn:hover {
+            background: white;
+            color: var(--secondary);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gradient-lean);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            width: calc(50% - 30px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: auto;
+            margin-right: 30px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 30px;
+        }
+
+        .timeline-content:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 4px solid var(--primary);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        /* Metrics Dashboard */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, var(--gradient-lean));
+            border-radius: 20px;
+            padding: 2rem;
+            color: white;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(231, 76, 60, 0.3);
+        }
+
+        .metric-value {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Implementation Roadmap */
+        .roadmap {
+            position: relative;
+            padding: 3rem 0;
+        }
+
+        .roadmap-phase {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .roadmap-phase::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-lean);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.3);
+        }
+
+        .roadmap-phase:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        /* Quote Box */
+        .quote-box {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(155, 89, 182, 0.3);
+        }
+
+        .quote-text {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .quote-author {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Success Stories */
+        .success-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .success-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .success-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .success-header {
+            background: var(--gradient-lean);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .success-content {
+            padding: 1.5rem;
+        }
+
+        .success-metric {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        /* Interactive Checklist */
+        .checklist {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: white;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .checklist-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 1rem;
+            cursor: pointer;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .checklist-item input[type="checkbox"]:checked + label {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        /* Progress Indicators */
+        .progress-container {
+            background: #f8f9fa;
+            border-radius: 50px;
+            padding: 5px;
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            height: 30px;
+            background: var(--gradient-lean);
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: width 0.5s ease;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--gradient-lean);
+            color: white;
+            border-radius: 30px;
+            padding: 4rem;
+            text-align: center;
+            margin: 4rem 0;
+            box-shadow: 0 20px 60px rgba(231, 76, 60, 0.3);
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-content {
+                width: calc(100% - 60px) !important;
+                margin-left: 60px !important;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-dot {
+                left: 30px;
+            }
+            
+            .principle {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .principle-number {
+                margin: 0 auto;
+            }
+        }
+
+        /* Animations */
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Scroll animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <div class="nav-logo">
+                <span>🎯</span>
+                <span>Guia Completo da Mentalidade LEAN</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#intro">Introdução</a></li>
+                <li><a href="#principios">Princípios</a></li>
+                <li><a href="#desperdicios">Desperdícios</a></li>
+                <li><a href="#ferramentas">Ferramentas</a></li>
+                <li><a href="#kaizen">Kaizen</a></li>
+                <li><a href="#implementacao">Implementação</a></li>
+                <li><a href="#casos">Casos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section id="intro" class="hero">
+            <h1>Dominar a Mentalidade LEAN</h1>
+            <p class="hero-subtitle">Da Revolução da Toyota à Sua Transformação</p>
+            <p class="hero-description">
+                Descubra como o pensamento LEAN transforma desperdício em valor, cria culturas de melhoria contínua, 
+                e capacita as pessoas a entregar resultados excecionais. Este guia abrangente leva-o dos 
+                conceitos básicos às estratégias de implementação avançadas.
+            </p>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">95%</div>
+                    <div class="metric-label">Menos Desperdício</div>
+                </div>
+                <div class="metric-card" style="background: var(--gradient-value);">
+                    <div class="metric-value">60%</div>
+                    <div class="metric-label">Entrega Mais Rápida</div>
+                </div>
+                <div class="metric-card" style="background: var(--gradient-improve);">
+                    <div class="metric-value">80%</div>
+                    <div class="metric-label">Aumento de Qualidade</div>
+                </div>
+                <div class="metric-card" style="background: var(--gradient-respect);">
+                    <div class="metric-value">10x</div>
+                    <div class="metric-label">Envolvimento dos Colaboradores</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What is LEAN Section -->
+        <section class="section scroll-reveal">
+            <div class="section-header">
+                <h2 class="section-title">O que é LEAN?</h2>
+                <p>Compreender a Filosofia por Detrás do Movimento</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">🏭</div>
+                    <h3 class="card-title">História de Origem</h3>
+                    <p class="card-description">
+                        Nascido do Sistema de Produção Toyota (TPS) no Japão pós-Segunda Guerra Mundial, 
+                        o LEAN emergiu da necessidade - fazer mais com menos. Taiichi Ohno 
+                        e Eiji Toyoda revolucionaram a produção ao focar-se no valor 
+                        e eliminar desperdícios.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">💡</div>
+                    <h3 class="card-title">Filosofia Central</h3>
+                    <p class="card-description">
+                        LEAN é uma abordagem sistemática para identificar e eliminar desperdícios 
+                        através da melhoria contínua, fluindo valor para o cliente 
+                        ao ritmo da procura do cliente, na busca da perfeição.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🌍</div>
+                    <h3 class="card-title">Além da Produção</h3>
+                    <p class="card-description">
+                        Embora tenha nascido na produção automóvel, os princípios LEAN agora impulsionam 
+                        o desenvolvimento de software, cuidados de saúde, serviços, startups e até 
+                        sistemas de produtividade pessoal em todo o mundo.
+                    </p>
+                </div>
+            </div>
+
+            <div class="quote-box">
+                <p class="quote-text">
+                    "O tipo mais perigoso de desperdício é o desperdício que não reconhecemos."
+                </p>
+                <p class="quote-author">- Shigeo Shingo, Pioneiro do Sistema de Produção Toyota</p>
+            </div>
+        </section>
+
+        <!-- LEAN Principles Section -->
+        <section id="principios" class="section scroll-reveal">
+            <div class="section-header">
+                <h2 class="section-title">Os 5 Princípios LEAN</h2>
+                <p>A Fundação do Pensamento LEAN</p>
+            </div>
+
+            <div class="principles-container">
+                <div class="principle">
+                    <div class="principle-number">1</div>
+                    <div class="principle-content">
+                        <h3>Definir Valor</h3>
+                        <p>O valor é definido pelo cliente. É aquilo pelo qual estão dispostos a pagar.</p>
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                            <strong>✅ Exemplo:</strong> Um cliente de uma cafetaria valoriza um café de qualidade entregue rapidamente, 
+                            não o complexo sistema de inventário por detrás.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="principle">
+                    <div class="principle-number">2</div>
+                    <div class="principle-content">
+                        <h3>Mapear o Fluxo de Valor</h3>
+                        <p>Identificar todos os passos no processo e eliminar aqueles que não criam valor.</p>
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                            <strong>✅ Exemplo:</strong> O mapeamento revelou 15 passos de aprovação para um empréstimo, 
+                            mas apenas 3 realmente acrescentavam valor ao cliente.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="principle">
+                    <div class="principle-number">3</div>
+                    <div class="principle-content">
+                        <h3>Criar Fluxo</h3>
+                        <p>Fazer os passos que criam valor ocorrer em sequência apertada para um fluxo suave.</p>
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                            <strong>✅ Exemplo:</strong> Equipas multifuncionais a trabalhar no mesmo espaço 
+                            reduziram o tempo de implementação de software de semanas para horas.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="principle">
+                    <div class="principle-number">4</div>
+                    <div class="principle-content">
+                        <h3>Estabelecer Pull</h3>
+                        <p>Deixar os clientes puxar valor da atividade anterior. Produzir apenas o necessário.</p>
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                            <strong>✅ Exemplo:</strong> Inventário just-in-time: As peças chegam exatamente quando 
+                            necessárias para montagem, não armazenadas em armazéns.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="principle">
+                    <div class="principle-number">5</div>
+                    <div class="principle-content">
+                        <h3>Procurar a Perfeição</h3>
+                        <p>Melhorar continuamente. A perfeição é impossível mas a busca impulsiona a inovação.</p>
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                            <strong>✅ Exemplo:</strong> A Toyota implementa milhares de sugestões de colaboradores 
+                            anualmente, cada uma fazendo pequenas melhorias que se acumulam.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8 Wastes Section -->
+        <section id="desperdicios" class="section scroll-reveal">
+            <div class="section-header">
+                <h2 class="section-title">Os 8 Desperdícios (DOWNTIME)</h2>
+                <p>Identificar e Eliminar o que Não Acrescenta Valor</p>
+            </div>
+
+            <div class="wastes-grid">
+                <div class="waste-card">
+                    <div class="waste-icon">🚫</div>
+                    <h4 class="waste-title">Defeitos</h4>
+                    <p class="waste-description">
+                        Produtos ou serviços que não cumprem especificações. 
+                        Retrabalho, sucata, informação incorreta.
+                    </p>
+                </div>
+
+                <div class="waste-card">
+                    <div class="waste-icon">📦</div>
+                    <h4 class="waste-title">Sobreprodução</h4>
+                    <p class="waste-description">
+                        Fazer mais do que o necessário ou antes de ser necessário. 
+                        O pior desperdício pois impulsiona outros desperdícios.
+                    </p>
+                </div>
+
+                <div class="waste-card">
+                    <div class="waste-icon">⏳</div>
+                    <h4 class="waste-title">Espera</h4>
+                    <p class="waste-description">
+                        Tempo morto quando os recursos não estão a ser utilizados. 
+                        Esperar por aprovações, materiais ou informação.
+                    </p>
+                </div>
+
+                <div class="waste-card">
+                    <div class="waste-icon">🧠</div>
+                    <h4 class="waste-title">Talento Não Utilizado</h4>
+                    <p class="waste-description">
+                        Não usar as competências, ideias e capacidades das pessoas. 
+                        O 8º desperdício, adicionado aos 7 originais.
+                    </p>
+                </div>
+
+                <div class="waste-card">
+                    <div class="waste-icon">🚚</div>
+                    <h4 class="waste-title">Transporte</h4>
+                    <p class="waste-description">
+                        Movimento desnecessário de produtos ou materiais. 
+                        Cada movimento arrisca danos e não acrescenta valor.
+                    </p>
+                </div>
+
+                <div class="waste-card">
+                    <div class="waste-icon">📊</div>
+                    <h4 class="waste-title">Inventário</h4>
+                    <p class="waste-description">
+                        Produtos ou materiais em excesso não processados. 
+                        Imobiliza capital e pode tornar-se obsoleto.
+                    </p>
+                </div>
+
+                <div class="waste-card">
+                    <div class="waste-icon">🏃</div>
+                    <h4 class="waste-title">Movimento</h4>
+                    <p class="waste-description">
+                        Movimentos desnecessários de pessoas. 
+                        Andar, alcançar, procurar ferramentas ou informação.
+                    </p>
+                </div>
+
+                <div class="waste-card">
+                    <div class="waste-icon">⚡</div>
+                    <h4 class="waste-title">Processamento Extra</h4>
+                    <p class="waste-description">
+                        Fazer mais do que o cliente requer. 
+                        Sobre-engenharia, passos redundantes, perfecionismo excessivo.
+                    </p>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <h3 style="margin-bottom: 1rem;">🎯 Exercício Rápido de Identificação de Desperdícios</h3>
+                <p style="margin-bottom: 1.5rem;">
+                    Pense no seu trabalho diário. Qual destes desperdícios encontra mais frequentemente?
+                </p>
+                <div class="demo-controls">
+                    <button class="demo-btn" onclick="showWasteExample('defeitos')">Ver Exemplo de Defeitos</button>
+                    <button class="demo-btn" onclick="showWasteExample('espera')">Ver Exemplo de Espera</button>
+                    <button class="demo-btn" onclick="showWasteExample('sobreproducao')">Ver Exemplo de Sobreprodução</button>
+                </div>
+                <div id="waste-example" style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                    Clique num botão acima para ver exemplos reais de desperdício em diferentes indústrias.
+                </div>
+            </div>
+        </section>
+
+        <!-- LEAN Tools Section -->
+        <section id="ferramentas" class="section scroll-reveal">
+            <div class="section-header">
+                <h2 class="section-title">Ferramentas e Técnicas LEAN</h2>
+                <p>Métodos Práticos para Melhoria Contínua</p>
+            </div>
+
+            <div class="tools-tabs">
+                <button class="tab-btn active" onclick="showTool('vsm')">Mapeamento Fluxo Valor</button>
+                <button class="tab-btn" onclick="showTool('5s')">Sistema 5S</button>
+                <button class="tab-btn" onclick="showTool('kanban')">Kanban</button>
+                <button class="tab-btn" onclick="showTool('pdca')">Ciclo PDCA</button>
+                <button class="tab-btn" onclick="showTool('rootcause')">5 Porquês</button>
+                <button class="tab-btn" onclick="showTool('poka')">Poka-Yoke</button>
+            </div>
+
+            <div id="vsm" class="tab-content active">
+                <div class="tool-detail">
+                    <div class="tool-header">
+                        <div class="tool-icon-large">🗺️</div>
+                        <div>
+                            <h3>Mapeamento do Fluxo de Valor (VSM)</h3>
+                            <p>Visualizar o fluxo de materiais e informação através do seu processo</p>
+                        </div>
+                    </div>
+                    
+                    <div class="vsm-container">
+                        <div class="vsm-flow">
+                            <div class="vsm-step">
+                                <h4>Fornecedor</h4>
+                                <p>Matérias-Primas</p>
+                                <small>Tempo Entrega: 2 dias</small>
+                            </div>
+                            <span class="vsm-arrow">→</span>
+                            <div class="vsm-step">
+                                <h4>Produção</h4>
+                                <p>Fabrico</p>
+                                <small>Tempo Processo: 10 min</small>
+                                <small>Tempo Espera: 2 horas</small>
+                            </div>
+                            <span class="vsm-arrow">→</span>
+                            <div class="vsm-step">
+                                <h4>Qualidade</h4>
+                                <p>Inspeção</p>
+                                <small>Tempo Processo: 5 min</small>
+                            </div>
+                            <span class="vsm-arrow">→</span>
+                            <div class="vsm-step">
+                                <h4>Cliente</h4>
+                                <p>Entrega</p>
+                                <small>Lead Time Total: 3 dias</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem;">
+                        <h4>Métricas-Chave do VSM:</h4>
+                        <ul>
+                            <li><strong>Tempo de Processo:</strong> Tempo real de trabalho no produto</li>
+                            <li><strong>Lead Time:</strong> Tempo total do início ao fim</li>
+                            <li><strong>Rácio Valor Acrescentado:</strong> Tempo Processo / Lead Time</li>
+                            <li><strong>Rendimento Primeira Passagem:</strong> % de unidades que passam sem retrabalho</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="5s" class="tab-content">
+                <div class="tool-detail">
+                    <div class="tool-header">
+                        <div class="tool-icon-large">✨</div>
+                        <div>
+                            <h3>Sistema 5S</h3>
+                            <p>Criar e manter um local de trabalho organizado, limpo e eficiente</p>
+                        </div>
+                    </div>
+                    
+                    <div class="cards-grid">
+                        <div class="card">
+                            <h4>1. Seiri (Separar)</h4>
+                            <p>Remover itens desnecessários. Manter apenas o necessário.</p>
+                            <small>✓ Campanha de etiquetas vermelhas para itens não utilizados</small>
+                        </div>
+                        <div class="card">
+                            <h4>2. Seiton (Organizar)</h4>
+                            <p>Organizar itens restantes. Um lugar para cada coisa.</p>
+                            <small>✓ Gestão visual e etiquetagem</small>
+                        </div>
+                        <div class="card">
+                            <h4>3. Seiso (Limpar)</h4>
+                            <p>Limpar e inspecionar o espaço de trabalho regularmente.</p>
+                            <small>✓ Rotinas de limpeza diária</small>
+                        </div>
+                        <div class="card">
+                            <h4>4. Seiketsu (Normalizar)</h4>
+                            <p>Criar normas para os primeiros 3 S.</p>
+                            <small>✓ Normas visuais e listas de verificação</small>
+                        </div>
+                        <div class="card">
+                            <h4>5. Shitsuke (Sustentar)</h4>
+                            <p>Tornar um hábito. Disciplina contínua.</p>
+                            <small>✓ Auditorias regulares e formação</small>
+                        </div>
+                        <div class="card">
+                            <h4>+1. Segurança</h4>
+                            <p>Por vezes adicionado como 6º S. Garantir práticas seguras.</p>
+                            <small>✓ Cultura de segurança em primeiro lugar</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="kanban" class="tab-content">
+                <div class="tool-detail">
+                    <div class="tool-header">
+                        <div class="tool-icon-large">📋</div>
+                        <div>
+                            <h3>Sistema Kanban</h3>
+                            <p>Sistema visual para gerir o trabalho à medida que se move através de um processo</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px; margin-top: 2rem;">
+                        <h4>Princípios Kanban:</h4>
+                        <div class="cards-grid">
+                            <div class="card">
+                                <h5>Visualizar Trabalho</h5>
+                                <p>Tornar todo o trabalho visível num quadro</p>
+                            </div>
+                            <div class="card">
+                                <h5>Limitar WIP</h5>
+                                <p>Definir limites no trabalho em progresso</p>
+                            </div>
+                            <div class="card">
+                                <h5>Gerir Fluxo</h5>
+                                <p>Otimizar o fluxo de trabalho</p>
+                            </div>
+                            <div class="card">
+                                <h5>Políticas Explícitas</h5>
+                                <p>Regras claras para como o trabalho se move</p>
+                            </div>
+                            <div class="card">
+                                <h5>Ciclos de Feedback</h5>
+                                <p>Revisões regulares e retrospetivas</p>
+                            </div>
+                            <div class="card">
+                                <h5>Melhorar Colaborativamente</h5>
+                                <p>Evoluir experimentalmente</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pdca" class="tab-content">
+                <div class="tool-detail">
+                    <div class="tool-header">
+                        <div class="tool-icon-large">🔄</div>
+                        <div>
+                            <h3>Ciclo PDCA (Planear-Fazer-Verificar-Agir)</h3>
+                            <p>Método iterativo para melhoria contínua</p>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <div style="display: inline-block; position: relative;">
+                            <div style="width: 200px; height: 200px; border-radius: 50%; background: var(--gradient-lean); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; font-weight: bold;">
+                                PDCA
+                            </div>
+                            <div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%);">
+                                <div style="background: white; padding: 0.5rem 1rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                                    <strong>PLANEAR</strong><br>
+                                    <small>Identificar e Analisar</small>
+                                </div>
+                            </div>
+                            <div style="position: absolute; top: 50%; right: -120px; transform: translateY(-50%);">
+                                <div style="background: white; padding: 0.5rem 1rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                                    <strong>FAZER</strong><br>
+                                    <small>Implementar Solução</small>
+                                </div>
+                            </div>
+                            <div style="position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);">
+                                <div style="background: white; padding: 0.5rem 1rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                                    <strong>VERIFICAR</strong><br>
+                                    <small>Monitorizar Resultados</small>
+                                </div>
+                            </div>
+                            <div style="position: absolute; top: 50%; left: -120px; transform: translateY(-50%);">
+                                <div style="background: white; padding: 0.5rem 1rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                                    <strong>AGIR</strong><br>
+                                    <small>Normalizar</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="rootcause" class="tab-content">
+                <div class="tool-detail">
+                    <div class="tool-header">
+                        <div class="tool-icon-large">❓</div>
+                        <div>
+                            <h3>5 Porquês - Análise de Causa Raiz</h3>
+                            <p>Técnica simples para explorar relações causa-efeito</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px; margin-top: 2rem;">
+                        <h4>Exemplo: Máquina Parou de Funcionar</h4>
+                        <div style="margin-top: 1.5rem;">
+                            <p><strong>Problema:</strong> Máquina parou</p>
+                            <p style="margin-left: 2rem; margin-top: 1rem;">
+                                <strong>Porquê 1:</strong> Circuito sobrecarregado<br>
+                                <span style="margin-left: 2rem;"><strong>Porquê 2:</strong> Lubrificação insuficiente nos rolamentos</span><br>
+                                <span style="margin-left: 4rem;"><strong>Porquê 3:</strong> Bomba de lubrificação não funciona adequadamente</span><br>
+                                <span style="margin-left: 6rem;"><strong>Porquê 4:</strong> Veio da bomba desgastado</span><br>
+                                <span style="margin-left: 8rem;"><strong>Porquê 5:</strong> Sem programa de manutenção preventiva</span>
+                            </p>
+                            <p style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 10px;">
+                                <strong>Causa Raiz:</strong> Falta de programa de manutenção preventiva<br>
+                                <strong>Solução:</strong> Implementar calendário de manutenção regular
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="poka" class="tab-content">
+                <div class="tool-detail">
+                    <div class="tool-header">
+                        <div class="tool-icon-large">🛡️</div>
+                        <div>
+                            <h3>Poka-Yoke (À Prova de Erro)</h3>
+                            <p>Prevenir erros antes de acontecerem</p>
+                        </div>
+                    </div>
+                    
+                    <div class="cards-grid">
+                        <div class="card">
+                            <h4>Método de Contacto</h4>
+                            <p>Formas físicas impedem montagem incorreta</p>
+                            <small>Exemplo: Conector USB-C funciona em ambos os sentidos</small>
+                        </div>
+                        <div class="card">
+                            <h4>Método de Valor Fixo</h4>
+                            <p>Garante número correto de ações</p>
+                            <small>Exemplo: Organizador de comprimidos com 7 compartimentos</small>
+                        </div>
+                        <div class="card">
+                            <h4>Método de Sequência</h4>
+                            <p>Garante sequência correta de passos</p>
+                            <small>Exemplo: ATM devolve cartão antes de dispensar dinheiro</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kaizen Section -->
+        <section id="kaizen" class="section scroll-reveal">
+            <div class="section-header">
+                <h2 class="section-title">Kaizen - Melhoria Contínua</h2>
+                <p>O Coração da Cultura LEAN</p>
+            </div>
+
+            <div class="quote-box">
+                <p class="quote-text">
+                    "Kaizen significa melhoria contínua envolvendo todos, sem gastar muito dinheiro."
+                </p>
+                <p class="quote-author">- Masaaki Imai, Fundador do Instituto Kaizen</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-improve);">🌱</div>
+                    <h3 class="card-title">Pequenos Passos</h3>
+                    <p class="card-description">
+                        1% melhor todos os dias = 37x melhor num ano. 
+                        Focar em melhorias incrementais em vez de mudanças radicais. 
+                        Pequenas mudanças são mais fáceis de implementar e sustentar.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-improve);">👥</div>
+                    <h3 class="card-title">Todos Participam</h3>
+                    <p class="card-description">
+                        Do CEO ao chão de fábrica, todos contribuem com ideias. 
+                        Quem faz o trabalho tem frequentemente as melhores ideias de melhoria. 
+                        Criar sistemas para capturar e implementar sugestões.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-improve);">🔄</div>
+                    <h3 class="card-title">Sem Fim</h3>
+                    <p class="card-description">
+                        A melhoria não tem linha de chegada. A melhor prática de hoje 
+                        é a linha de base de amanhã. Criar uma cultura onde questionar 
+                        o status quo é encorajado.
+                    </p>
+                </div>
+            </div>
+
+            <div style="background: #f8f9fa; padding: 2rem; border-radius: 20px; margin-top: 2rem;">
+                <h3 style="color: var(--dark); margin-bottom: 1.5rem;">Estrutura de Evento Kaizen</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Dia 1: Compreender Estado Atual</h4>
+                            <p>Mapear o processo, recolher dados, identificar desperdícios</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Dia 2-3: Analisar e Desenhar</h4>
+                            <p>Análise de causa raiz, brainstorm de soluções, desenhar estado futuro</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Dia 4: Implementar</h4>
+                            <p>Fazer mudanças, testar soluções, ajustar conforme necessário</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Dia 5: Normalizar</h4>
+                            <p>Documentar novo processo, formar equipa, celebrar sucesso</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LEAN Values & Culture Section -->
+        <section class="section scroll-reveal">
+            <div class="section-header">
+                <h2 class="section-title">Valores e Cultura LEAN</h2>
+                <p>Construir uma Mentalidade LEAN</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-respect);">🤝</div>
+                    <h3 class="card-title">Respeito pelas Pessoas</h3>
+                    <p class="card-description">
+                        <strong>Confiar na equipa:</strong> As pessoas querem fazer bom trabalho<br>
+                        <strong>Desenvolver todos:</strong> Investir em competências e crescimento<br>
+                        <strong>Sucesso da equipa:</strong> Ganhar juntos, perder juntos<br>
+                        <strong>Ir e ver:</strong> Compreender o trabalho no gemba (local de trabalho)
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-respect);">🎯</div>
+                    <h3 class="card-title">Foco no Cliente</h3>
+                    <p class="card-description">
+                        <strong>Pensamento de fora para dentro:</strong> Começar com as necessidades do cliente<br>
+                        <strong>Definição de valor:</strong> Apenas o cliente define valor<br>
+                        <strong>Voz do cliente:</strong> Ciclos regulares de feedback<br>
+                        <strong>Qualidade na fonte:</strong> Construir qualidade, não inspecioná-la
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-respect);">📚</div>
+                    <h3 class="card-title">Aprendizagem Contínua</h3>
+                    <p class="card-description">
+                        <strong>Aprender fazendo:</strong> Experimentação sobre planeamento<br>
+                        <strong>Falhar rápido:</strong> Ciclos rápidos de feedback<br>
+                        <strong>Partilhar conhecimento:</strong> Ensinar reforça a aprendizagem<br>
+                        <strong>Normas como base:</strong> O melhor de hoje, ponto de partida de amanhã
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-respect);">⚡</div>
+                    <h3 class="card-title">Tendência para Ação</h3>
+                    <p class="card-description">
+                        <strong>70% pronto:</strong> Perfeito é inimigo do bom<br>
+                        <strong>Testar ideias:</strong> Testar ideias vs brainstorming infinito<br>
+                        <strong>Vitórias rápidas:</strong> Construir momentum com pequenos sucessos<br>
+                        <strong>PDCA rápido:</strong> Ciclos curtos de melhoria
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-respect);">🔍</div>
+                    <h3 class="card-title">Transparência</h3>
+                    <p class="card-description">
+                        <strong>Gestão visual:</strong> Tornar o trabalho visível<br>
+                        <strong>Partilhar problemas:</strong> Problemas são tesouros<br>
+                        <strong>Comunicação aberta:</strong> Más notícias viajam rápido<br>
+                        <strong>Baseado em dados:</strong> Factos sobre opiniões
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-respect);">⚖️</div>
+                    <h3 class="card-title">Pensamento a Longo Prazo</h3>
+                    <p class="card-description">
+                        <strong>Ritmo sustentável:</strong> Maratona não sprint<br>
+                        <strong>Investir nas pessoas:</strong> Elas são o verdadeiro ativo<br>
+                        <strong>Construir capacidades:</strong> Não apenas produtos<br>
+                        <strong>Capital paciente:</strong> Algumas melhorias levam tempo
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Implementation Roadmap Section -->
+        <section id="implementacao" class="section scroll-reveal">
+            <div class="section-header">
+                <h2 class="section-title">Roteiro de Implementação LEAN</h2>
+                <p>A Sua Jornada do Estado Atual à Excelência LEAN</p>
+            </div>
+
+            <div class="roadmap">
+                <div class="roadmap-phase" style="border-left: 5px solid #e74c3c;">
+                    <h3>Fase 1: Fundação (Meses 1-3)</h3>
+                    <p><strong>Objetivo:</strong> Construir consciência e compromisso</p>
+                    <ul>
+                        <li>Compromisso e visão executiva</li>
+                        <li>Formação LEAN para equipa de liderança</li>
+                        <li>Selecionar área/processo piloto</li>
+                        <li>Formar equipa de melhoria</li>
+                        <li>Avaliação do estado atual</li>
+                    </ul>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 25%;">25%</div>
+                    </div>
+                </div>
+
+                <div class="roadmap-phase" style="border-left: 5px solid #f39c12;">
+                    <h3>Fase 2: Piloto (Meses 4-6)</h3>
+                    <p><strong>Objetivo:</strong> Demonstrar que LEAN funciona no seu contexto</p>
+                    <ul>
+                        <li>Workshop de mapeamento de fluxo de valor</li>
+                        <li>Implementar 5S na área piloto</li>
+                        <li>Primeiros eventos Kaizen</li>
+                        <li>Celebração de vitórias rápidas</li>
+                        <li>Medir e partilhar resultados</li>
+                    </ul>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 50%;">50%</div>
+                    </div>
+                </div>
+
+                <div class="roadmap-phase" style="border-left: 5px solid #3498db;">
+                    <h3>Fase 3: Expandir (Meses 7-12)</h3>
+                    <p><strong>Objetivo:</strong> Estender a outras áreas</p>
+                    <ul>
+                        <li>Normalizar práticas bem-sucedidas</li>
+                        <li>Formar mais facilitadores</li>
+                        <li>Expandir para 3-5 áreas</li>
+                        <li>Implementar sistemas pull</li>
+                        <li>Criar sistema de sugestões</li>
+                    </ul>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 75%;">75%</div>
+                    </div>
+                </div>
+
+                <div class="roadmap-phase" style="border-left: 5px solid #27ae60;">
+                    <h3>Fase 4: Incorporar (Meses 13-18)</h3>
+                    <p><strong>Objetivo:</strong> Tornar LEAN a forma como trabalhamos</p>
+                    <ul>
+                        <li>LEAN nas métricas de desempenho</li>
+                        <li>Rotina de melhoria contínua</li>
+                        <li>Programa de desenvolvimento de fornecedores</li>
+                        <li>Co-criação com clientes</li>
+                        <li>Pipeline de inovação</li>
+                    </ul>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 100%;">100%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checklist">
+                <h3 style="margin-bottom: 1.5rem;">📋 Lista de Verificação de Prontidão LEAN</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1">
+                    <label for="check1">Liderança comprometida com jornada a longo prazo</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2">
+                    <label for="check2">Recursos alocados para formação e melhoria</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check3">
+                    <label for="check3">Métricas de base estabelecidas</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check4">
+                    <label for="check4">Plano de comunicação desenvolvido</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check5">
+                    <label for="check5">Campeões da mudança identificados</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check6">
+                    <label for="check6">Vitórias rápidas direcionadas</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check7">
+                    <label for="check7">Pontos de resistência reconhecidos</label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Success Stories Section -->
+        <section id="casos" class="section scroll-reveal">
+            <div class="section-header">
+                <h2 class="section-title">Histórias de Sucesso LEAN</h2>
+                <p>Resultados Reais de Organizações Reais</p>
+            </div>
+
+            <div class="success-grid">
+                <div class="success-card">
+                    <div class="success-header">
+                        <h3>🏭 Toyota</h3>
+                        <p>O Pioneiro Original do LEAN</p>
+                    </div>
+                    <div class="success-content">
+                        <div class="success-metric">
+                            <span>Rotação de Inventário</span>
+                            <strong>16x/ano</strong>
+                        </div>
+                        <div class="success-metric">
+                            <span>Taxa de Defeitos</span>
+                            <strong>< 0,001%</strong>
+                        </div>
+                        <div class="success-metric">
+                            <span>Sugestões/Colaborador</span>
+                            <strong>10+/ano</strong>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">
+                            Cultura de melhoria contínua com mais de 1 milhão de sugestões implementadas anualmente.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="success-card">
+                    <div class="success-header">
+                        <h3>🏥 Virginia Mason Medical</h3>
+                        <p>LEAN nos Cuidados de Saúde</p>
+                    </div>
+                    <div class="success-content">
+                        <div class="success-metric">
+                            <span>Tempo de Espera do Paciente</span>
+                            <strong>-82%</strong>
+                        </div>
+                        <div class="success-metric">
+                            <span>Custos de Inventário</span>
+                            <strong>-53%</strong>
+                        </div>
+                        <div class="success-metric">
+                            <span>Espaço no Chão</span>
+                            <strong>-41%</strong>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">
+                            Poupou milhões enquanto melhorava a qualidade dos cuidados e satisfação do pessoal.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="success-card">
+                    <div class="success-header">
+                        <h3>💻 Intel</h3>
+                        <p>LEAN na Produção Tecnológica</p>
+                    </div>
+                    <div class="success-content">
+                        <div class="success-metric">
+                            <span>Tempo de Ciclo</span>
+                            <strong>-60%</strong>
+                        </div>
+                        <div class="success-metric">
+                            <span>Produtividade</span>
+                            <strong>+45%</strong>
+                        </div>
+                        <div class="success-metric">
+                            <span>Rendimento de Qualidade</span>
+                            <strong>+30%</strong>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">
+                            Aplicou LEAN ao fabrico de chips, poupando mil milhões em custos operacionais.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="success-card">
+                    <div class="success-header">
+                        <h3>✈️ Boeing</h3>
+                        <p>LEAN na Aeronáutica</p>
+                    </div>
+                    <div class="success-content">
+                        <div class="success-metric">
+                            <span>Tempo de Montagem</span>
+                            <strong>-50%</strong>
+                        </div>
+                        <div class="success-metric">
+                            <span>Inventário</span>
+                            <strong>-60%</strong>
+                        </div>
+                        <div class="success-metric">
+                            <span>Espaço no Chão</span>
+                            <strong>-50%</strong>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">
+                            Linha de montagem móvel para 737s revolucionou o fabrico de aeronaves.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="success-card">
+                    <div class="success-header">
+                        <h3>🏪 Tesco</h3>
+                        <p>LEAN no Retalho</p>
+                    </div>
+                    <div class="success-content">
+                        <div class="success-metric">
+                            <span>Disponibilidade de Stock</span>
+                            <strong>+98%</strong>
+                        </div>
+                        <div class="success-metric">
+                            <span>Redução de Desperdício</span>
+                            <strong>-30%</strong>
+                        </div>
+                        <div class="success-metric">
+                            <span>Tempo de Entrega</span>
+                            <strong>-48hrs</strong>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">
+                            Reabastecimento contínuo e centros de distribuição de fluxo contínuo.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="success-card">
+                    <div class="success-header">
+                        <h3>🏦 Bank of America</h3>
+                        <p>LEAN nos Serviços Financeiros</p>
+                    </div>
+                    <div class="success-content">
+                        <div class="success-metric">
+                            <span>Tempo de Processo</span>
+                            <strong>-70%</strong>
+                        </div>
+                        <div class="success-metric">
+                            <span>Satisfação do Cliente</span>
+                            <strong>+25%</strong>
+                        </div>
+                        <div class="success-metric">
+                            <span>Taxa de Erro</span>
+                            <strong>-40%</strong>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">
+                            Simplificou o processamento de hipotecas de 33 dias para 10 dias.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Common Pitfalls Section -->
+        <section class="section scroll-reveal">
+            <div class="section-header">
+                <h2 class="section-title">Armadilhas Comuns LEAN e Como Evitá-las</h2>
+                <p>Aprender com os Erros dos Outros</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card" style="border-left: 5px solid var(--primary);">
+                    <h3 style="color: var(--primary);">❌ Armadilha: Obsessão por Ferramentas</h3>
+                    <p><strong>Problema:</strong> Focar em ferramentas em vez de cultura e mentalidade.</p>
+                    <p><strong>✅ Solução:</strong> Lembrar que ferramentas servem princípios. Começar com o porquê, não o como. Construir cultura primeiro, ferramentas apoiam a cultura.</p>
+                </div>
+
+                <div class="card" style="border-left: 5px solid var(--primary);">
+                    <h3 style="color: var(--primary);">❌ Armadilha: Abordagem Copiar-Colar</h3>
+                    <p><strong>Problema:</strong> Copiar Toyota ou outros sem adaptar ao contexto.</p>
+                    <p><strong>✅ Solução:</strong> Compreender princípios, adaptar práticas. O seu LEAN será diferente e está tudo bem.</p>
+                </div>
+
+                <div class="card" style="border-left: 5px solid var(--primary);">
+                    <h3 style="color: var(--primary);">❌ Armadilha: Apenas de Cima para Baixo</h3>
+                    <p><strong>Problema:</strong> Gestão impulsiona LEAN sem envolver a linha da frente.</p>
+                    <p><strong>✅ Solução:</strong> Ideias de baixo para cima com apoio de cima para baixo. Quem faz o trabalho conhece o desperdício.</p>
+                </div>
+
+                <div class="card" style="border-left: 5px solid var(--primary);">
+                    <h3 style="color: var(--primary);">❌ Armadilha: Foco na Redução de Custos</h3>
+                    <p><strong>Problema:</strong> Usar LEAN principalmente para reduzir pessoal.</p>
+                    <p><strong>✅ Solução:</strong> Focar no crescimento e valor. Realocar capacidade libertada para trabalho que acrescenta valor.</p>
+                </div>
+
+                <div class="card" style="border-left: 5px solid var(--primary);">
+                    <h3 style="color: var(--primary);">❌ Armadilha: Apenas Baseado em Eventos</h3>
+                    <p><strong>Problema:</strong> Eventos Kaizen sem melhoria contínua diária.</p>
+                    <p><strong>✅ Solução:</strong> Construir hábitos diários de melhoria. Eventos iniciam, prática diária sustenta.</p>
+                </div>
+
+                <div class="card" style="border-left: 5px solid var(--primary);">
+                    <h3 style="color: var(--primary);">❌ Armadilha: Falta de Paciência</h3>
+                    <p><strong>Problema:</strong> Esperar transformação em meses, desistir cedo.</p>
+                    <p><strong>✅ Solução:</strong> LEAN é uma jornada, não destino. Celebrar pequenas vitórias, manter o rumo.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metrics & Measurement Section -->
+        <section class="section scroll-reveal">
+            <div class="section-header">
+                <h2 class="section-title">Métricas e KPIs LEAN</h2>
+                <p>Medir o que Importa</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-flow);">⏱️</div>
+                    <h3 class="card-title">Métricas de Fluxo</h3>
+                    <ul>
+                        <li><strong>Tempo de Ciclo:</strong> Início ao fim para uma unidade</li>
+                        <li><strong>Lead Time:</strong> Pedido à entrega</li>
+                        <li><strong>Tempo Takt:</strong> Tempo disponível / Procura do cliente</li>
+                        <li><strong>Tempo de Processo:</strong> Tempo real de trabalho</li>
+                        <li><strong>Rácio Valor Acrescentado:</strong> Tempo VA / Tempo total</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-flow);">📊</div>
+                    <h3 class="card-title">Métricas de Qualidade</h3>
+                    <ul>
+                        <li><strong>Rendimento Primeira Passagem:</strong> % certo à primeira</li>
+                        <li><strong>Taxa de Defeitos:</strong> PPM (partes por milhão)</li>
+                        <li><strong>Reclamações de Clientes:</strong> Por período</li>
+                        <li><strong>% Retrabalho:</strong> Unidades que requerem retrabalho</li>
+                        <li><strong>Custo da Qualidade:</strong> Prevenção + Avaliação + Falha</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-flow);">💰</div>
+                    <h3 class="card-title">Métricas Financeiras</h3>
+                    <ul>
+                        <li><strong>Rotação de Inventário:</strong> COGS / Inventário médio</li>
+                        <li><strong>Cash-to-Cash:</strong> Dias para converter investimento</li>
+                        <li><strong>Produtividade do Trabalho:</strong> Output / Horas de trabalho</li>
+                        <li><strong>Utilização do Espaço:</strong> Valor acrescentado / Espaço total</li>
+                        <li><strong>Custo Total:</strong> Por unidade entregue</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon" style="background: var(--gradient-flow);">😊</div>
+                    <h3 class="card-title">Métricas de Pessoas</h3>
+                    <ul>
+                        <li><strong>Sugestões Submetidas:</strong> Por colaborador</li>
+                        <li><strong>Sugestões Implementadas:</strong> % acionadas</li>
+                        <li><strong>Horas de Formação:</strong> Por colaborador</li>
+                        <li><strong>Nível de Formação Cruzada:</strong> Competências por pessoa</li>
+                        <li><strong>Satisfação dos Colaboradores:</strong> Pontuações de inquéritos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="interactive-demo" style="background: var(--gradient-flow);">
+                <h3 style="margin-bottom: 1rem;">📈 Calcule o Seu Rácio de Valor Acrescentado</h3>
+                <p>Uma das métricas LEAN mais reveladoras!</p>
+                <div style="margin-top: 1.5rem; background: rgba(255,255,255,0.2); padding: 1.5rem; border-radius: 10px;">
+                    <p><strong>Fórmula:</strong> (Tempo de Valor Acrescentado / Lead Time Total) × 100</p>
+                    <p style="margin-top: 1rem;">
+                        <strong>Exemplo:</strong> Se o tempo real de trabalho é 2 horas mas o processo total leva 2 semanas (80 horas):
+                    </p>
+                    <p style="font-size: 1.5rem; margin-top: 1rem;">
+                        Rácio VA = (2 / 80) × 100 = <strong>2,5%</strong>
+                    </p>
+                    <p style="margin-top: 1rem;">
+                        😱 Isto significa que 97,5% do tempo é desperdício! Típico para muitos processos antes do LEAN.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section class="section scroll-reveal">
+            <div class="section-header">
+                <h2 class="section-title">Recursos de Aprendizagem LEAN</h2>
+                <p>Continue a Sua Jornada</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">📚</div>
+                    <h3 class="card-title">Livros Essenciais</h3>
+                    <ul>
+                        <li>The Toyota Way - Jeffrey Liker</li>
+                        <li>LEAN Thinking - Womack & Jones</li>
+                        <li>The Machine That Changed the World</li>
+                        <li>Gemba Kaizen - Masaaki Imai</li>
+                        <li>2 Second LEAN - Paul Akers</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🎓</div>
+                    <h3 class="card-title">Certificações</h3>
+                    <ul>
+                        <li>LEAN Six Sigma Yellow Belt</li>
+                        <li>LEAN Six Sigma Green Belt</li>
+                        <li>LEAN Six Sigma Black Belt</li>
+                        <li>Certified Kaizen Practitioner</li>
+                        <li>Value Stream Mapping Certification</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🌐</div>
+                    <h3 class="card-title">Recursos Online</h3>
+                    <ul>
+                        <li>LEAN Enterprise Institute</li>
+                        <li>Gemba Academy</li>
+                        <li>Kaizen Institute</li>
+                        <li>LEAN.org</li>
+                        <li>Toyota Kata</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2 class="cta-title">Comece a Sua Jornada LEAN Hoje</h2>
+            <p class="cta-description">
+                Lembre-se: LEAN não é um destino, é uma jornada de melhoria contínua. 
+                Comece pequeno, pense grande, mova-se rápido.
+            </p>
+            <a href="#intro" class="cta-button">Iniciar a Sua Transformação</a>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Tool tabs functionality
+        function showTool(toolId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // Show selected tab
+            document.getElementById(toolId).classList.add('active');
+            // Add active to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Waste examples
+        function showWasteExample(type) {
+            const examples = {
+                defeitos: "Bug de Software: Um bug em produção custa 10x mais para corrigir do que em desenvolvimento. Cada defeito desencadeia retrabalho, atrasos, insatisfação do cliente e custos de suporte.",
+                espera: "Atrasos de Aprovação: Uma campanha de marketing espera 2 semanas por 5 níveis de aprovação, mas apenas 2 horas de trabalho real de revisão acontecem. A campanha perde relevância.",
+                sobreproducao: "Excesso de Funcionalidades: Construir funcionalidades 'por si acaso' que 80% dos utilizadores nunca tocam. Cada funcionalidade adiciona complexidade, manutenção e potenciais bugs."
+            };
+            
+            document.getElementById('waste-example').innerHTML = `
+                <strong style="color: white;">Exemplo Real - ${type.charAt(0).toUpperCase() + type.slice(1)}:</strong><br>
+                ${examples[type]}
+            `;
+        }
+
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Checkbox functionality
+        document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    this.nextElementSibling.style.textDecoration = 'line-through';
+                    this.nextElementSibling.style.opacity = '0.6';
+                } else {
+                    this.nextElementSibling.style.textDecoration = 'none';
+                    this.nextElementSibling.style.opacity = '1';
+                }
+            });
+        });
+
+        // Sticky navigation on scroll
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav');
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                nav.style.transform = 'translateY(-100%)';
+            } else {
+                nav.style.transform = 'translateY(0)';
+            }
+            lastScroll = currentScroll;
+        });
+    </script>
+</body>
+</html>
