@@ -532,7 +532,7 @@
                     </div>
                 </div>
                 <div class="resources-grid">
-                    <a href="impediments-vs-blockers.html" class="resource-card inicio">
+                    <a href="mindset/impediments-vs-blockers.html" class="resource-card inicio">
                         <div class="resource-header">
                             <div class="resource-icon">🚧</div>
                             <h3 class="resource-title">Impediments vs Blockers</h3>
@@ -544,7 +544,7 @@
                         </div>
                     </a>
                     
-                    <a href="fixed-vs-growth-mindset.html" class="resource-card inicio">
+                    <a href="mindset/fixed-vs-growth-mindset.html" class="resource-card inicio">
                         <div class="resource-header">
                             <div class="resource-icon">🧠</div>
                             <h3 class="resource-title">Fixed vs Growth Mindset</h3>
@@ -556,7 +556,7 @@
                         </div>
                     </a>
                     
-                    <a href="anti-patterns-agile-e-psychological-safety.html" class="resource-card inicio">
+                    <a href="mindset/anti-patterns-agile-e-psychological-safety.html" class="resource-card inicio">
                         <div class="resource-header">
                             <div class="resource-icon">🛡️</div>
                             <h3 class="resource-title">Psychological Safety</h3>
@@ -581,19 +581,20 @@
                     </div>
                 </div>
                 <div class="resources-grid">
-                    <a href="kanban-simples.html" class="resource-card lean">
+                    <!-- Substituído: kanban-simples.html → mindset/lean-mindset.html -->
+                    <a href="mindset/lean-mindset.html" class="resource-card lean">
                         <div class="resource-header">
-                            <div class="resource-icon">📋</div>
-                            <h3 class="resource-title">Kanban Simples - Guia Essencial</h3>
+                            <div class="resource-icon">🧭</div>
+                            <h3 class="resource-title">Lean Mindset</h3>
                         </div>
-                        <p class="resource-description">Guia prático para implementar Kanban e melhorar o fluxo de trabalho da sua equipa.</p>
+                        <p class="resource-description">Princípios de pensamento Lean para equipas que querem entregar mais valor com menos desperdício.</p>
                         <div class="resource-tags">
-                            <span class="tag">Kanban</span>
-                            <span class="tag">Iniciante</span>
+                            <span class="tag">Fundamentos</span>
+                            <span class="tag">Cultura</span>
                         </div>
                     </a>
                     
-                    <a href="lean-kanban.html" class="resource-card lean">
+                    <a href="lean/lean-kanban.html" class="resource-card lean">
                         <div class="resource-header">
                             <div class="resource-icon">📈</div>
                             <h3 class="resource-title">Lean e Kanban Avançado</h3>
@@ -605,7 +606,7 @@
                         </div>
                     </a>
                     
-                    <a href="WSJF.html" class="resource-card lean">
+                    <a href="lean/WSJF.html" class="resource-card lean">
                         <div class="resource-header">
                             <div class="resource-icon">🎯</div>
                             <h3 class="resource-title">WSJF Priorização</h3>
@@ -629,7 +630,7 @@
                     </div>
                 </div>
                 <div class="resources-grid">
-                    <a href="agile-values-principles.html" class="resource-card agile">
+                    <a href="mindset/agile-values-principles.html" class="resource-card agile">
                         <div class="resource-header">
                             <div class="resource-icon">⭐</div>
                             <h3 class="resource-title">Valores e Princípios Agile</h3>
@@ -641,20 +642,7 @@
                         </div>
                     </a>
                     
-                    <a href="scrum-para-devs.html" class="resource-card agile">
-                        <div class="resource-header">
-                            <div class="resource-icon">👨‍💻</div>
-                            <h3 class="resource-title">Scrum Para Developers</h3>
-                        </div>
-                        <p class="resource-description">Guia prático de Scrum focado nas necessidades e desafios dos developers.</p>
-                        <div class="resource-tags">
-                            <span class="tag">Scrum</span>
-                            <span class="tag">Dev</span>
-                            <span class="tag new">Novo</span>
-                        </div>
-                    </a>
-                    
-                    <a href="scrum.html" class="resource-card agile">
+                    <a href="agile/scrum.html" class="resource-card agile">
                         <div class="resource-header">
                             <div class="resource-icon">🏃</div>
                             <h3 class="resource-title">Framework Scrum Completo</h3>
@@ -666,19 +654,7 @@
                         </div>
                     </a>
                     
-                    <a href="stories-easy.html" class="resource-card agile">
-                        <div class="resource-header">
-                            <div class="resource-icon">📝</div>
-                            <h3 class="resource-title">User Stories para Iniciantes</h3>
-                        </div>
-                        <p class="resource-description">Aprenda a escrever user stories eficazes com exemplos práticos e templates.</p>
-                        <div class="resource-tags">
-                            <span class="tag">Stories</span>
-                            <span class="tag">Iniciante</span>
-                        </div>
-                    </a>
-                    
-                    <a href="user-stories.html" class="resource-card agile">
+                    <a href="agile/user-stories.html" class="resource-card agile">
                         <div class="resource-header">
                             <div class="resource-icon">📑</div>
                             <h3 class="resource-title">User Stories Eficazes</h3>
@@ -705,40 +681,28 @@
         </div>
     </footer>
 
-    <!-- Replace your existing search functionality script with this fixed version -->
-<script>
-    // Search functionality
+    <!-- Search functionality (ajustado) -->
+    <script>
     const searchBox = document.getElementById('searchBox');
     const resourceCards = document.querySelectorAll('.resource-card');
     
     searchBox.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase().trim();
         
-        // If search is empty, show all cards and sections
         if (!searchTerm) {
-            resourceCards.forEach(card => {
-                card.style.display = '';  // Remove inline style to show card
-            });
-            document.querySelectorAll('.category-section').forEach(section => {
-                section.style.display = '';  // Show all sections
-            });
+            resourceCards.forEach(card => { card.style.display = ''; });
+            document.querySelectorAll('.category-section').forEach(section => { section.style.display = ''; });
             return;
         }
         
-        // Filter cards based on search term
         resourceCards.forEach(card => {
             const title = card.querySelector('.resource-title').textContent.toLowerCase();
             const description = card.querySelector('.resource-description').textContent.toLowerCase();
             const tags = Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent.toLowerCase());
-            
-            const matchesSearch = title.includes(searchTerm) || 
-                                description.includes(searchTerm) || 
-                                tags.some(tag => tag.includes(searchTerm));
-            
+            const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm) || tags.some(tag => tag.includes(searchTerm));
             card.style.display = matchesSearch ? '' : 'none';
         });
     
-        // Show/hide empty sections
         document.querySelectorAll('.category-section').forEach(section => {
             const visibleCards = section.querySelectorAll('.resource-card:not([style*="display: none"])').length;
             section.style.display = visibleCards === 0 ? 'none' : '';
