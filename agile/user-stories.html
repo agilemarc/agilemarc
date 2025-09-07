@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Stories & Story Mapping - O Guia Definitivo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #a855f7;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --dark-lighter: #1e293b;
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --dev-color: #22d3ee;
+            --po-color: #fbbf24;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            color: var(--text);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        /* Progress Indicator */
+        .progress-container {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(99, 102, 241, 0.1);
+            z-index: 999;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--gradient-1);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 2rem 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Section Styles */
+        .section {
+            margin-bottom: 6rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+        }
+
+        /* Card System */
+        .card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Interactive Elements */
+        .tab-container {
+            background: rgba(30, 41, 59, 0.4);
+            border-radius: 20px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .tab-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--text);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: var(--gradient-1);
+            color: white;
+            border-color: transparent;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Story Format Box */
+        .story-format {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            font-size: 1.2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-format::before {
+            content: 'FORMATO';
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: var(--dark);
+            color: var(--primary);
+            padding: 0 12px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .story-part {
+            display: inline-block;
+            margin: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Value Boxes */
+        .value-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 95, 70, 0.15));
+            border: 2px solid var(--success);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-box::before {
+            content: '💎 VALOR';
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: var(--dark);
+            color: var(--success);
+            padding: 0 15px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* Grid Systems */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Example Boxes */
+        .example-box {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--primary);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .example-box::before {
+            content: 'EXEMPLO';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--dark);
+            color: var(--primary);
+            padding: 0 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .good-example {
+            border-color: var(--success);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(16, 185, 129, 0.1));
+        }
+
+        .good-example::before {
+            content: '✅ BOM EXEMPLO';
+            color: var(--success);
+        }
+
+        .bad-example {
+            border-color: var(--danger);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), rgba(239, 68, 68, 0.1));
+        }
+
+        .bad-example::before {
+            content: '❌ MAU EXEMPLO';
+            color: var(--danger);
+        }
+
+        /* Dev vs PO Boxes */
+        .perspectives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .dev-box, .po-box {
+            padding: 1.5rem;
+            border-radius: 15px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .dev-box {
+            background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(34, 211, 238, 0.05));
+            border: 2px solid var(--dev-color);
+        }
+
+        .po-box {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(251, 191, 36, 0.05));
+            border: 2px solid var(--po-color);
+        }
+
+        .dev-box::before {
+            content: '👨‍💻 DEVELOPER';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--dark);
+            color: var(--dev-color);
+            padding: 0 12px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .po-box::before {
+            content: '📊 PRODUCT OWNER';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--dark);
+            color: var(--po-color);
+            padding: 0 12px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .dev-box:hover, .po-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        /* INVEST Grid */
+        .invest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .invest-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            position: relative;
+            text-align: center;
+        }
+
+        .invest-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
+            background: var(--gradient-1);
+            color: white;
+        }
+
+        .invest-letter {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .invest-card:hover .invest-letter {
+            color: white;
+        }
+
+        /* Story Map Visualization */
+        .story-map {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            overflow-x: auto;
+        }
+
+        .map-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .map-card {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            padding: 1rem;
+            min-width: 150px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .map-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .epic-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(168, 85, 247, 0.2));
+            border-color: var(--secondary);
+            min-width: 200px;
+            font-weight: bold;
+        }
+
+        /* Interactive Features */
+        .interactive-demo {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid var(--primary);
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .demo-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Checklists */
+        .checklist {
+            background: rgba(99, 102, 241, 0.05);
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .checklist-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateX(5px);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 1rem;
+            cursor: pointer;
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gradient-1);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 2rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: rgba(30, 41, 59, 0.8);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid var(--primary);
+            margin: 0 2rem;
+        }
+
+        .timeline-marker {
+            width: 20px;
+            height: 20px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Tooltips */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            color: var(--primary);
+            text-decoration: underline dotted;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background: var(--dark);
+            color: var(--text);
+            text-align: center;
+            border-radius: 10px;
+            padding: 1rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Lists */
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        ul li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Warning and Success Boxes */
+        .warning-box {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+            border: 2px solid var(--warning);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .warning-box::before {
+            content: '⚠️ ATENÇÃO';
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: var(--dark);
+            color: var(--warning);
+            padding: 0 12px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+            border: 2px solid var(--success);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .success-box::before {
+            content: '✅ SUCESSO';
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: var(--dark);
+            color: var(--success);
+            padding: 0 12px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Code blocks */
+        .code-block {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        /* Floating action button */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s;
+            z-index: 900;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .perspectives-grid,
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item,
+            .timeline-item:nth-child(odd) {
+                flex-direction: row;
+            }
+            
+            .timeline-marker {
+                left: 20px;
+            }
+            
+            .timeline-content {
+                margin-left: 4rem;
+                margin-right: 0;
+            }
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .nav-container,
+            .progress-container,
+            .fab {
+                display: none;
+            }
+            
+            .card,
+            .example-box {
+                border: 1px solid #ccc;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="nav-container">
+        <div class="nav-content">
+            <div class="nav-logo">📚 User Stories Master Guide</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#intro">Introdução</a></li>
+                    <li><a href="#basics">Fundamentos</a></li>
+                    <li><a href="#formato">Formato</a></li>
+                    <li><a href="#invest">INVEST</a></li>
+                    <li><a href="#mapping">Story Mapping</a></li>
+                    <li><a href="#breakdown">Breakdown</a></li>
+                    <li><a href="#pratica">Prática</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Hero Section -->
+        <section id="intro" class="section">
+            <div class="section-header">
+                <h1>User Stories & Story Mapping</h1>
+                <p class="subtitle">O Guia Completo para Equipas de Desenvolvimento</p>
+            </div>
+            
+            <div class="card" style="text-align: center;">
+                <h2>🚀 De Zero a Expert em User Stories</h2>
+                <p style="font-size: 1.2rem; margin: 2rem 0;">
+                    Este guia vai transformar a forma como sua equipa trabalha. 
+                    Aprenda a criar User Stories perfeitas, fazer Story Mapping profissional, 
+                    e dividir trabalho de forma eficiente.
+                </p>
+                
+                <div class="perspectives-grid">
+                    <div class="dev-box">
+                        <h3>Para Developers</h3>
+                        <ul>
+                            <li>Entender exatamente o que construir</li>
+                            <li>Menos retrabalho e bugs</li>
+                            <li>Estimativas mais precisas</li>
+                            <li>Código com propósito claro</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="po-box">
+                        <h3>Para Product Owners</h3>
+                        <ul>
+                            <li>Comunicar valor efetivamente</li>
+                            <li>Priorizar com confiança</li>
+                            <li>Releases previsíveis</li>
+                            <li>Stakeholders alinhados</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: O que são User Stories -->
+        <section id="basics" class="section">
+            <div class="section-header">
+                <h2>📖 O Que São User Stories?</h2>
+                <p class="subtitle">A base de tudo no desenvolvimento ágil</p>
+            </div>
+
+            <div class="card">
+                <h3>Definição Simples</h3>
+                <p style="font-size: 1.2rem; line-height: 1.8;">
+                    User Stories são <strong>descrições curtas e simples</strong> de uma funcionalidade 
+                    contada da perspetiva da pessoa que a deseja. Não são requisitos técnicos detalhados - 
+                    são <strong>conversas sobre valor</strong> que guiam o desenvolvimento.
+                </p>
+                
+                <div class="value-box" style="margin-top: 2rem;">
+                    <h4>Princípio Fundamental</h4>
+                    <p style="font-size: 1.1rem;">
+                        "As melhores User Stories nascem de conversas, não de documentos."
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>✨ Características Essenciais</h3>
+                    <ul>
+                        <li><strong>Simples:</strong> Linguagem não-técnica que todos entendem</li>
+                        <li><strong>Centradas no utilizador:</strong> Foco em quem vai usar</li>
+                        <li><strong>Orientadas ao valor:</strong> Sempre com propósito claro</li>
+                        <li><strong>Negociáveis:</strong> Ponto de partida para discussão</li>
+                        <li><strong>Testáveis:</strong> Critérios claros de sucesso</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>💡 Porquê User Stories?</h3>
+                    <ul>
+                        <li>Mantém foco no cliente, não na tecnologia</li>
+                        <li>Promove colaboração Dev + PO</li>
+                        <li>Flexibilidade para mudanças</li>
+                        <li>Entrega incremental de valor</li>
+                        <li>Reduz desperdício e retrabalho</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Formato e Anatomia -->
+        <section id="formato" class="section">
+            <div class="section-header">
+                <h2>✍️ Formato e Anatomia</h2>
+                <p class="subtitle">Como escrever User Stories perfeitas</p>
+            </div>
+
+            <div class="story-format">
+                <h3>Formato Clássico</h3>
+                <div style="font-size: 1.4rem; font-weight: bold; margin: 2rem 0;">
+                    <span class="story-part">Como [tipo de utilizador]</span><br>
+                    <span class="story-part">Quero [funcionalidade]</span><br>
+                    <span class="story-part">Para que [benefício/valor]</span>
+                </div>
+            </div>
+
+            <div class="example-box good-example">
+                <h3>História Bem Escrita - Contexto Bancário</h3>
+                <p style="font-size: 1.2rem; margin: 1rem 0;">
+                    <strong>Como</strong> gestor de conta empresarial<br>
+                    <strong>Quero</strong> aprovar pagamentos em lote via mobile<br>
+                    <strong>Para que</strong> possa gerir aprovações mesmo fora do escritório
+                </p>
+                
+                <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-radius: 10px;">
+                    <strong>✨ Porque funciona:</strong>
+                    <ul style="margin-top: 0.5rem;">
+                        <li>Persona específica e clara</li>
+                        <li>Necessidade bem definida</li>
+                        <li>Valor de negócio explícito</li>
+                        <li>Abre espaço para discussão técnica</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="example-box bad-example">
+                <h3>História Mal Escrita</h3>
+                <p style="font-size: 1.2rem; margin: 1rem 0;">
+                    "Implementar sistema de aprovações"
+                </p>
+                
+                <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(239, 68, 68, 0.1); border-radius: 10px;">
+                    <strong>❌ Problemas:</strong>
+                    <ul style="margin-top: 0.5rem;">
+                        <li>Quem precisa? Não sabemos</li>
+                        <li>Que tipo de aprovações?</li>
+                        <li>Qual o valor de negócio?</li>
+                        <li>Mobile? Desktop? API?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Os 3 C's da User Story</h3>
+                
+                <div class="grid">
+                    <div class="card" style="background: rgba(99, 102, 241, 0.1);">
+                        <h4>📋 Card (Cartão)</h4>
+                        <p>A descrição escrita da história no formato padrão</p>
+                        <div class="code-block">
+                            Como [persona]
+                            Quero [ação]
+                            Para [valor]
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(168, 85, 247, 0.1);">
+                        <h4>💬 Conversation (Conversa)</h4>
+                        <p>Discussões para clarificar detalhes</p>
+                        <ul>
+                            <li>Que tecnologia usar?</li>
+                            <li>Quais as regras de negócio?</li>
+                            <li>Como lidar com erros?</li>
+                            <li>Qual a performance esperada?</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(236, 72, 153, 0.1);">
+                        <h4>✅ Confirmation (Confirmação)</h4>
+                        <p>Critérios de aceitação claros</p>
+                        <div class="code-block">
+                            DADO QUE [contexto]
+                            QUANDO [ação]
+                            ENTÃO [resultado]
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: INVEST Criteria -->
+        <section id="invest" class="section">
+            <div class="section-header">
+                <h2>✅ Critérios INVEST</h2>
+                <p class="subtitle">Como garantir qualidade nas User Stories</p>
+            </div>
+
+            <div class="invest-grid">
+                <div class="invest-card">
+                    <span class="invest-letter">I</span>
+                    <h4>Independent</h4>
+                    <p>Pode ser desenvolvida sem depender de outras</p>
+                    <small style="color: var(--success);">✓ Flexibilidade total</small>
+                </div>
+
+                <div class="invest-card">
+                    <span class="invest-letter">N</span>
+                    <h4>Negotiable</h4>
+                    <p>Detalhes podem ser discutidos</p>
+                    <small style="color: var(--success);">✓ Melhor solução</small>
+                </div>
+
+                <div class="invest-card">
+                    <span class="invest-letter">V</span>
+                    <h4>Valuable</h4>
+                    <p>Entrega valor claro ao utilizador</p>
+                    <small style="color: var(--success);">✓ Sem desperdício</small>
+                </div>
+
+                <div class="invest-card">
+                    <span class="invest-letter">E</span>
+                    <h4>Estimable</h4>
+                    <p>Equipa consegue estimar</p>
+                    <small style="color: var(--success);">✓ Planning previsível</small>
+                </div>
+
+                <div class="invest-card">
+                    <span class="invest-letter">S</span>
+                    <h4>Small</h4>
+                    <p>Cabe numa sprint (2-5 dias)</p>
+                    <small style="color: var(--success);">✓ Feedback rápido</small>
+                </div>
+
+                <div class="invest-card">
+                    <span class="invest-letter">T</span>
+                    <h4>Testable</h4>
+                    <p>Critérios claros de aceitação</p>
+                    <small style="color: var(--success);">✓ Definition of Done</small>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📊 Aplicando INVEST na Prática</h3>
+                
+                <div class="tab-container">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" onclick="showTab('invest1')">❌ Story Problemática</button>
+                        <button class="tab-btn" onclick="showTab('invest2')">✅ Story INVEST</button>
+                        <button class="tab-btn" onclick="showTab('invest3')">🔄 Como Melhorar</button>
+                    </div>
+                    
+                    <div id="invest1" class="tab-content active">
+                        <div class="example-box bad-example">
+                            <h4>Story Original (Falha INVEST)</h4>
+                            <p style="font-size: 1.1rem;">
+                                "Implementar sistema de autenticação completo com todas as funcionalidades"
+                            </p>
+                            <ul style="margin-top: 1rem;">
+                                <li>❌ <strong>Independent:</strong> Bloqueia tudo</li>
+                                <li>❌ <strong>Negotiable:</strong> "Completo" é vago</li>
+                                <li>❓ <strong>Valuable:</strong> Valor não claro</li>
+                                <li>❌ <strong>Estimable:</strong> Grande demais</li>
+                                <li>❌ <strong>Small:</strong> Meses de trabalho</li>
+                                <li>❌ <strong>Testable:</strong> Sem critérios</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div id="invest2" class="tab-content">
+                        <div class="example-box good-example">
+                            <h4>Stories Refinadas (INVEST Compliant)</h4>
+                            <div style="margin: 1rem 0;">
+                                <p><strong>Story 1:</strong> "Como utilizador, quero fazer login com email/password para aceder à minha conta"</p>
+                                <p><strong>Story 2:</strong> "Como utilizador, quero recuperar password esquecida para retomar acesso"</p>
+                                <p><strong>Story 3:</strong> "Como utilizador, quero autenticação 2FA para maior segurança"</p>
+                            </div>
+                            <ul style="margin-top: 1rem;">
+                                <li>✅ Cada uma é independente</li>
+                                <li>✅ Scope negociável</li>
+                                <li>✅ Valor claro para utilizador</li>
+                                <li>✅ 2-3 dias cada</li>
+                                <li>✅ Critérios testáveis</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div id="invest3" class="tab-content">
+                        <div class="card" style="background: rgba(16, 185, 129, 0.1);">
+                            <h4>🔄 Processo de Refinamento</h4>
+                            <ol style="list-style: decimal; padding-left: 2rem;">
+                                <li><strong>Identificar dependências:</strong> Separar partes independentes</li>
+                                <li><strong>Clarificar valor:</strong> Adicionar o "para que"</li>
+                                <li><strong>Dividir em chunks:</strong> Max 5 dias de trabalho</li>
+                                <li><strong>Definir critérios:</strong> Given-When-Then claros</li>
+                                <li><strong>Validar com equipa:</strong> Todos conseguem estimar?</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Story Mapping -->
+        <section id="mapping" class="section">
+            <div class="section-header">
+                <h2>🗺️ Story Mapping</h2>
+                <p class="subtitle">A técnica que revoluciona o planeamento de produtos</p>
+            </div>
+
+            <div class="card">
+                <h3>O que é Story Mapping?</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                    Story Mapping é uma técnica visual para organizar user stories numa narrativa que mostra 
+                    a <strong>jornada completa do utilizador</strong>. É como um mapa do tesouro para o produto!
+                </p>
+                
+                <div class="grid-2">
+                    <div class="card" style="background: rgba(99, 102, 241, 0.1);">
+                        <h4>🔄 Eixo Horizontal</h4>
+                        <p>Sequência temporal da jornada do utilizador</p>
+                        <small>Da esquerda para direita: início ao fim</small>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(168, 85, 247, 0.1);">
+                        <h4>📊 Eixo Vertical</h4>
+                        <p>Prioridade e sofisticação das funcionalidades</p>
+                        <small>De cima para baixo: essencial ao nice-to-have</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🏗️ Como Construir um Story Map</h3>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>1. Backbone (Atividades)</h4>
+                            <p>Identificar grandes blocos de atividade do utilizador</p>
+                            <div class="example-box" style="margin-top: 1rem;">
+                                <strong>Exemplo E-commerce:</strong> Descobrir → Avaliar → Comprar → Receber → Suporte
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>2. Walking Skeleton (Tarefas)</h4>
+                            <p>Decompor cada atividade em tarefas específicas</p>
+                            <div class="example-box" style="margin-top: 1rem;">
+                                <strong>"Comprar":</strong> Ver carrinho → Inserir dados → Pagar → Confirmar
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>3. User Stories</h4>
+                            <p>Adicionar stories específicas sob cada tarefa</p>
+                            <div class="example-box" style="margin-top: 1rem;">
+                                <strong>"Pagar":</strong> Cartão crédito → PayPal → MBWay → Crypto
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>4. Releases</h4>
+                            <p>Dividir verticalmente em entregas incrementais</p>
+                            <div class="example-box" style="margin-top: 1rem;">
+                                <strong>MVP:</strong> Funcionalidades mínimas<br>
+                                <strong>R2:</strong> Melhorias UX<br>
+                                <strong>R3:</strong> Features avançadas
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📱 Exemplo Completo: App Banking</h3>
+                
+                <div class="story-map">
+                    <h4 style="color: var(--primary); margin-bottom: 1.5rem;">Story Map - Mobile Banking</h4>
+                    
+                    <!-- Backbone -->
+                    <div class="map-row">
+                        <div class="epic-card">
+                            <strong>🚀 Onboarding</strong><br>
+                            <span style="font-size: 0.9rem;">Criar conta</span>
+                        </div>
+                        <div class="epic-card">
+                            <strong>👁️ Consultar</strong><br>
+                            <span style="font-size: 0.9rem;">Ver informação</span>
+                        </div>
+                        <div class="epic-card">
+                            <strong>💸 Transacionar</strong><br>
+                            <span style="font-size: 0.9rem;">Mover dinheiro</span>
+                        </div>
+                        <div class="epic-card">
+                            <strong>💰 Investir</strong><br>
+                            <span style="font-size: 0.9rem;">Fazer crescer</span>
+                        </div>
+                        <div class="epic-card">
+                            <strong>⚙️ Gerir</strong><br>
+                            <span style="font-size: 0.9rem;">Configurar</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Release 1 - MVP -->
+                    <h5 style="margin: 1.5rem 0 0.5rem; color: var(--success);">🚀 Release 1 - MVP (2 meses)</h5>
+                    <div class="map-row">
+                        <div class="map-card">Registo email</div>
+                        <div class="map-card">Ver saldo</div>
+                        <div class="map-card">Transferência nacional</div>
+                        <div class="map-card">-</div>
+                        <div class="map-card">Reset password</div>
+                    </div>
+                    
+                    <!-- Release 2 -->
+                    <h5 style="margin: 1.5rem 0 0.5rem; color: var(--warning);">📈 Release 2 - Engagement (2 meses)</h5>
+                    <div class="map-row">
+                        <div class="map-card">KYC digital</div>
+                        <div class="map-card">Extractos PDF</div>
+                        <div class="map-card">Pagamentos QR</div>
+                        <div class="map-card">Depósitos prazo</div>
+                        <div class="map-card">Notificações push</div>
+                    </div>
+                    
+                    <!-- Release 3 -->
+                    <h5 style="margin: 1.5rem 0 0.5rem; color: var(--accent);">🌟 Release 3 - Premium (2 meses)</h5>
+                    <div class="map-row">
+                        <div class="map-card">Conta conjunta</div>
+                        <div class="map-card">Analytics AI</div>
+                        <div class="map-card">Crypto trading</div>
+                        <div class="map-card">Robo-advisor</div>
+                        <div class="map-card">Cartão virtual</div>
+                    </div>
+                </div>
+                
+                <div class="value-box" style="margin-top: 2rem;">
+                    <h4>Resultado do Story Mapping</h4>
+                    <ul>
+                        <li>✅ Visão completa do produto</li>
+                        <li>✅ Releases com valor end-to-end</li>
+                        <li>✅ Sem funcionalidades órfãs</li>
+                        <li>✅ Priorização visual clara</li>
+                        <li>✅ Todos alinhados no roadmap</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Story Mapping Avançado - Gestão de Dependências</h3>
+                
+                <div class="grid">
+                    <div class="card" style="background: rgba(239, 68, 68, 0.1); border: 2px solid var(--danger);">
+                        <h4 style="color: var(--danger);">⚡ Dependências Técnicas</h4>
+                        <p><strong>Sistema Autenticação → Bloqueia:</strong></p>
+                        <ul>
+                            <li>Subscrições (precisa user ID)</li>
+                            <li>Histórico (precisa sessão)</li>
+                            <li>Personalização (precisa perfil)</li>
+                        </ul>
+                        <div style="margin-top: 1rem; padding: 1rem; background: rgba(239, 68, 68, 0.1); border-radius: 10px;">
+                            <strong>🚨 Mitigação:</strong> Começar na Sprint 1
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(245, 158, 11, 0.1); border: 2px solid var(--warning);">
+                        <h4 style="color: var(--warning);">💼 Dependências Negócio</h4>
+                        <p><strong>Compliance/Legal → Necessário para:</strong></p>
+                        <ul>
+                            <li>KYC/AML procedures</li>
+                            <li>GDPR compliance</li>
+                            <li>Termos de serviço</li>
+                        </ul>
+                        <div style="margin-top: 1rem; padding: 1rem; background: rgba(245, 158, 11, 0.1); border-radius: 10px;">
+                            <strong>⚠️ Mitigação:</strong> Envolver legal desde início
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(139, 92, 246, 0.1); border: 2px solid var(--secondary);">
+                        <h4 style="color: var(--secondary);">🌐 Dependências Externas</h4>
+                        <p><strong>APIs Terceiros → Setup necessário:</strong></p>
+                        <ul>
+                            <li>Gateway pagamentos (5 dias)</li>
+                            <li>Provider SMS (2 dias)</li>
+                            <li>Serviço KYC (10 dias)</li>
+                        </ul>
+                        <div style="margin-top: 1rem; padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 10px;">
+                            <strong>💡 Mitigação:</strong> Iniciar contratos Sprint 0
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Breaking Down Work -->
+        <section id="breakdown" class="section">
+            <div class="section-header">
+                <h2>📐 Breaking Down - De Épicos a Tasks</h2>
+                <p class="subtitle">Como decompor trabalho eficientemente</p>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Hierarquia do Trabalho</h3>
+                
+                <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 2rem; margin: 2rem 0;">
+                    <div style="text-align: center;">
+                        <div style="background: var(--gradient-2); padding: 2rem; border-radius: 15px; color: white;">
+                            <h4>Epic</h4>
+                            <p>3-6 meses</p>
+                            <small>"Sistema Pagamentos"</small>
+                        </div>
+                    </div>
+                    
+                    <div style="font-size: 2rem;">→</div>
+                    
+                    <div style="text-align: center;">
+                        <div style="background: var(--gradient-1); padding: 2rem; border-radius: 15px; color: white;">
+                            <h4>User Stories</h4>
+                            <p>2-5 dias</p>
+                            <small>"Pagar com cartão"</small>
+                        </div>
+                    </div>
+                    
+                    <div style="font-size: 2rem;">→</div>
+                    
+                    <div style="text-align: center;">
+                        <div style="background: var(--gradient-3); padding: 2rem; border-radius: 15px; color: white;">
+                            <h4>Tasks</h4>
+                            <p>2-8 horas</p>
+                            <small>"Integrar API Stripe"</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>✂️ Técnicas de Splitting</h3>
+                
+                <div class="grid">
+                    <div class="card" style="background: rgba(99, 102, 241, 0.1);">
+                        <h4>📱 Por Interface</h4>
+                        <p>Web → Mobile → API → Admin</p>
+                        <div class="example-box" style="margin-top: 1rem;">
+                            <strong>Original:</strong> Sistema alertas<br>
+                            <strong>Split:</strong> Email | SMS | Push | In-app
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(168, 85, 247, 0.1);">
+                        <h4>📊 Por Workflow</h4>
+                        <p>Criar → Ler → Atualizar → Apagar</p>
+                        <div class="example-box" style="margin-top: 1rem;">
+                            <strong>Original:</strong> Gestão beneficiários<br>
+                            <strong>Split:</strong> Adicionar | Listar | Editar | Remover
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(236, 72, 153, 0.1);">
+                        <h4>⚡ Por Performance</h4>
+                        <p>Funcional → Rápido → Otimizado</p>
+                        <div class="example-box" style="margin-top: 1rem;">
+                            <strong>Original:</strong> Dashboard real-time<br>
+                            <strong>Split:</strong> 5min cache | 30seg | Real-time
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(16, 185, 129, 0.1);">
+                        <h4>🎯 Por Regras</h4>
+                        <p>Simples → Complexo → Edge cases</p>
+                        <div class="example-box" style="margin-top: 1rem;">
+                            <strong>Original:</strong> Aprovação crédito<br>
+                            <strong>Split:</strong> <10K auto | <50K manual | >50K comité
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(245, 158, 11, 0.1);">
+                        <h4>🔢 Por Dados</h4>
+                        <p>Tipo A → Tipo B → Tipo C</p>
+                        <div class="example-box" style="margin-top: 1rem;">
+                            <strong>Original:</strong> Tipos pagamento<br>
+                            <strong>Split:</strong> Nacional | SEPA | Internacional
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(239, 68, 68, 0.1);">
+                        <h4>👥 Por Persona</h4>
+                        <p>Cliente → Gestor → Admin</p>
+                        <div class="example-box" style="margin-top: 1rem;">
+                            <strong>Original:</strong> Dashboard completo<br>
+                            <strong>Split:</strong> Vista cliente | Vista gestor | Vista compliance
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🔬 Spikes - Investigação com Propósito</h3>
+                
+                <div class="warning-box">
+                    <h4>O que é um Spike?</h4>
+                    <p style="font-size: 1.1rem;">
+                        Spike é uma <strong>user story de investigação</strong> - tempo limitado (máx 2-3 dias) 
+                        para pesquisar, prototipar ou aprender algo necessário antes de poder estimar ou implementar.
+                    </p>
+                </div>
+                
+                <div class="grid-2">
+                    <div class="card">
+                        <h4>🎯 Quando Usar Spikes</h4>
+                        <ul>
+                            <li><strong>Tecnologia nova:</strong> "Nunca usámos GraphQL"</li>
+                            <li><strong>Estimativa impossível:</strong> "Não sabemos complexidade"</li>
+                            <li><strong>Decisão arquitetural:</strong> "MongoDB vs PostgreSQL?"</li>
+                            <li><strong>Performance unknown:</strong> "Aguenta 10k req/s?"</li>
+                            <li><strong>Feasibility:</strong> "É possível fazer X?"</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>📋 Exemplo de Spike</h4>
+                        <p><strong>Spike:</strong> Investigar real-time sync mobile/web</p>
+                        <p><strong>Timebox:</strong> 2 dias</p>
+                        <p><strong>Objetivos:</strong></p>
+                        <ul>
+                            <li>Comparar WebSockets vs SSE</li>
+                            <li>POC com Socket.io</li>
+                            <li>Estimar custos infra</li>
+                        </ul>
+                        <p><strong>Entregável:</strong> Relatório + recomendação</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📋 De User Story para Tasks Técnicas</h3>
+                
+                <div class="example-box good-example">
+                    <h4>User Story Original</h4>
+                    <p style="font-size: 1.2rem;">
+                        "Como cliente, quero autenticação biométrica para aceder mais rapidamente à app"
+                    </p>
+                </div>
+                
+                <div class="grid" style="margin-top: 2rem;">
+                    <div class="card" style="background: rgba(34, 211, 238, 0.1);">
+                        <h4>📱 Tasks Frontend</h4>
+                        <ul>
+                            <li>Implementar SDK biometria iOS (6h)</li>
+                            <li>Implementar SDK biometria Android (6h)</li>
+                            <li>UI de onboarding biometria (4h)</li>
+                            <li>Fallback para PIN (4h)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(251, 191, 36, 0.1);">
+                        <h4>⚙️ Tasks Backend</h4>
+                        <ul>
+                            <li>API endpoint registro biometria (4h)</li>
+                            <li>Serviço validação token (6h)</li>
+                            <li>Update schema DB (2h)</li>
+                            <li>Logs segurança (2h)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(16, 185, 129, 0.1);">
+                        <h4>✅ Tasks QA</h4>
+                        <ul>
+                            <li>Testes unitários (4h)</li>
+                            <li>Testes integração (4h)</li>
+                            <li>Testes E2E (6h)</li>
+                            <li>Testes segurança (4h)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="success-box" style="margin-top: 2rem;">
+                    <h4>Total Estimado</h4>
+                    <p><strong>52 horas ≈ 6-7 dias</strong> (para 1 dev fullstack + QA)</p>
+                    <p>Com pair programming: 3-4 dias</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: DoR & DoD -->
+        <section id="dor-dod" class="section">
+            <div class="section-header">
+                <h2>📋 Definition of Ready & Done</h2>
+                <p class="subtitle">Os contratos de qualidade entre Dev e PO</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>📥 Definition of Ready (DoR)</h3>
+                    <p>Uma story está pronta quando:</p>
+                    
+                    <div class="checklist">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="dor1" checked>
+                            <label for="dor1">Formato User Story correto</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="dor2" checked>
+                            <label for="dor2">Critérios aceitação claros</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="dor3" checked>
+                            <label for="dor3">Mockups/wireframes disponíveis</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="dor4" checked>
+                            <label for="dor4">Dependências identificadas</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="dor5" checked>
+                            <label for="dor5">Estimativa da equipa</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="dor6" checked>
+                            <label for="dor6">Prioridade definida</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>✅ Definition of Done (DoD)</h3>
+                    <p>Uma story está completa quando:</p>
+                    
+                    <div class="checklist">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="dod1">
+                            <label for="dod1">Código no repositório</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="dod2">
+                            <label for="dod2">Code review aprovado</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="dod3">
+                            <label for="dod3">Testes unitários >80%</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="dod4">
+                            <label for="dod4">Documentação atualizada</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="dod5">
+                            <label for="dod5">Deploy em staging</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="dod6">
+                            <label for="dod6">PO aprovou</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="value-box">
+                <h4>DoR + DoD = Zero Discussões</h4>
+                <p style="font-size: 1.1rem;">
+                    Estes documentos são o <strong>acordo entre Dev e PO</strong>. 
+                    DoR garante que PO preparou tudo, DoD garante que Dev entregou com qualidade.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section: Estimação -->
+        <section id="estimacao" class="section">
+            <div class="section-header">
+                <h2>📏 Técnicas de Estimação</h2>
+                <p class="subtitle">Story Points, Horas, T-Shirt Sizing</p>
+            </div>
+
+            <div class="card">
+                <h3>📊 Comparação de Métodos</h3>
+                
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: var(--gradient-1); color: white;">
+                            <th style="padding: 1rem; text-align: left;">Método</th>
+                            <th style="padding: 1rem;">Quando Usar</th>
+                            <th style="padding: 1rem;">Escala</th>
+                            <th style="padding: 1rem;">Vantagem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: rgba(99, 102, 241, 0.05);">
+                            <td style="padding: 1rem;"><strong>Story Points</strong></td>
+                            <td style="padding: 1rem;">Scrum, equipas maduras</td>
+                            <td style="padding: 1rem;">1, 2, 3, 5, 8, 13, 21</td>
+                            <td style="padding: 1rem;">Foco em complexidade</td>
+                        </tr>
+                        <tr style="background: rgba(99, 102, 241, 0.1);">
+                            <td style="padding: 1rem;"><strong>T-Shirt</strong></td>
+                            <td style="padding: 1rem;">Estimação inicial</td>
+                            <td style="padding: 1rem;">XS, S, M, L, XL</td>
+                            <td style="padding: 1rem;">Rápido e intuitivo</td>
+                        </tr>
+                        <tr style="background: rgba(99, 102, 241, 0.05);">
+                            <td style="padding: 1rem;"><strong>Horas/Dias</strong></td>
+                            <td style="padding: 1rem;">Projetos tradicionais</td>
+                            <td style="padding: 1rem;">8h, 16h, 24h, 40h</td>
+                            <td style="padding: 1rem;">Familiar para gestão</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>🔄 Tabela de Conversão</h3>
+                
+                <div class="grid" style="text-align: center;">
+                    <div class="card" style="background: rgba(99, 102, 241, 0.1);">
+                        <h4>XS</h4>
+                        <p><strong>1 ponto</strong></p>
+                        <p>2-4 horas</p>
+                        <p style="font-size: 0.9rem;">Mudança trivial</p>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(99, 102, 241, 0.15);">
+                        <h4>S</h4>
+                        <p><strong>2-3 pontos</strong></p>
+                        <p>4-8 horas</p>
+                        <p style="font-size: 0.9rem;">Tarefa simples</p>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(99, 102, 241, 0.2);">
+                        <h4>M</h4>
+                        <p><strong>5 pontos</strong></p>
+                        <p>2-3 dias</p>
+                        <p style="font-size: 0.9rem;">Complexidade média</p>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(99, 102, 241, 0.25);">
+                        <h4>L</h4>
+                        <p><strong>8 pontos</strong></p>
+                        <p>3-5 dias</p>
+                        <p style="font-size: 0.9rem;">Trabalho complexo</p>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(99, 102, 241, 0.3);">
+                        <h4>XL</h4>
+                        <p><strong>13 pontos</strong></p>
+                        <p>5-10 dias</p>
+                        <p style="font-size: 0.9rem;">Muito complexo</p>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(239, 68, 68, 0.2);">
+                        <h4>XXL</h4>
+                        <p><strong>21+ pontos</strong></p>
+                        <p>>2 semanas</p>
+                        <p style="font-size: 0.9rem;">⚠️ Dividir!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Prática e Implementação -->
+        <section id="pratica" class="section">
+            <div class="section-header">
+                <h2>🚀 Guia Prático - Começar Hoje</h2>
+                <p class="subtitle">Templates e exemplos prontos para usar</p>
+            </div>
+
+            <div class="card">
+                <h3>📝 Template Completo de User Story</h3>
+                
+                <div class="code-block">
+                    <strong>ID:</strong> [PROJ-XXX]
+                    <strong>Título:</strong> [Descrição curta e clara]
+                    
+                    <strong>User Story:</strong>
+                    Como [tipo de utilizador]
+                    Quero [funcionalidade]
+                    Para que [benefício/valor]
+                    
+                    <strong>Critérios de Aceitação:</strong>
+                    DADO QUE [contexto inicial]
+                    QUANDO [ação do utilizador]
+                    ENTÃO [resultado esperado]
+                    
+                    <strong>Notas Técnicas:</strong>
+                    - [Considerações de implementação]
+                    - [Dependências técnicas]
+                    
+                    <strong>Mockups:</strong> [Link para designs]
+                    <strong>Estimativa:</strong> [X story points / T-shirt size]
+                    <strong>Prioridade:</strong> [Alta/Média/Baixa]
+                    <strong>Sprint:</strong> [Número]
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>⚠️ Erros Comuns e Como Evitar</h3>
+                
+                <div class="grid-2">
+                    <div class="example-box bad-example">
+                        <h4>Erro 1: Stories Técnicas</h4>
+                        <p>❌ "Como developer, quero refatorizar DB"</p>
+                        <p>✅ "Como utilizador, quero respostas 50% mais rápidas"</p>
+                    </div>
+                    
+                    <div class="example-box bad-example">
+                        <h4>Erro 2: Stories Gigantes</h4>
+                        <p>❌ "Sistema completo de pagamentos"</p>
+                        <p>✅ Dividir em 10+ stories pequenas</p>
+                    </div>
+                    
+                    <div class="example-box bad-example">
+                        <h4>Erro 3: Sem Critérios</h4>
+                        <p>❌ Story sem definição de "pronto"</p>
+                        <p>✅ Given-When-Then específicos</p>
+                    </div>
+                    
+                    <div class="example-box bad-example">
+                        <h4>Erro 4: Sem Valor</h4>
+                        <p>❌ "Quero ver gráficos" (Porquê?)</p>
+                        <p>✅ "Para entender meus gastos"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>✅ Checklist de Implementação</h3>
+                
+                <div class="checklist">
+                    <h4 style="margin-bottom: 1rem;">Esta Semana:</h4>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="impl1">
+                        <label for="impl1">Escolher formato padrão para stories</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="impl2">
+                        <label for="impl2">Criar DoR e DoD com a equipa</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="impl3">
+                        <label for="impl3">Agendar sessão de Story Mapping</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="impl4">
+                        <label for="impl4">Converter 3 requisitos em User Stories</label>
+                    </div>
+                </div>
+                
+                <div class="checklist" style="margin-top: 2rem;">
+                    <h4 style="margin-bottom: 1rem;">Próximo Mês:</h4>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="impl5">
+                        <label for="impl5">Todo backlog em User Stories</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="impl6">
+                        <label for="impl6">Story Map do próximo quarter</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="impl7">
+                        <label for="impl7">Métricas de velocidade estabelecidas</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="impl8">
+                        <label for="impl8">Retrospectiva do processo</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🛠️ Ferramentas Recomendadas</h3>
+                
+                <div class="grid">
+                    <div class="card" style="background: rgba(99, 102, 241, 0.1);">
+                        <h4>Jira</h4>
+                        <p>Gestão completa de backlog</p>
+                        <small>✓ Integração desenvolvimento</small>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(168, 85, 247, 0.1);">
+                        <h4>Azure DevOps</h4>
+                        <p>Ciclo completo ALM</p>
+                        <small>✓ Boards + Repos + Pipelines</small>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(236, 72, 153, 0.1);">
+                        <h4>Miro/Mural</h4>
+                        <p>Story Mapping visual</p>
+                        <small>✓ Colaboração remota</small>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(16, 185, 129, 0.1);">
+                        <h4>Trello</h4>
+                        <p>Simples e intuitivo</p>
+                        <small>✓ Equipas pequenas</small>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(245, 158, 11, 0.1);">
+                        <h4>Linear</h4>
+                        <p>Moderno e rápido</p>
+                        <small>✓ Developer-friendly</small>
+                    </div>
+                    
+                    <div class="card" style="background: rgba(34, 211, 238, 0.1);">
+                        <h4>Notion</h4>
+                        <p>All-in-one workspace</p>
+                        <small>✓ Docs + Tasks + Wiki</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <h2 style="text-align: center;">🎯 Resultado Final</h2>
+                <p style="font-size: 1.2rem; text-align: center; margin: 2rem 0;">
+                    Com User Stories bem escritas, Story Mapping regular, e breakdown eficiente:
+                </p>
+                <div class="grid">
+                    <div style="text-align: center;">
+                        <h3 style="color: var(--success);">90%</h3>
+                        <p>Menos mal-entendidos</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h3 style="color: var(--success);">60%</h3>
+                        <p>Mais velocidade</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h3 style="color: var(--success);">80%</h3>
+                        <p>Maior satisfação</p>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 2rem; font-size: 1.3rem;">
+                    <strong>Equipas alinhadas = Produtos de sucesso! 🚀</strong>
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="fab" onclick="scrollToTop()">↑</div>
+
+    <script>
+        // Progress bar on scroll
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Tab functionality
+        function showTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            // Add active to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Scroll to top
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Animate sections on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.2s';
+                    entry.target.style.animationFillMode = 'forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Interactive checkboxes
+        document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const label = this.nextElementSibling;
+                if (this.checked) {
+                    label.style.textDecoration = 'line-through';
+                    label.style.opacity = '0.6';
+                } else {
+                    label.style.textDecoration = 'none';
+                    label.style.opacity = '1';
+                }
+            });
+        });
+
+        // Add animation to cards on hover
+        document.querySelectorAll('.map-card, .invest-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.animation = 'pulse 0.5s';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.animation = '';
+            });
+        });
+    </script>
+</body>
+</html>

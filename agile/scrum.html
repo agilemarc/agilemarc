@@ -1,0 +1,3117 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrum: Do Zero ao Expert - Guia Completo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-dark: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0f172a;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Animated Background */
+        .background {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .background::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-20px, -20px) rotate(120deg); }
+            66% { transform: translate(20px, -10px) rotate(240deg); }
+        }
+
+        /* Particles */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0.3;
+            background: white;
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Slides */
+        .slide-container {
+            display: none;
+            animation: slideIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            min-height: calc(100vh - 120px);
+            padding: 20px 0;
+        }
+
+        .slide-container.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Glass Card Effect */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 8px 32px 0 rgba(31, 38, 135, 0.37),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 12px 40px 0 rgba(31, 38, 135, 0.5),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Headers */
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: brightness(1); }
+            to { filter: brightness(1.2); }
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #e0e7ff;
+            margin: 1.5rem 0 1rem;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #cbd5e1;
+            margin: 1rem 0;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Special Cards */
+        .feature-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%);
+            border-left: 4px solid #3b82f6;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
+            border-left: 4px solid #f59e0b;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+            border-left: 4px solid #10b981;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        /* Buttons */
+        .btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin: 1rem;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--gradient);
+            transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Slide Counter */
+        .slide-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            z-index: 999;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Menu Button */
+        .menu-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Sprint Timeline */
+        .sprint-timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+
+        .sprint-day {
+            text-align: center;
+            min-width: 140px;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .sprint-day:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sprint-number {
+            background: var(--gradient);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Value Circles */
+        .values-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 3rem 0;
+            gap: 2rem;
+        }
+
+        .value-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-circle::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .value-circle:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .value-circle h4 {
+            color: white;
+            margin: 0;
+            font-size: 1.3rem;
+            z-index: 1;
+        }
+
+        .value-circle p {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            z-index: 1;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 2rem 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        th {
+            background: var(--gradient);
+            color: white;
+            padding: 1.2rem;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 1.2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: #1e293b;
+            border-radius: 15px;
+            padding: 2rem;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .code-block::before {
+            content: 'CODE';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--gradient);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .code-block pre {
+            margin: 0;
+            color: #e2e8f0;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Tabs */
+        .tab-container {
+            margin: 2rem 0;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Metrics Dashboard */
+        .metrics-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .metric-value {
+            font-size: 3rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .metric-label {
+            color: #ccd1d8;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        /* Comparison Grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .comparison-bad {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
+            border-left: 4px solid #ef4444;
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .comparison-good {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+            border-left: 4px solid #10b981;
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        /* Lists */
+        ul, ol {
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.8rem; }
+            .grid, .grid-2 { grid-template-columns: 1fr; }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .values-container { justify-content: center; }
+            .sprint-timeline { flex-direction: column; }
+            .navigation { bottom: 20px; right: 20px; }
+            .nav-button { width: 50px; height: 50px; font-size: 20px; }
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #cbd5e1;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        /* Checkbox Styles */
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        label:hover {
+            padding-left: 10px;
+        }
+
+        label.completed {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+
+        /* Menu Overlay */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .menu-content {
+            max-width: 1200px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .menu-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-item:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: scale(1.05);
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .close-menu:hover {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background -->
+    <div class="background"></div>
+    
+    <!-- Particles -->
+    <div id="particles"></div>
+    
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar" style="width: 3.33%;"></div>
+    </div>
+    
+    <!-- Slide Counter -->
+    <div class="slide-counter">
+        Slide <span id="currentSlideNum">1</span> / 30
+    </div>
+    
+    <!-- Menu Button -->
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    
+    <!-- Container -->
+    <div class="container">
+        
+        <!-- Slide 1: Introdução -->
+        <div class="slide-container active" data-slide="1">
+            <div class="hero">
+                <h1>🚀 Scrum: Do Zero ao Expert</h1>
+                <p class="hero-subtitle">Guia Completo para Dominar o Framework Ágil mais Popular do Mundo</p>
+                
+                <div class="grid">
+                    <div class="feature-card">
+                        <h3>🎯 Para Quem é Este Guia?</h3>
+                        <ul>
+                            <li>Developers que querem entender o processo</li>
+                            <li>Futuros Scrum Masters e Product Owners</li>
+                            <li>Gestores em transição para Agile</li>
+                            <li>Equipas que querem melhorar sua eficácia</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>📚 O Que Vais Aprender</h3>
+                        <ul>
+                            <li>Teoria e fundamentos do Scrum</li>
+                            <li>Como implementar cada cerimónia</li>
+                            <li>Papéis e responsabilidades claras</li>
+                            <li>Métricas e ferramentas práticas</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>✨ Resultados Esperados</h3>
+                        <ul>
+                            <li>Entregas 3x mais rápidas</li>
+                            <li>70% menos bugs em produção</li>
+                            <li>Equipas 2x mais motivadas</li>
+                            <li>ROI comprovado em 3 sprints</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Como Usar Este Guia</h3>
+                    <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">Este guia é interativo e progressivo. Cada secção constrói sobre a anterior:</p>
+                    <ol style="font-size: 1.1rem;">
+                        <li><strong>Teoria:</strong> Entende os conceitos fundamentais</li>
+                        <li><strong>Papéis:</strong> Conhece as responsabilidades de cada um</li>
+                        <li><strong>Eventos:</strong> Domina cada cerimónia Scrum</li>
+                        <li><strong>Artefactos:</strong> Aprende a gerir o trabalho</li>
+                        <li><strong>Prática:</strong> Implementa no mundo real</li>
+                    </ol>
+                </div>
+
+                <button class="btn" onclick="nextSlide()">Começar Jornada →</button>
+            </div>
+        </div>
+
+        <!-- Slide 2: O Que é Scrum -->
+        <div class="slide-container" data-slide="2">
+            <div class="card">
+                <h2>O Que é Scrum?</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem; line-height: 1.8;">
+                    Scrum é um <strong>framework leve</strong> que ajuda pessoas, equipas e organizações a gerar valor através de soluções adaptativas para problemas complexos.
+                </p>
+
+                <div class="info-box">
+                    <h3>📖 Definição Oficial (Scrum Guide 2020)</h3>
+                    <p style="font-size: 1.1rem; font-style: italic;">
+                        "Scrum é um framework leve que ajuda pessoas, equipas e organizações a gerar valor através de soluções adaptativas para problemas complexos."
+                    </p>
+                </div>
+
+                <div class="grid">
+                    <div class="feature-card">
+                        <h4>🧠 Teoria Empírica</h4>
+                        <p>Conhecimento vem da experiência e tomada de decisões baseadas no que é observado</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>🔄 Iterativo e Incremental</h4>
+                        <p>Entregas frequentes de valor para obter feedback rápido</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>🎯 Foco em Valor</h4>
+                        <p>Maximizar valor entregue ao cliente e negócio</p>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Scrum NÃO é:</h3>
+                    <ul>
+                        <li>Uma metodologia (é um framework)</li>
+                        <li>Apenas para software</li>
+                        <li>Burocracia ou microgestão</li>
+                        <li>Solução para todos os problemas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Valores Scrum -->
+        <div class="slide-container" data-slide="3">
+            <div class="card">
+                <h2>Os 5 Valores Scrum</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Os valores Scrum são a base cultural para o sucesso do framework.
+                </p>
+
+                <div class="values-container">
+                    <div class="value-circle">
+                        <h4>Coragem</h4>
+                        <p>Enfrentar problemas</p>
+                    </div>
+                    <div class="value-circle">
+                        <h4>Foco</h4>
+                        <p>Sprint Goal</p>
+                    </div>
+                    <div class="value-circle">
+                        <h4>Compromisso</h4>
+                        <p>Objetivos da equipa</p>
+                    </div>
+                    <div class="value-circle">
+                        <h4>Respeito</h4>
+                        <p>Pessoas capazes</p>
+                    </div>
+                    <div class="value-circle">
+                        <h4>Abertura</h4>
+                        <p>Trabalho e desafios</p>
+                    </div>
+                </div>
+
+                <div class="tab-container">
+                    <div class="tab-buttons">
+                        <button class="tab-button active" onclick="showTab(event, 'valor-coragem')">🦁 Coragem</button>
+                        <button class="tab-button" onclick="showTab(event, 'valor-foco')">🎯 Foco</button>
+                        <button class="tab-button" onclick="showTab(event, 'valor-compromisso')">🤝 Compromisso</button>
+                        <button class="tab-button" onclick="showTab(event, 'valor-respeito')">🙏 Respeito</button>
+                        <button class="tab-button" onclick="showTab(event, 'valor-abertura')">📖 Abertura</button>
+                    </div>
+                    
+                    <div id="valor-coragem" class="tab-content active">
+                        <h3>Coragem</h3>
+                        <p>Ter coragem para fazer a coisa certa e trabalhar em problemas difíceis.</p>
+                        <div class="success-box">
+                            <h4>Exemplo Prático:</h4>
+                            <p>Equipa tem coragem de parar desenvolvimento de feature complexa quando descobre que não traz valor esperado ao cliente, mesmo após 3 sprints investidos.</p>
+                        </div>
+                    </div>
+                    
+                    <div id="valor-foco" class="tab-content">
+                        <h3>Foco</h3>
+                        <p>Todos focam no trabalho do Sprint e nos objetivos da Scrum Team.</p>
+                        <div class="success-box">
+                            <h4>Exemplo Prático:</h4>
+                            <p>Durante Sprint para implementar autenticação, equipa recusa pedidos urgentes de outras features para manter foco no objetivo.</p>
+                        </div>
+                    </div>
+                    
+                    <div id="valor-compromisso" class="tab-content">
+                        <h3>Compromisso</h3>
+                        <p>Pessoas comprometem-se pessoalmente a atingir os objetivos da Scrum Team.</p>
+                        <div class="success-box">
+                            <h4>Exemplo Prático:</h4>
+                            <p>Equipa compromete-se com Sprint Goal e todos colaboram para ultrapassar bloqueios técnicos.</p>
+                        </div>
+                    </div>
+                    
+                    <div id="valor-respeito" class="tab-content">
+                        <h3>Respeito</h3>
+                        <p>Membros da Scrum Team respeitam-se como pessoas capazes e independentes.</p>
+                        <div class="success-box">
+                            <h4>Exemplo Prático:</h4>
+                            <p>Developers respeitam conhecimento do PO sobre negócio; PO respeita estimativas técnicas da equipa.</p>
+                        </div>
+                    </div>
+                    
+                    <div id="valor-abertura" class="tab-content">
+                        <h3>Abertura</h3>
+                        <p>A Scrum Team e stakeholders concordam em estar abertos sobre todo o trabalho e desafios.</p>
+                        <div class="success-box">
+                            <h4>Exemplo Prático:</h4>
+                            <p>Equipa é transparente sobre riscos descobertos, mesmo que atrase lançamento.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Pilares Empíricos -->
+        <div class="slide-container" data-slide="4">
+            <div class="card">
+                <h2>Os 3 Pilares Empíricos</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Scrum baseia-se no empirismo: conhecimento vem da experiência e decisões baseiam-se no que é observado.
+                </p>
+
+                <div class="grid">
+                    <div class="feature-card">
+                        <h3>🔍 Transparência</h3>
+                        <p>O processo emergente e o trabalho devem ser visíveis.</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Dashboard com métricas visível</li>
+                            <li>Definition of Done clara</li>
+                            <li>Backlog público</li>
+                            <li>Impedimentos expostos</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🔎 Inspeção</h3>
+                        <p>Artefactos e progresso inspecionados frequentemente.</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Daily Scrum diário</li>
+                            <li>Sprint Review regular</li>
+                            <li>Métricas monitorizadas</li>
+                            <li>Feedback constante</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🔄 Adaptação</h3>
+                        <p>Ajustar quando algo desvia dos limites aceitáveis.</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Ajustar plano no Daily</li>
+                            <li>Adaptar Backlog na Review</li>
+                            <li>Melhorar processo na Retro</li>
+                            <li>Evoluir Definition of Done</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>📅 Eventos de Inspeção e Adaptação</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li><strong>Sprint Planning:</strong> Inspeciona Product Backlog → Adapta Sprint Backlog</li>
+                        <li><strong>Daily Scrum:</strong> Inspeciona progresso → Adapta plano diário</li>
+                        <li><strong>Sprint Review:</strong> Inspeciona Increment → Adapta Product Backlog</li>
+                        <li><strong>Sprint Retrospective:</strong> Inspeciona processo → Adapta forma de trabalhar</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Mindset Scrum -->
+        <div class="slide-container" data-slide="5">
+            <div class="card">
+                <h2>Mindset & Princípios</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Scrum não é sobre seguir regras cegamente. É sobre criar um ritmo sustentável de entrega de valor.
+                </p>
+
+                <div class="grid">
+                    <div class="feature-card">
+                        <h4>⏱️ Time-boxed</h4>
+                        <p>Tudo tem duração fixa. Sprint de 2 semanas, daily de 15 min.</p>
+                        <p style="color: #dad9e3; margin-top: 1rem;">
+                            💡 Valor: Previsibilidade, sem reuniões infinitas
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>🎮 Empoderamento</h4>
+                        <p>A equipa decide COMO implementar, não apenas O QUÊ.</p>
+                        <p style="color: #dad9e3; margin-top: 1rem;">
+                            💡 Valor: Motivação, ownership, melhores soluções
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>📈 Melhoria Contínua</h4>
+                        <p>Cada sprint é uma oportunidade de melhorar.</p>
+                        <p style="color: #dad9e3; margin-top: 1rem;">
+                            💡 Valor: Processo evolui com a equipa
+                        </p>
+                    </div>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-bad">
+                        <h4>❌ Mitos</h4>
+                        <ul>
+                            <li>Microgestão diária</li>
+                            <li>Burocracia sem fim</li>
+                            <li>Reuniões o dia todo</li>
+                            <li>Rigidez absoluta</li>
+                            <li>Documentação zero</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="comparison-good">
+                        <h4>✅ Realidade</h4>
+                        <ul>
+                            <li>Autonomia com alinhamento</li>
+                            <li>Processo leve e adaptável</li>
+                            <li>Reuniões curtas e focadas</li>
+                            <li>Flexibilidade dentro do sprint</li>
+                            <li>Documentação necessária</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Quando Usar Scrum -->
+        <div class="slide-container" data-slide="6">
+            <div class="card">
+                <h2>Quando Usar Scrum?</h2>
+
+                <div class="grid-2">
+                    <div class="success-box">
+                        <h3>✅ Scrum Funciona Bem Quando:</h3>
+                        <ul>
+                            <li>Requisitos emergentes e em mudança</li>
+                            <li>Necessidade de feedback frequente</li>
+                            <li>Problemas complexos sem solução clara</li>
+                            <li>Equipas multidisciplinares de 3-9 pessoas</li>
+                            <li>Ambiente que suporta mudança</li>
+                            <li>Cliente disponível para colaboração</li>
+                            <li>Foco em valor de negócio</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="comparison-bad">
+                        <h3>❌ Scrum Pode Não Ser Ideal:</h3>
+                        <ul>
+                            <li>Trabalho totalmente previsível</li>
+                            <li>Requisitos fixos e imutáveis</li>
+                            <li>Equipas muito grandes (>10 pessoas)</li>
+                            <li>Cultura de comando e controlo</li>
+                            <li>Cliente indisponível</li>
+                            <li>Trabalho individual sem colaboração</li>
+                            <li>Projetos com deadline fixo e scope fixo</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>🌍 Domínios de Aplicação</h3>
+                    <div class="grid">
+                        <div class="feature-card">
+                            <h4>💻 Software</h4>
+                            <p>Desenvolvimento de aplicações, SaaS, mobile</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>🏦 Banca</h4>
+                            <p>Transformação digital, novos produtos</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>🎓 Educação</h4>
+                            <p>Desenvolvimento curricular, e-learning</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>🏥 Saúde</h4>
+                            <p>Sistemas médicos, investigação</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>🎮 Gaming</h4>
+                            <p>Desenvolvimento de jogos</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>🚀 Startups</h4>
+                            <p>MVP, product-market fit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Framework Overview -->
+        <div class="slide-container" data-slide="7">
+            <div class="card">
+                <h2>Framework Scrum - Visão Geral</h2>
+                
+                <div class="sprint-timeline">
+                    <div class="sprint-day">
+                        <div class="sprint-number">👥</div>
+                        <strong>Papéis</strong>
+                        <p>3 Papéis</p>
+                    </div>
+                    <div class="sprint-day">
+                        <div class="sprint-number">📅</div>
+                        <strong>Eventos</strong>
+                        <p>5 Eventos</p>
+                    </div>
+                    <div class="sprint-day">
+                        <div class="sprint-number">📚</div>
+                        <strong>Artefactos</strong>
+                        <p>3 Artefactos</p>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="feature-card">
+                        <h3>👥 3 Papéis</h3>
+                        <ul>
+                            <li>Product Owner</li>
+                            <li>Scrum Master</li>
+                            <li>Developers</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>📅 5 Eventos</h3>
+                        <ul>
+                            <li>Sprint</li>
+                            <li>Sprint Planning</li>
+                            <li>Daily Scrum</li>
+                            <li>Sprint Review</li>
+                            <li>Sprint Retrospective</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>📚 3 Artefactos</h3>
+                        <ul>
+                            <li>Product Backlog</li>
+                            <li>Sprint Backlog</li>
+                            <li>Increment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Scrum Team -->
+        <div class="slide-container" data-slide="8">
+            <div class="card">
+                <h2>A Scrum Team</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Unidade fundamental de Scrum - pequena equipa de profissionais sem hierarquias.
+                </p>
+
+                <div class="info-box">
+                    <h3>📋 Características da Scrum Team</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li>✓ Cross-functional: todas as competências necessárias</li>
+                        <li>✓ Self-managing: decide quem faz o quê, quando e como</li>
+                        <li>✓ 10 ou menos pessoas (recomendado)</li>
+                        <li>✓ Sem sub-equipas ou hierarquias</li>
+                        <li>✓ Responsável por todas as atividades do produto</li>
+                    </ul>
+                </div>
+
+                <div class="grid">
+                    <div class="feature-card">
+                        <h3>📦 Product Owner</h3>
+                        <p style="color: #ccd2d9; font-style: italic;">1 pessoa</p>
+                        <ul>
+                            <li>Maximizar valor do produto</li>
+                            <li>Gerir Product Backlog</li>
+                            <li>Decisões de produto</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🎯 Scrum Master</h3>
+                        <p style="color: #ccd2d9; font-style: italic;">1 pessoa</p>
+                        <ul>
+                            <li>Eficácia da Scrum Team</li>
+                            <li>Facilitar eventos</li>
+                            <li>Remover impedimentos</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>💻 Developers</h3>
+                        <p style="color: #ccd2d9; font-style: italic;">3-9 pessoas</p>
+                        <ul>
+                            <li>Criar Increment utilizável</li>
+                            <li>Qualidade técnica</li>
+                            <li>Adaptar plano diário</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>📌 Exemplo de Equipa</h3>
+                    <p><strong>Projeto: App Mobile Banking</strong></p>
+                    <ul style="margin-top: 1rem;">
+                        <li><strong>Product Owner:</strong> Maria Silva (Digital Banking Manager)</li>
+                        <li><strong>Scrum Master:</strong> João Santos (Certificado PSM)</li>
+                        <li><strong>Developers:</strong>
+                            <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                                <li>2 Backend Engineers</li>
+                                <li>2 Mobile Developers</li>
+                                <li>1 UX/UI Designer</li>
+                                <li>1 QA Engineer</li>
+                                <li>1 Security Engineer</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Product Owner -->
+        <div class="slide-container" data-slide="9">
+            <div class="card">
+                <h2>Product Owner</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Responsável por maximizar o valor do produto e do trabalho dos Developers.
+                </p>
+
+                <div class="grid-2">
+                    <div class="feature-card">
+                        <h3>📋 Responsabilidades</h3>
+                        <ul>
+                            <li>Desenvolver e comunicar Product Goal</li>
+                            <li>Criar e comunicar Product Backlog items</li>
+                            <li>Ordenar Product Backlog items</li>
+                            <li>Garantir transparência do Backlog</li>
+                            <li>Garantir que equipa entende items</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🎯 Product Goal</h3>
+                        <ul>
+                            <li>Objetivo de longo prazo</li>
+                            <li>Estado futuro do produto</li>
+                            <li>Target para Scrum Team</li>
+                            <li>Commitment do Product Backlog</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Regra Importante</h3>
+                    <p>O Product Owner é UMA pessoa, não um comité. Pode representar stakeholders, mas decisões são individuais e finais.</p>
+                </div>
+
+                <div class="code-block">
+                    <pre>// Semana Típica do Product Owner
+
+Segunda:
+- Refinement: Clarificar stories
+- Meeting com stakeholders
+
+Terça:
+- Análise de métricas
+- Priorização do backlog
+
+Quarta:
+- Workshop com utilizadores
+- Atualizar roadmap
+
+Quinta:
+- Sprint Review
+- Gestão de stakeholders
+
+Sexta:
+- Sprint Planning
+- Preparar próximo sprint</pre>
+                </div>
+
+                <div class="success-box">
+                    <h3>✨ Características de um Bom PO</h3>
+                    <ul>
+                        <li>Disponível para a equipa (>50% do tempo)</li>
+                        <li>Decisor empoderado</li>
+                        <li>Conhece o domínio do negócio</li>
+                        <li>Comunica visão claramente</li>
+                        <li>Orientado a valor e resultados</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Scrum Master -->
+        <div class="slide-container" data-slide="10">
+            <div class="card">
+                <h2>Scrum Master</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Líder servidor responsável pela eficácia da Scrum Team.
+                </p>
+
+                <div class="grid">
+                    <div class="feature-card">
+                        <h3>🎯 Serve a Scrum Team</h3>
+                        <ul>
+                            <li>Coach em self-management</li>
+                            <li>Foco em criar alto valor</li>
+                            <li>Remover impedimentos</li>
+                            <li>Facilitar eventos Scrum</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>📦 Serve o Product Owner</h3>
+                        <ul>
+                            <li>Técnicas para Product Goal</li>
+                            <li>Gestão eficaz do Backlog</li>
+                            <li>Facilitar colaboração</li>
+                            <li>Planeamento empírico</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🏢 Serve a Organização</h3>
+                        <ul>
+                            <li>Liderar adoção Scrum</li>
+                            <li>Planear implementações</li>
+                            <li>Remover barreiras</li>
+                            <li>Coach em empirismo</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-bad">
+                        <h4>❌ O SM NÃO é</h4>
+                        <ul>
+                            <li>Gestor da equipa</li>
+                            <li>Secretário</li>
+                            <li>Responsável pela entrega</li>
+                            <li>Polícia do Scrum</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="comparison-good">
+                        <h4>✅ O SM É</h4>
+                        <ul>
+                            <li>Facilitador</li>
+                            <li>Coach</li>
+                            <li>Removedor de impedimentos</li>
+                            <li>Agente de mudança</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <pre>// Dia Típico do Scrum Master
+
+09:00 - Preparar board para Daily
+09:15 - Facilitar Daily Scrum
+09:30 - Trabalhar em impedimentos
+11:00 - Coaching com PO
+14:00 - Facilitar refinement
+16:00 - Meeting sobre dependências</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Developers -->
+        <div class="slide-container" data-slide="11">
+            <div class="card">
+                <h2>Developers</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Profissionais comprometidos em criar qualquer aspeto de um Increment utilizável.
+                </p>
+
+                <div class="info-box">
+                    <h3>📌 Nota Importante</h3>
+                    <p>"Developers" no Scrum inclui TODOS que criam o produto: programadores, designers, testers, analistas, etc.</p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="feature-card">
+                        <h3>💪 Responsabilidades</h3>
+                        <ul>
+                            <li>Criar Sprint Backlog</li>
+                            <li>Instill quality (DoD)</li>
+                            <li>Adaptar plano diário</li>
+                            <li>Accountability mútua</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🎯 Competências</h3>
+                        <ul>
+                            <li>Cross-functional</li>
+                            <li>Self-organizing</li>
+                            <li>T-shaped skills</li>
+                            <li>Colaboração intensa</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="feature-card">
+                        <h4>Backend Engineer</h4>
+                        <ul>
+                            <li>APIs REST/GraphQL</li>
+                            <li>Integração sistemas</li>
+                            <li>Performance</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>Frontend Developer</h4>
+                        <ul>
+                            <li>UI/UX implementation</li>
+                            <li>Responsive design</li>
+                            <li>Accessibility</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>QA Engineer</h4>
+                        <ul>
+                            <li>Test automation</li>
+                            <li>Quality assurance</li>
+                            <li>Validation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>✨ Características de Bons Developers</h3>
+                    <ul>
+                        <li>T-shaped skills (especialista + generalista)</li>
+                        <li>Ownership do produto, não só código</li>
+                        <li>Colaboração sobre trabalho individual</li>
+                        <li>Qualidade sobre velocidade</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Accountability -->
+        <div class="slide-container" data-slide="12">
+            <div class="card">
+                <h2>Accountability na Scrum Team</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Papel</th>
+                            <th>Accountable Por</th>
+                            <th>Não é Responsável Por</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Product Owner</strong></td>
+                            <td>
+                                • Valor do produto<br>
+                                • Product Backlog<br>
+                                • Product Goal<br>
+                                • ROI
+                            </td>
+                            <td>
+                                • Como implementar<br>
+                                • Velocidade da equipa<br>
+                                • Solução técnica
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Scrum Master</strong></td>
+                            <td>
+                                • Eficácia do Scrum<br>
+                                • Remoção de impedimentos<br>
+                                • Facilitação<br>
+                                • Coaching
+                            </td>
+                            <td>
+                                • Entrega do produto<br>
+                                • Performance individual<br>
+                                • Decisões de negócio
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Developers</strong></td>
+                            <td>
+                                • Qualidade técnica<br>
+                                • Increment Done<br>
+                                • Sprint Backlog<br>
+                                • Estimativas
+                            </td>
+                            <td>
+                                • Priorização<br>
+                                • Scope do produto<br>
+                                • Comunicação com clientes
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="warning-box">
+                    <h3>🎯 Accountability Coletiva</h3>
+                    <p>Toda a Scrum Team é accountable por criar um Increment valioso e útil em cada Sprint.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Stakeholders -->
+        <div class="slide-container" data-slide="13">
+            <div class="card">
+                <h2>Stakeholders e a Scrum Team</h2>
+
+                <div class="info-box">
+                    <h3>❓ Quem são os Stakeholders?</h3>
+                    <p style="font-size: 1.1rem;">Qualquer pessoa ou grupo com interesse no produto mas que não faz parte da Scrum Team.</p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="feature-card">
+                        <h3>📊 Tipos de Stakeholders</h3>
+                        <ul>
+                            <li>Clientes/Utilizadores</li>
+                            <li>Gestão/Executivos</li>
+                            <li>Outras equipas</li>
+                            <li>Compliance/Legal</li>
+                            <li>Marketing/Vendas</li>
+                            <li>Suporte/Operações</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🤝 Interação com Scrum Team</h3>
+                        <ul>
+                            <li><strong>Sprint Review:</strong> Feedback direto</li>
+                            <li><strong>Via PO:</strong> Requisitos e prioridades</li>
+                            <li><strong>Refinement:</strong> Clarificações (se convidados)</li>
+                            <li><strong>Não participam:</strong> Daily, Retro</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>📋 Gestão de Stakeholders</h3>
+                    <ul>
+                        <li><strong>Product Owner:</strong> Principal ponto de contacto</li>
+                        <li><strong>Transparência:</strong> Backlog e progresso visíveis</li>
+                        <li><strong>Expectativas:</strong> Alinhadas via Sprint Review</li>
+                        <li><strong>Feedback:</strong> Incorporado no Product Backlog</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Sprint -->
+        <div class="slide-container" data-slide="14">
+            <div class="card">
+                <h2>Sprint - O Coração do Scrum</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Container para todos os outros eventos. Período fixo onde ideias são transformadas em valor.
+                </p>
+
+                <div class="sprint-timeline">
+                    <div class="sprint-day">
+                        <div class="sprint-number">📋</div>
+                        <strong>Planning</strong>
+                        <p>Max 8h</p>
+                    </div>
+                    <div class="sprint-day">
+                        <div class="sprint-number">☀️</div>
+                        <strong>Daily</strong>
+                        <p>15 min/dia</p>
+                    </div>
+                    <div class="sprint-day">
+                        <div class="sprint-number">💻</div>
+                        <strong>Work</strong>
+                        <p>Desenvolvimento</p>
+                    </div>
+                    <div class="sprint-day">
+                        <div class="sprint-number">🔍</div>
+                        <strong>Review</strong>
+                        <p>Max 4h</p>
+                    </div>
+                    <div class="sprint-day">
+                        <div class="sprint-number">🔄</div>
+                        <strong>Retro</strong>
+                        <p>Max 3h</p>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="feature-card">
+                        <h3>⏰ Duração</h3>
+                        <ul>
+                            <li><strong>1 semana:</strong> Feedback ultra-rápido</li>
+                            <li><strong>2 semanas:</strong> Mais comum ✅</li>
+                            <li><strong>3 semanas:</strong> Produtos complexos</li>
+                            <li><strong>4 semanas:</strong> Máximo permitido</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>📏 Regras</h3>
+                        <ul>
+                            <li>Duração fixa (não varia)</li>
+                            <li>Novo sprint começa imediatamente</li>
+                            <li>Sem gaps entre sprints</li>
+                            <li>Sprint Goal não muda</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>✅ Durante o Sprint</h3>
+                    <ul>
+                        <li>✓ Qualidade não diminui</li>
+                        <li>✓ Sprint Goal permanece</li>
+                        <li>✓ Scope pode ser clarificado e renegociado</li>
+                        <li>✓ Product Owner disponível</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Cancelar Sprint</h3>
+                    <p>Apenas o Product Owner pode cancelar se o Sprint Goal ficar obsoleto. Muito raro e traumático.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Sprint Planning -->
+        <div class="slide-container" data-slide="15">
+            <div class="card">
+                <h2>Sprint Planning</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Inicia o Sprint estabelecendo o trabalho a ser realizado.
+                </p>
+
+                <div class="info-box">
+                    <h3>📋 Informações</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li>⏱️ <strong>Timebox:</strong> Máximo 8h para Sprint de 1 mês</li>
+                        <li>👥 <strong>Participantes:</strong> Toda a Scrum Team</li>
+                        <li>📝 <strong>Output:</strong> Sprint Goal + Sprint Backlog</li>
+                    </ul>
+                </div>
+
+                <div class="tab-container">
+                    <div class="tab-buttons">
+                        <button class="tab-button active" onclick="showTab(event, 'planning-why')">1️⃣ Porquê</button>
+                        <button class="tab-button" onclick="showTab(event, 'planning-what')">2️⃣ O Quê</button>
+                        <button class="tab-button" onclick="showTab(event, 'planning-how')">3️⃣ Como</button>
+                    </div>
+                    
+                    <div id="planning-why" class="tab-content active">
+                        <h3>Tópico 1: Porquê este Sprint é valioso?</h3>
+                        <p>PO propõe como o produto pode aumentar valor. Toda a equipa colabora para definir Sprint Goal.</p>
+                        <div class="success-box">
+                            <h4>Sprint Goal</h4>
+                            <ul>
+                                <li>Objetivo único para o Sprint</li>
+                                <li>Cria coerência e foco</li>
+                                <li>Commitment do Sprint Backlog</li>
+                                <li>Flexibilidade na implementação</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div id="planning-what" class="tab-content">
+                        <h3>Tópico 2: O que pode ser Done neste Sprint?</h3>
+                        <p>Developers selecionam items do Product Backlog. Discussão com PO para entender melhor.</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Baseado na velocity histórica</li>
+                            <li>Considera capacidade atual</li>
+                            <li>Avalia complexidade técnica</li>
+                            <li>Identifica dependências</li>
+                        </ul>
+                    </div>
+                    
+                    <div id="planning-how" class="tab-content">
+                        <h3>Tópico 3: Como o trabalho será realizado?</h3>
+                        <p>Developers planeiam trabalho para criar Increment.</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Decomposição em tasks</li>
+                            <li>Estimativas de esforço</li>
+                            <li>Identificação de riscos</li>
+                            <li>Plano inicial de execução</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <pre>// Agenda Sprint Planning (4h para 2 semanas)
+
+09:00-09:30 - Review contexto e métricas
+09:30-10:30 - Definir Sprint Goal
+10:30-11:30 - Selecionar Backlog Items
+11:30-13:00 - Decomposição e planeamento</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Daily Scrum -->
+        <div class="slide-container" data-slide="16">
+            <div class="card">
+                <h2>Daily Scrum</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    15 minutos para inspecionar progresso e adaptar plano.
+                </p>
+
+                <div class="info-box">
+                    <h3>📋 Informações</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li>⏱️ <strong>Timebox:</strong> 15 minutos SEMPRE</li>
+                        <li>📅 <strong>Quando:</strong> Todos os dias, mesma hora e local</li>
+                        <li>👥 <strong>Participantes:</strong> Developers (PO/SM se trabalhando em items)</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-bad">
+                        <h4>❌ Daily Errado</h4>
+                        <ul>
+                            <li>"Ontem trabalhei na task X"</li>
+                            <li>"Hoje vou trabalhar na task Y"</li>
+                            <li>"Não tenho bloqueios"</li>
+                            <li>30+ minutos</li>
+                            <li>Discussões técnicas</li>
+                            <li>Status report</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="comparison-good">
+                        <h4>✅ Daily Correto</h4>
+                        <ul>
+                            <li>"Story X está 80% completa"</li>
+                            <li>"Preciso review no PR #123"</li>
+                            <li>"Bloqueado: API externa down"</li>
+                            <li>15 minutos cronometrados</li>
+                            <li>Foco no Sprint Goal</li>
+                            <li>Parking lot para discussões</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>💡 Técnicas para Daily Eficaz</h3>
+                    <ul>
+                        <li><strong>Walking the Board:</strong> Percorrer board da direita para esquerda</li>
+                        <li><strong>3 Perguntas:</strong> O que fiz? O que vou fazer? Impedimentos?</li>
+                        <li><strong>Por Feature:</strong> Foco nas funcionalidades, não pessoas</li>
+                        <li><strong>Round Robin:</strong> Cada um fala na sua vez</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Anti-patterns a Evitar</h3>
+                    <ul>
+                        <li>Relatório ao chefe</li>
+                        <li>Problem-solving (marca reunião separada)</li>
+                        <li>Ausências frequentes</li>
+                        <li>Sempre sem impedimentos (suspeito!)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Sprint Review -->
+        <div class="slide-container" data-slide="17">
+            <div class="card">
+                <h2>Sprint Review</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Inspeção do Increment e adaptação do Product Backlog.
+                </p>
+
+                <div class="info-box">
+                    <h3>📋 Informações</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li>⏱️ <strong>Timebox:</strong> Máximo 4h para Sprint de 1 mês</li>
+                        <li>👥 <strong>Participantes:</strong> Scrum Team + stakeholders convidados</li>
+                        <li>📝 <strong>Output:</strong> Product Backlog atualizado</li>
+                    </ul>
+                </div>
+
+                <div class="grid">
+                    <div class="feature-card">
+                        <h3>🎯 Apresentar</h3>
+                        <ul>
+                            <li>Increment funcional</li>
+                            <li>O que foi Done</li>
+                            <li>O que não foi Done</li>
+                            <li>Sprint Goal achievement</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>💬 Discutir</h3>
+                        <ul>
+                            <li>Feedback dos stakeholders</li>
+                            <li>Mudanças no mercado</li>
+                            <li>Novas oportunidades</li>
+                            <li>Budget e timeline</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🔄 Adaptar</h3>
+                        <ul>
+                            <li>Atualizar Product Backlog</li>
+                            <li>Repriorizar items</li>
+                            <li>Adicionar novos items</li>
+                            <li>Remover obsoletos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <pre>// Agenda Sprint Review (2h)
+
+14:00-14:15 - Abertura e contexto
+14:15-15:00 - Demo funcionalidades
+15:00-15:30 - Feedback stakeholders
+15:30-16:00 - Adaptação backlog</pre>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Sprint Review NÃO é</h3>
+                    <p>Uma demo formal ou apresentação PowerPoint. É uma sessão de trabalho colaborativa!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Sprint Retrospective -->
+        <div class="slide-container" data-slide="18">
+            <div class="card">
+                <h2>Sprint Retrospective</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Planear formas de aumentar qualidade e eficácia.
+                </p>
+
+                <div class="info-box">
+                    <h3>📋 Informações</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li>⏱️ <strong>Timebox:</strong> Máximo 3h para Sprint de 1 mês</li>
+                        <li>👥 <strong>Participantes:</strong> Apenas Scrum Team</li>
+                        <li>📝 <strong>Output:</strong> Ações de melhoria para próximo Sprint</li>
+                    </ul>
+                </div>
+
+                <div class="grid">
+                    <div class="feature-card">
+                        <h4>🚀 Start</h4>
+                        <p>O que devemos começar a fazer?</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Pair programming</li>
+                            <li>Code review obrigatório</li>
+                            <li>Testes automatizados</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>🛑 Stop</h4>
+                        <p>O que devemos parar de fazer?</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Reuniões sem agenda</li>
+                            <li>Deploy às sextas</li>
+                            <li>Skip documentation</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>✅ Continue</h4>
+                        <p>O que está a funcionar bem?</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Daily walking board</li>
+                            <li>Mob programming</li>
+                            <li>Refinement regular</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>🎨 Técnicas de Retrospetiva</h3>
+                    <ul>
+                        <li><strong>Mad, Sad, Glad:</strong> Categorizar sentimentos</li>
+                        <li><strong>4 L's:</strong> Liked, Learned, Lacked, Longed for</li>
+                        <li><strong>Sailboat:</strong> Vento, âncora, rochas, ilha</li>
+                        <li><strong>Timeline:</strong> Eventos do sprint cronologicamente</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h3>🔒 Regras de Ouro</h3>
+                    <ul>
+                        <li>Vegas Rule: O que se diz na retro, fica na retro</li>
+                        <li>Sem culpados: Foco em processo, não pessoas</li>
+                        <li>Todos participam: Inclusive juniors</li>
+                        <li>Ações concretas: 2-3 melhorias para testar</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: Refinement & Definition of Ready -->
+        <div class="slide-container" data-slide="19">
+            <div class="card">
+                <h2>Product Backlog Refinement</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Atividade contínua para adicionar detalhes, estimativas e ordem aos items.
+                </p>
+
+                <div class="info-box">
+                    <h3>📋 Informações</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li>⏱️ <strong>Tempo:</strong> ~10% da capacidade da equipa</li>
+                        <li>📅 <strong>Quando:</strong> Durante o Sprint (não é evento oficial)</li>
+                        <li>👥 <strong>Participantes:</strong> PO + Developers (SM facilita)</li>
+                    </ul>
+                </div>
+
+                <div class="grid-2">
+                    <div class="feature-card">
+                        <h3>🎯 Objetivos</h3>
+                        <ul>
+                            <li>Clarificar requisitos</li>
+                            <li>Adicionar critérios de aceitação</li>
+                            <li>Estimar complexidade</li>
+                            <li>Identificar dependências</li>
+                            <li>Dividir stories grandes</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);">
+                        <h3>✅ Definition of Ready</h3>
+                        <ul>
+                            <li>User Story clara e completa</li>
+                            <li>Critérios de aceitação definidos</li>
+                            <li>Estimada pela equipa</li>
+                            <li>Dependências identificadas</li>
+                            <li>Cabe num sprint (≤8 pontos)</li>
+                            <li>Valor de negócio claro</li>
+                            <li>Testável</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>🎲 Técnicas de Estimação</h3>
+                    <ul>
+                        <li><strong>Planning Poker:</strong> Estimativas com cartas</li>
+                        <li><strong>T-Shirt Sizes:</strong> XS, S, M, L, XL</li>
+                        <li><strong>Fibonacci:</strong> 1, 2, 3, 5, 8, 13, 21</li>
+                        <li><strong>Affinity Mapping:</strong> Agrupar por similaridade</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Importante sobre Definition of Ready</h3>
+                    <p>DoR não deve ser uma barreira burocrática. É um guia para garantir que o trabalho está pronto para ser iniciado com sucesso.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: Story Points -->
+        <div class="slide-container" data-slide="20">
+            <div class="card">
+                <h2>Story Points e Velocity</h2>
+
+                <div class="grid-2">
+                    <div class="feature-card">
+                        <h3>🎯 O que são Story Points?</h3>
+                        <p>Medida relativa de complexidade que considera:</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Esforço de desenvolvimento</li>
+                            <li>Complexidade técnica</li>
+                            <li>Incerteza/Riscos</li>
+                            <li>Volume de trabalho</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>📊 Velocity</h3>
+                        <p>Média de story points completados por sprint:</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Medida após 3-5 sprints</li>
+                            <li>Usa-se para planeamento</li>
+                            <li>Específica da equipa</li>
+                            <li>Não comparar entre equipas</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sprint-timeline">
+                    <div class="sprint-day">
+                        <div class="sprint-number">1</div>
+                        <strong>Trivial</strong>
+                        <p>2-4 horas</p>
+                    </div>
+                    <div class="sprint-day">
+                        <div class="sprint-number">2</div>
+                        <strong>Simples</strong>
+                        <p>4-8 horas</p>
+                    </div>
+                    <div class="sprint-day">
+                        <div class="sprint-number">3</div>
+                        <strong>Médio</strong>
+                        <p>1-2 dias</p>
+                    </div>
+                    <div class="sprint-day">
+                        <div class="sprint-number">5</div>
+                        <strong>Complexo</strong>
+                        <p>2-3 dias</p>
+                    </div>
+                    <div class="sprint-day">
+                        <div class="sprint-number">8</div>
+                        <strong>Muito Complexo</strong>
+                        <p>3-5 dias</p>
+                    </div>
+                    <div class="sprint-day">
+                        <div class="sprint-number" style="background: linear-gradient(135deg, #ef4444, #dc2626);">13+</div>
+                        <strong>Épico</strong>
+                        <p>Dividir!</p>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Importante</h3>
+                    <p>Story Points medem complexidade, não tempo! Uma tarefa de 3 pontos para um senior pode demorar 1 dia, para um junior 3 dias. E isso é OK!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 21: Time Management -->
+        <div class="slide-container" data-slide="21">
+            <div class="card">
+                <h2>Gestão de Tempo no Scrum</h2>
+
+                <div class="metrics-dashboard">
+                    <div class="metric-card">
+                        <div class="metric-value">80h</div>
+                        <div class="metric-label">Sprint 2 semanas</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">10h</div>
+                        <div class="metric-label">Cerimónias</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">12.5%</div>
+                        <div class="metric-label">Tempo em reuniões</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">87.5%</div>
+                        <div class="metric-label">Tempo produtivo</div>
+                    </div>
+                </div>
+
+                <table style="margin-top: 2rem;">
+                    <thead>
+                        <tr>
+                            <th>Cerimónia</th>
+                            <th>Frequência</th>
+                            <th>Duração (2 semanas)</th>
+                            <th>Total Sprint</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sprint Planning</td>
+                            <td>1x por sprint</td>
+                            <td>4 horas</td>
+                            <td>4h</td>
+                        </tr>
+                        <tr>
+                            <td>Daily Scrum</td>
+                            <td>Diário</td>
+                            <td>15 minutos</td>
+                            <td>2.5h</td>
+                        </tr>
+                        <tr>
+                            <td>Sprint Review</td>
+                            <td>1x por sprint</td>
+                            <td>2 horas</td>
+                            <td>2h</td>
+                        </tr>
+                        <tr>
+                            <td>Sprint Retrospective</td>
+                            <td>1x por sprint</td>
+                            <td>1.5 horas</td>
+                            <td>1.5h</td>
+                        </tr>
+                        <tr style="background: rgba(99, 102, 241, 0.1);">
+                            <td><strong>TOTAL</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>10h (12.5%)</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="success-box">
+                    <h3>💡 Porque vale a pena?</h3>
+                    <p>10 horas de cerimónias poupam 20+ horas de:</p>
+                    <ul>
+                        <li>Mal-entendidos e retrabalho</li>
+                        <li>"Quick syncs" não planeados</li>
+                        <li>Correções de última hora</li>
+                        <li>Conflitos e frustrações</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 22: Product Backlog -->
+        <div class="slide-container" data-slide="22">
+            <div class="card">
+                <h2>Product Backlog</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Lista emergente e ordenada do que é necessário para melhorar o produto.
+                </p>
+
+                <div class="info-box">
+                    <h3>📋 Características</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li>📝 <strong>Commitment:</strong> Product Goal</li>
+                        <li>👤 <strong>Owner:</strong> Product Owner (exclusivo)</li>
+                        <li>🔄 <strong>Natureza:</strong> Vivo, nunca completo</li>
+                    </ul>
+                </div>
+
+                <div class="grid-2">
+                    <div class="feature-card">
+                        <h3>📊 Atributos dos Items</h3>
+                        <ul>
+                            <li>Descrição</li>
+                            <li>Ordem/Prioridade</li>
+                            <li>Estimativa</li>
+                            <li>Valor</li>
+                            <li>Critérios de aceitação</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🎯 Tipos de Items</h3>
+                        <ul>
+                            <li>Features/User Stories</li>
+                            <li>Bugs/Defeitos</li>
+                            <li>Technical Debt</li>
+                            <li>Spikes/Research</li>
+                            <li>Infrastructure</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <table style="margin-top: 2rem;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Item</th>
+                            <th>Tipo</th>
+                            <th>Pontos</th>
+                            <th>Valor</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: rgba(16, 185, 129, 0.1);">
+                            <td>US-101</td>
+                            <td>Login com biometria</td>
+                            <td>Feature</td>
+                            <td>8</td>
+                            <td>Alta</td>
+                            <td>Ready</td>
+                        </tr>
+                        <tr style="background: rgba(16, 185, 129, 0.1);">
+                            <td>BG-102</td>
+                            <td>Fix: Crash iOS 14</td>
+                            <td>Bug</td>
+                            <td>3</td>
+                            <td>Crítica</td>
+                            <td>Ready</td>
+                        </tr>
+                        <tr style="background: rgba(245, 158, 11, 0.1);">
+                            <td>US-103</td>
+                            <td>Cartão virtual</td>
+                            <td>Feature</td>
+                            <td>21</td>
+                            <td>Alta</td>
+                            <td>Refinement</td>
+                        </tr>
+                        <tr>
+                            <td>EP-104</td>
+                            <td>Open Banking API</td>
+                            <td>Epic</td>
+                            <td>?</td>
+                            <td>Média</td>
+                            <td>Discovery</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 23: Sprint Backlog -->
+        <div class="slide-container" data-slide="23">
+            <div class="card">
+                <h2>Sprint Backlog</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Plano por e para os Developers.
+                </p>
+
+                <div class="info-box">
+                    <h3>📋 Composição</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li>🎯 Sprint Goal (porquê)</li>
+                        <li>📦 Product Backlog items selecionados (o quê)</li>
+                        <li>📋 Plano para entregar (como)</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 20px; margin: 2rem 0;">
+                    <h3 style="color: #667eea;">Sprint 24 - Board</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                        <div style="background: rgba(255, 255, 255, 0.1); padding: 1rem; border-radius: 15px;">
+                            <h4 style="color: #cbd5e1; margin-bottom: 1rem;">To Do (8)</h4>
+                            <div style="background: rgba(255, 255, 255, 0.9); color: #1e293b; padding: 0.8rem; border-radius: 8px; margin-bottom: 0.5rem; font-weight: 500;">
+                                API pagamento
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.9); color: #1e293b; padding: 0.8rem; border-radius: 8px; margin-bottom: 0.5rem; font-weight: 500;">
+                                UI confirmation
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.9); color: #1e293b; padding: 0.8rem; border-radius: 8px; font-weight: 500;">
+                                Tests integração
+                            </div>
+                        </div>
+                        
+                        <div style="background: rgba(255, 255, 255, 0.1); padding: 1rem; border-radius: 15px;">
+                            <h4 style="color: #f59e0b; margin-bottom: 1rem;">In Progress (3)</h4>
+                            <div style="background: #fef3c7; color: #92400e; padding: 0.8rem; border-radius: 8px; margin-bottom: 0.5rem; font-weight: 500;">
+                                Validação IBAN
+                            </div>
+                            <div style="background: #fef3c7; color: #92400e; padding: 0.8rem; border-radius: 8px; font-weight: 500;">
+                                Screen P2P
+                            </div>
+                        </div>
+                        
+                        <div style="background: rgba(255, 255, 255, 0.1); padding: 1rem; border-radius: 15px;">
+                            <h4 style="color: #3b82f6; margin-bottom: 1rem;">Review (2)</h4>
+                            <div style="background: #dbeafe; color: #1e3a8a; padding: 0.8rem; border-radius: 8px; font-weight: 500;">
+                                Auth biometric
+                            </div>
+                        </div>
+                        
+                        <div style="background: rgba(255, 255, 255, 0.1); padding: 1rem; border-radius: 15px;">
+                            <h4 style="color: #10b981; margin-bottom: 1rem;">Done (4)</h4>
+                            <div style="background: #d1fae5; color: #064e3b; padding: 0.8rem; border-radius: 8px; margin-bottom: 0.5rem; font-weight: 500;">
+                                Database schema
+                            </div>
+                            <div style="background: #d1fae5; color: #064e3b; padding: 0.8rem; border-radius: 8px; font-weight: 500;">
+                                Security review
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>📋 Características</h3>
+                    <ul>
+                        <li>Altamente visível e transparente</li>
+                        <li>Atualizado em tempo real</li>
+                        <li>Apenas Developers podem mudá-lo</li>
+                        <li>Evolui durante o Sprint</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 24: Increment -->
+        <div class="slide-container" data-slide="24">
+            <div class="card">
+                <h2>Increment</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Soma de todos os items completados durante um Sprint + incrementos anteriores.
+                </p>
+
+                <div class="grid-2">
+                    <div class="feature-card">
+                        <h3>📦 Características</h3>
+                        <ul>
+                            <li>Deve ser utilizável</li>
+                            <li>Múltiplos por Sprint permitidos</li>
+                            <li>Entregue na Sprint Review</li>
+                            <li>Atende Definition of Done</li>
+                            <li>Stepping stone para Product Goal</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🚀 Release</h3>
+                        <ul>
+                            <li>Increment ≠ Release</li>
+                            <li>PO decide quando fazer release</li>
+                            <li>Pode haver múltiplos releases/sprint</li>
+                            <li>Pode acumular incrementos</li>
+                            <li>Release é decisão de negócio</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>📋 Commitment: Definition of Done</h3>
+                    <p style="font-size: 1.1rem;">Descrição formal do estado do Increment quando atende as medidas de qualidade requeridas.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 25: Definition of Done -->
+        <div class="slide-container" data-slide="25">
+            <div class="card">
+                <h2>Definition of Done</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    Acordo partilhado sobre o que significa trabalho completo.
+                </p>
+
+                <div style="background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 20px;">
+                    <h3 style="color: #10b981;">✅ Checklist DoD - Exemplo</h3>
+                    
+                    <div style="margin-top: 1.5rem;">
+                        <h4 style="color: #8b5cf6;">Código</h4>
+                        <label style="font-size: 1.1rem;">
+                            <input type="checkbox" onchange="toggleComplete(this)">
+                            Code review por 2 developers
+                        </label>
+                        <label style="font-size: 1.1rem;">
+                            <input type="checkbox" onchange="toggleComplete(this)">
+                            Sem warnings do linter
+                        </label>
+                        <label style="font-size: 1.1rem;">
+                            <input type="checkbox" onchange="toggleComplete(this)">
+                            Segue coding standards
+                        </label>
+                        
+                        <h4 style="color: #8b5cf6; margin-top: 1.5rem;">Testing</h4>
+                        <label style="font-size: 1.1rem;">
+                            <input type="checkbox" onchange="toggleComplete(this)">
+                            Unit tests >80% coverage
+                        </label>
+                        <label style="font-size: 1.1rem;">
+                            <input type="checkbox" onchange="toggleComplete(this)">
+                            Integration tests pass
+                        </label>
+                        <label style="font-size: 1.1rem;">
+                            <input type="checkbox" onchange="toggleComplete(this)">
+                            QA manual aprovado
+                        </label>
+                        
+                        <h4 style="color: #8b5cf6; margin-top: 1.5rem;">Documentação</h4>
+                        <label style="font-size: 1.1rem;">
+                            <input type="checkbox" onchange="toggleComplete(this)">
+                            API documentada
+                        </label>
+                        <label style="font-size: 1.1rem;">
+                            <input type="checkbox" onchange="toggleComplete(this)">
+                            README atualizado
+                        </label>
+                        <label style="font-size: 1.1rem;">
+                            <input type="checkbox" onchange="toggleComplete(this)">
+                            Release notes
+                        </label>
+                        
+                        <h4 style="color: #8b5cf6; margin-top: 1.5rem;">Deploy</h4>
+                        <label style="font-size: 1.1rem;">
+                            <input type="checkbox" onchange="toggleComplete(this)">
+                            Deployable para produção
+                        </label>
+                        <label style="font-size: 1.1rem;">
+                            <input type="checkbox" onchange="toggleComplete(this)">
+                            Feature flag configurada
+                        </label>
+                        <label style="font-size: 1.1rem;">
+                            <input type="checkbox" onchange="toggleComplete(this)">
+                            Rollback plan
+                        </label>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>📈 Evolução do DoD</h3>
+                    <p>Definition of Done deve ficar mais rigorosa com a maturidade da equipa:</p>
+                    <ul style="margin-top: 1rem;">
+                        <li><strong>Sprint 1-5:</strong> Básico (código, testes, review)</li>
+                        <li><strong>Sprint 6-15:</strong> + Documentação, security</li>
+                        <li><strong>Sprint 16+:</strong> + Performance, accessibility, monitoring</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 26: Implementação Prática -->
+        <div class="slide-container" data-slide="26">
+            <div class="card">
+                <h2>Implementar Scrum - Guia Prático</h2>
+
+                <div class="tab-container">
+                    <div class="tab-buttons">
+                        <button class="tab-button active" onclick="showTab(event, 'week1')">Semana 1</button>
+                        <button class="tab-button" onclick="showTab(event, 'sprint1')">Sprint 1</button>
+                        <button class="tab-button" onclick="showTab(event, 'sprint2-5')">Sprints 2-5</button>
+                        <button class="tab-button" onclick="showTab(event, 'maturity')">Maturidade</button>
+                    </div>
+                    
+                    <div id="week1" class="tab-content active">
+                        <h3>Semana 1: Setup</h3>
+                        <div class="code-block">
+                            <pre>// Checklist Preparação
+const setup = {
+  definir: {
+    sprintLength: 2, // semanas
+    teamComposition: "PO + SM + 5-7 Devs",
+    workingAgreements: true,
+    definitionOfDone: true,
+    definitionOfReady: true
+  },
+  ferramentas: {
+    board: "Jira/Azure DevOps",
+    comunicação: "Slack/Teams",
+    documentação: "Confluence/Wiki",
+    código: "Git + CI/CD"
+  },
+  treino: {
+    equipa: "Scrum basics - 4h",
+    productOwner: "PSPO - 16h",
+    scrumMaster: "PSM - 16h"
+  }
+};</pre>
+                        </div>
+                    </div>
+                    
+                    <div id="sprint1" class="tab-content">
+                        <h3>Sprint 1: Primeiro Sprint</h3>
+                        <ul style="font-size: 1.1rem;">
+                            <li><strong>Expectativa:</strong> Caótico mas educativo</li>
+                            <li><strong>Foco:</strong> Estabelecer ritmo e cerimónias</li>
+                            <li><strong>Velocity:</strong> 50% do esperado</li>
+                            <li><strong>Problemas comuns:</strong>
+                                <ul>
+                                    <li>Planning muito longo</li>
+                                    <li>Daily passa dos 15 min</li>
+                                    <li>DoD não cumprido</li>
+                                    <li>Estimativas erradas</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div id="sprint2-5" class="tab-content">
+                        <h3>Sprints 2-5: Estabilização</h3>
+                        <div class="metrics-dashboard">
+                            <div class="metric-card">
+                                <div class="metric-value">Sprint 2</div>
+                                <div class="metric-label">Melhor ritmo</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">Sprint 3</div>
+                                <div class="metric-label">Velocity estável</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">Sprint 4</div>
+                                <div class="metric-label">Confiança cresce</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">Sprint 5</div>
+                                <div class="metric-label">Ritmo sustentável</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="maturity" class="tab-content">
+                        <h3>Maturidade: Sprint 10+</h3>
+                        <div class="success-box">
+                            <h4>Sinais de Maturidade</h4>
+                            <ul>
+                                <li>Velocity previsível (±10%)</li>
+                                <li>90%+ commitment entregue</li>
+                                <li>Cerimónias eficientes</li>
+                                <li>Poucos impedimentos</li>
+                                <li>Alta colaboração</li>
+                                <li>Melhoria contínua visível</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 27: Métricas -->
+        <div class="slide-container" data-slide="27">
+            <div class="card">
+                <h2>Métricas Scrum</h2>
+
+                <div class="grid">
+                    <div class="feature-card">
+                        <h3>📊 Velocity</h3>
+                        <p>Story points completados por sprint</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Usar para planeamento</li>
+                            <li>Não comparar equipas</li>
+                            <li>Tendência > valor absoluto</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>📈 Burndown Chart</h3>
+                        <p>Trabalho restante vs tempo</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Visual do progresso</li>
+                            <li>Identifica desvios cedo</li>
+                            <li>Sprint e Release</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🎯 Sprint Goal Success</h3>
+                        <p>% de Sprint Goals atingidos</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Mede eficácia</li>
+                            <li>Foco vs dispersão</li>
+                            <li>Target: >80%</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="feature-card">
+                        <h3>🐛 Escaped Defects</h3>
+                        <p>Bugs encontrados em produção</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Mede qualidade</li>
+                            <li>Eficácia do DoD</li>
+                            <li>Target: <5/sprint</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>⏱️ Cycle Time</h3>
+                        <p>Tempo de In Progress até Done</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Eficiência do processo</li>
+                            <li>Identifica bottlenecks</li>
+                            <li>Target: <3 dias</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>😊 Team Happiness</h3>
+                        <p>Satisfação da equipa (1-5)</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>Sustentabilidade</li>
+                            <li>Engagement</li>
+                            <li>Target: >4</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Cuidado com Métricas</h3>
+                    <ul>
+                        <li>Métricas são para aprendizagem, não punição</li>
+                        <li>Não usar velocity para comparar equipas</li>
+                        <li>Qualidade > Velocidade sempre</li>
+                        <li>Contexto importa mais que números</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 28: Anti-Patterns -->
+        <div class="slide-container" data-slide="28">
+            <div class="card">
+                <h2>Anti-Patterns Comuns</h2>
+
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div class="warning-box">
+                        <h3>❌ "Scrum-But"</h3>
+                        <p><strong>Anti-pattern:</strong> "Fazemos Scrum, MAS não precisamos de retrospetivas"</p>
+                        <p><strong>Problema:</strong> Sem melhoria contínua</p>
+                        <p><strong>Solução:</strong> Implementar TODOS os elementos primeiro</p>
+                    </div>
+
+                    <div class="warning-box">
+                        <h3>❌ "Mini-Waterfall"</h3>
+                        <p><strong>Anti-pattern:</strong> Análise → Design → Dev → Test em fases</p>
+                        <p><strong>Problema:</strong> Descoberta tardia de problemas</p>
+                        <p><strong>Solução:</strong> Trabalho paralelo e colaborativo</p>
+                    </div>
+
+                    <div class="warning-box">
+                        <h3>❌ "Proxy PO"</h3>
+                        <p><strong>Anti-pattern:</strong> PO sem autoridade real</p>
+                        <p><strong>Problema:</strong> Decisões lentas, equipa bloqueada</p>
+                        <p><strong>Solução:</strong> Empoderar PO verdadeiro</p>
+                    </div>
+
+                    <div class="warning-box">
+                        <h3>❌ "SM Gestor"</h3>
+                        <p><strong>Anti-pattern:</strong> SM atribui tarefas e reporta status</p>
+                        <p><strong>Problema:</strong> Equipa não desenvolve autonomia</p>
+                        <p><strong>Solução:</strong> SM facilita, equipa decide</p>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>💡 Como Evitar Anti-Patterns</h3>
+                    <ul>
+                        <li>Formação adequada antes de começar</li>
+                        <li>Coach experiente nos primeiros sprints</li>
+                        <li>Retrospetivas honestas e ações concretas</li>
+                        <li>Inspeção e adaptação constantes</li>
+                        <li>Foco nos valores e princípios, não só práticas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 29: Ferramentas -->
+        <div class="slide-container" data-slide="29">
+            <div class="card">
+                <h2>Ferramentas para Scrum</h2>
+
+                <div class="grid">
+                    <div class="feature-card">
+                        <h3>📋 Gestão de Backlog</h3>
+                        <ul>
+                            <li><strong>Jira:</strong> Mais completo</li>
+                            <li><strong>Azure DevOps:</strong> Integrado Microsoft</li>
+                            <li><strong>Trello:</strong> Simples e visual</li>
+                            <li><strong>Asana:</strong> User-friendly</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>💬 Comunicação</h3>
+                        <ul>
+                            <li><strong>Slack:</strong> Channels por tópico</li>
+                            <li><strong>Teams:</strong> Integrado Office</li>
+                            <li><strong>Discord:</strong> Para equipas remotas</li>
+                            <li><strong>Zoom:</strong> Cerimónias remotas</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>📊 Métricas</h3>
+                        <ul>
+                            <li><strong>Jira Reports:</strong> Built-in</li>
+                            <li><strong>Azure Analytics:</strong> Dashboards</li>
+                            <li><strong>Tableau:</strong> Visualizações</li>
+                            <li><strong>Excel:</strong> Simples e flexível</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>🛠️ Setup Mínimo</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li><strong>Board físico:</strong> Post-its + quadro (presencial)</li>
+                        <li><strong>Board digital:</strong> Qualquer ferramenta kanban (remoto)</li>
+                        <li><strong>Comunicação:</strong> Slack/Teams</li>
+                        <li><strong>Documentação:</strong> Wiki/Confluence</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h3>💡 Dica Importante</h3>
+                    <p style="font-size: 1.1rem;">A ferramenta não faz Scrum funcionar. O compromisso da equipa com os valores e práticas é que faz a diferença.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 30: Conclusão -->
+        <div class="slide-container" data-slide="30">
+            <div class="card">
+                <h2>Conclusão - Scrum na Prática</h2>
+
+                <div class="hero" style="text-align: center;">
+                    <h3 style="font-size: 2.5rem; margin-bottom: 2rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        "Scrum é simples de entender, difícil de dominar"
+                    </h3>
+                </div>
+
+                <div class="grid">
+                    <div class="feature-card">
+                        <h3>🎯 Lembra-te</h3>
+                        <ul>
+                            <li>Pessoas > Processos</li>
+                            <li>Valor > Features</li>
+                            <li>Colaboração > Contratos</li>
+                            <li>Adaptação > Planos</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>📈 ROI Esperado</h3>
+                        <ul>
+                            <li>3x mais entregas</li>
+                            <li>70% menos bugs</li>
+                            <li>50% menos "urgências"</li>
+                            <li>2x satisfação equipa</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🚀 Próximos Passos</h3>
+                        <ul>
+                            <li>Formar equipa piloto</li>
+                            <li>Treino e certificações</li>
+                            <li>Sprint 0 preparação</li>
+                            <li>Medir e adaptar</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box" style="margin-top: 3rem;">
+                    <h3>📚 Recursos Adicionais</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li>📖 <strong>Scrum Guide 2020:</strong> scrum.org</li>
+                        <li>🎓 <strong>Certificações:</strong> PSM, PSPO, PSD</li>
+                        <li>📚 <strong>Livros:</strong> "Scrum: A Arte de Fazer o Dobro na Metade do Tempo"</li>
+                        <li>👥 <strong>Comunidade:</strong> Agile Alliance, Scrum Alliance</li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button class="btn" onclick="goToSlide(1)">↺ Voltar ao Início</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <button id="prevBtn" class="nav-button" onclick="previousSlide()">❮</button>
+        <button id="nextBtn" class="nav-button" onclick="nextSlide()">❯</button>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-content">
+            <button class="close-menu" onclick="toggleMenu()">×</button>
+            <h2 style="color: #667eea; margin-bottom: 2rem; text-align: center;">Navegação Rápida</h2>
+            
+            <div class="menu-grid">
+                <div class="menu-item" onclick="goToSlide(1)">
+                    <h4>🎯 Introdução</h4>
+                    <p>Início da jornada</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(2)">
+                    <h4>📚 O Que é Scrum</h4>
+                    <p>Definição e teoria</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(3)">
+                    <h4>💎 Valores</h4>
+                    <p>5 valores fundamentais</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(4)">
+                    <h4>🏗️ Pilares</h4>
+                    <p>Base empírica</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(5)">
+                    <h4>🧠 Mindset</h4>
+                    <p>Princípios e mentalidade</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(6)">
+                    <h4>✅ Quando Usar</h4>
+                    <p>Contextos ideais</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(7)">
+                    <h4>🗺️ Framework</h4>
+                    <p>Visão geral</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(8)">
+                    <h4>👥 Scrum Team</h4>
+                    <p>Papéis e responsabilidades</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(9)">
+                    <h4>📦 Product Owner</h4>
+                    <p>Maximizar valor</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(10)">
+                    <h4>🎯 Scrum Master</h4>
+                    <p>Líder servidor</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(11)">
+                    <h4>💻 Developers</h4>
+                    <p>Criar incremento</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(12)">
+                    <h4>📊 Accountability</h4>
+                    <p>Responsabilidades</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(13)">
+                    <h4>🤝 Stakeholders</h4>
+                    <p>Interação externa</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(14)">
+                    <h4>⏱️ Sprint</h4>
+                    <p>Container de eventos</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(15)">
+                    <h4>📋 Planning</h4>
+                    <p>Planear o sprint</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(16)">
+                    <h4>☀️ Daily</h4>
+                    <p>Sincronização diária</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(17)">
+                    <h4>🔍 Review</h4>
+                    <p>Inspeção do incremento</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(18)">
+                    <h4>🔄 Retrospetiva</h4>
+                    <p>Melhoria contínua</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(19)">
+                    <h4>🔧 Refinement & DoR</h4>
+                    <p>Preparar backlog</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(20)">
+                    <h4>📐 Story Points</h4>
+                    <p>Estimativas e velocity</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(21)">
+                    <h4>⏰ Gestão Tempo</h4>
+                    <p>Tempo em reuniões</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(22)">
+                    <h4>📚 Product Backlog</h4>
+                    <p>Lista ordenada</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(23)">
+                    <h4>📝 Sprint Backlog</h4>
+                    <p>Plano do sprint</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(24)">
+                    <h4>📦 Increment</h4>
+                    <p>Valor entregue</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(25)">
+                    <h4>✅ DoD</h4>
+                    <p>Definition of Done</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(26)">
+                    <h4>🚀 Implementação</h4>
+                    <p>Guia prático</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(27)">
+                    <h4>📊 Métricas</h4>
+                    <p>Medir sucesso</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(28)">
+                    <h4>⚠️ Anti-Patterns</h4>
+                    <p>Erros comuns</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(29)">
+                    <h4>🛠️ Ferramentas</h4>
+                    <p>Tools e software</p>
+                </div>
+                <div class="menu-item" onclick="goToSlide(30)">
+                    <h4>🎯 Conclusão</h4>
+                    <p>Takeaways finais</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize
+        let currentSlide = 1;
+        const totalSlides = 30;
+
+        // Create particles
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = Math.random() * 5 + 2 + 'px';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        // Navigation
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide-container');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            // Validate slide number
+            if (n > totalSlides) currentSlide = totalSlides;
+            if (n < 1) currentSlide = 1;
+            
+            // Hide all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            // Show current slide
+            const currentSlideElement = document.querySelector(`[data-slide="${currentSlide}"]`);
+            if (currentSlideElement) {
+                currentSlideElement.classList.add('active');
+            }
+            
+            // Update progress bar
+            const progress = (currentSlide / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Update slide number
+            document.getElementById('currentSlideNum').textContent = currentSlide;
+            
+            // Update navigation buttons
+            prevBtn.disabled = currentSlide === 1;
+            nextBtn.disabled = currentSlide === totalSlides;
+            
+            // Close menu if open
+            document.getElementById('menuOverlay').classList.remove('active');
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            showSlide(currentSlide);
+        }
+
+        // Toggle menu
+        function toggleMenu() {
+            const menu = document.getElementById('menuOverlay');
+            menu.classList.toggle('active');
+        }
+
+        // Tab functionality
+        function showTab(evt, tabName) {
+            const tabContents = evt.target.parentElement.parentElement.querySelectorAll('.tab-content');
+            const tabButtons = evt.target.parentElement.querySelectorAll('.tab-button');
+            
+            tabContents.forEach(content => content.classList.remove('active'));
+            tabButtons.forEach(button => button.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            evt.target.classList.add('active');
+        }
+
+        // Checkbox functionality
+        function toggleComplete(checkbox) {
+            const label = checkbox.parentElement;
+            if (checkbox.checked) {
+                label.classList.add('completed');
+            } else {
+                label.classList.remove('completed');
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+            if (e.key === 'Escape') document.getElementById('menuOverlay').classList.remove('active');
+            if (e.key === 'm' || e.key === 'M') toggleMenu();
+            if (e.key === 'Home') goToSlide(1);
+            if (e.key === 'End') goToSlide(totalSlides);
+            // Number keys for quick navigation
+            if (e.key >= '1' && e.key <= '9') {
+                const slideNum = parseInt(e.key);
+                if (slideNum <= totalSlides) goToSlide(slideNum);
+            }
+        });
+
+        // Touch support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) nextSlide(); // Swipe left
+            if (touchEndX > touchStartX + 50) previousSlide(); // Swipe right
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            createParticles();
+            showSlide(1);
+        });
+    </script>
+</body>
+</html>
